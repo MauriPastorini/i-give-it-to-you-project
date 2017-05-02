@@ -25,10 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TextView"
+            android:text="@string/makeProduct"
             android:textSize="@dimen/activity_title_text_size"
-            android:visibility="visible"
-            tools:text="@string/makeProduct" />
+            android:visibility="visible" />
 
         <Space
             android:layout_width="1dp"
@@ -39,10 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TextView"
+            android:text="@string/productName"
             android:textSize="@dimen/activity_normal_text_size"
-            android:visibility="visible"
-            tools:text="@string/productName" />
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/productName"
@@ -50,7 +48,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Nombre" />
+            android:text="@string/name" />
 
         <Space
             android:layout_width="1dp"
@@ -61,10 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TextView"
+            android:text="@string/category"
             android:textSize="@dimen/activity_normal_text_size"
-            android:visibility="visible"
-            tools:text="@string/category" />
+            android:visibility="visible" />
 
         <Spinner
             android:id="@+id/productCategory"
@@ -81,10 +78,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TextView"
+            android:text="@string/state"
             android:textSize="@dimen/activity_normal_text_size"
-            android:visibility="visible"
-            tools:text="@string/state" />
+            android:visibility="visible" />
 
         <Spinner
             android:id="@+id/productState"

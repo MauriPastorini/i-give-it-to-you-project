@@ -11,6 +11,7 @@
     <string name="products">Productos</string>
     <string name="profile">Perfil</string>
     <string name="map">Mapa</string>
+    <string name="name">Nombre</string>
 
     <string-array name="categories_array">
         <item>Juguetes</item>
