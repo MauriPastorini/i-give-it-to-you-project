@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.product.whitewalkers.veniporelyestuyo.PublishProductActivity"
+    android:weightSum="1">
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="30dp" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/makeProductTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="@dimen/activity_title_text_size"
+            android:visibility="visible"
+            tools:text="@string/makeProduct" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/productNameTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="@dimen/activity_normal_text_size"
+            android:visibility="visible"
+            tools:text="@string/productName" />
+
+        <EditText
+            android:id="@+id/productName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Nombre" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/productCategoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="@dimen/activity_normal_text_size"
+            android:visibility="visible"
+            tools:text="@string/category" />
+
+        <Spinner
+            android:id="@+id/productCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/categories_array" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/productStateTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="@dimen/activity_normal_text_size"
+            android:visibility="visible"
+            tools:text="@string/state" />
+
+        <Spinner
+            android:id="@+id/productState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/states_array" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="30dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/continueText" />
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/navigation"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/colorSecondary"
+        app:itemTextColor="@color/colorSecondary"/>
+
+</LinearLayout>
