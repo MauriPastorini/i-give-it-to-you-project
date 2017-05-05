@@ -1,0 +1,5 @@
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.pdb
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb

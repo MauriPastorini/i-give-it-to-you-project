@@ -1,0 +1,10 @@
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.Access.dll.config
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.Access.dll
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.Access.pdb
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.dll
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.xml
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.csprojResolveAssemblyReference.cache
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.dll
+C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.pdb
