@@ -33,11 +33,11 @@ namespace VeniPorEl.Controllers
                 return BadRequest(ModelState);
             }else
             {
-                Category productCategory = Category.CreateWithName("CATEGORIA 1");
+                Category productCategory = null;
                 IHttpActionResult loadProductCategory = LoadProductCategory(ref productCategory,productModel);
                 if (!(loadProductCategory is OkResult))
                     return loadProductCategory;
-                ProductState productState = ProductState.CreateWithName("ESTADO 1");
+                ProductState productState = null;
                 IHttpActionResult loadProductState = LoadProductState(ref productState, productModel);
                 if (!(loadProductState is OkResult))
                     return loadProductState;
@@ -55,8 +55,8 @@ namespace VeniPorEl.Controllers
 
         private IHttpActionResult LoadProductState(ref ProductState productState, ProductModel productModel)
         {
-            return Ok();
-            IProductStateService productStateService = null;
+            
+            IProductStateService productStateService = new ProductStateService();
             productState = productStateService.GetProductStateById(productModel.State);
             if (productState == null)
             {
@@ -67,8 +67,7 @@ namespace VeniPorEl.Controllers
 
         private IHttpActionResult LoadProductCategory(ref Category productCategory, ProductModel productModel)
         {
-            ICategoryService categoryService = null;
-            return Ok();
+            ICategoryService categoryService = new CategoryService();          
             productCategory = categoryService.GetCategoryById(productModel.CategoryId);
             if (productCategory == null)
             {

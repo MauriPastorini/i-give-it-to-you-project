@@ -13,10 +13,17 @@ namespace Data.Repository
         private readonly Context Context;
 
         private Repository<Product> productRepository;
-        
+        private Repository<Category> categoryRepository;
+        private Repository<ProductState> productStateRepository;
+
         public UnitOfWork()
         {
             Context = new Context();            
+        }
+
+        public UnitOfWork(Context context)
+        {
+            Context = context;
         }
 
         public IRepository<Product> ProductRepository
@@ -30,6 +37,31 @@ namespace Data.Repository
                 return productRepository;
             }
         }
+
+        public IRepository<Category> CategoryRepository
+        {
+            get
+            {
+                if (categoryRepository == null)
+                {
+                    categoryRepository = new Repository<Category>(Context);
+                }
+                return categoryRepository;
+            }
+        }
+
+        public IRepository<ProductState> ProductStateRepository
+        {
+            get
+            {
+                if (productStateRepository == null)
+                {
+                    productStateRepository = new Repository<ProductState>(Context);
+                }
+                return productStateRepository;
+            }
+        }
+
 
         public void Save()
         {
