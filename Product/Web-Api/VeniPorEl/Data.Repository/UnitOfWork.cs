@@ -1,4 +1,5 @@
 ﻿using Data.Access;
+using Data.Repository.GenericRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,47 @@ namespace Data.Repository
     {
         private readonly Context Context;
 
+        private Repository<Product> productRepository;
+        
         public UnitOfWork()
         {
-            Context = new Context();
+            Context = new Context();            
+        }
+
+        public IRepository<Product> ProductRepository
+        {
+            get
+            {
+                if (productRepository == null)
+                {
+                    productRepository = new Repository<Product>(Context);
+                }
+                return productRepository;
+            }
         }
 
         public void Save()
         {
             Context.SaveChanges();
         }
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    Context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
 
         public void Dispose()
         {
-            Context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

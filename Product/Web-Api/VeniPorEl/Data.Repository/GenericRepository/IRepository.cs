@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.GenericRepository
 {
-    interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();

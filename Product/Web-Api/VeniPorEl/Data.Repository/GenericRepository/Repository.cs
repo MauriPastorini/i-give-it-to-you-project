@@ -9,64 +9,64 @@ using System.Threading.Tasks;
 
 namespace Data.Repository.GenericRepository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        public Context ContextRepo;
-        public DbSet<TEntity> dbSet;
+        internal Context ContextRepo;
+        internal DbSet<T> dbSet;
 
         public Repository(Context context)
         {
             ContextRepo = context;
-            dbSet = context.Set<TEntity>();
+            dbSet = context.Set<T>();
         }
 
-        public TEntity Get(int id)
+        public T Get(int id)
         {
             return dbSet.Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IEnumerable<T> GetAll()
         {
             return dbSet.ToList();
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
             return dbSet.Where(predicate).ToList();
         }
 
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public T SingleOrDefault(Expression<Func<T, bool>> predicate)
         {
             return dbSet.SingleOrDefault(predicate);
         }
 
-        public void Add(TEntity entity)
+        public void Add(T entity)
         {
             dbSet.Add(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public void AddRange(IEnumerable<T> entities)
         {
             dbSet.AddRange(entities);
         }
 
-        public void Remove(TEntity entity)
+        public void Remove(T entity)
         {
             dbSet.Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
+        public void RemoveRange(IEnumerable<T> entities)
         {
             dbSet.RemoveRange(entities);
         }
 
-        public void Update(TEntity entity)
+        public void Update(T entity)
         {
             dbSet.Attach(entity);
             ContextRepo.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Atach(TEntity entity)
+        public void Atach(T entity)
         {
             dbSet.Attach(entity);
         }
