@@ -12,6 +12,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 import ApiCommunicationManager.ProductApiCommunication;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
@@ -56,10 +60,19 @@ public class PublishProductActivity extends AppCompatActivity {
                 String spinCategoryText = spinCategory.getSelectedItem().toString();
                 String spinStateText = spinState.getSelectedItem().toString();
 
+                spinCategoryText = "1"; //HARDCODE, change for getCategoryIdFromName(spinCategoryText)
+                spinStateText = "1";//HARDCODE, change for getStateIdFromName(spinStateText)
+                double longitude = 1;//HARDCODE, change for getMapLongitude()
+                double latitude = 1;//HARDCODE, change for getMapLatitude()
                 Log.i(TAG, "Click info " + textNombre + " - " + spinCategoryText + " - " + spinStateText);
-
-
-                ProductApiCommunication.postProduct(textNombre,spinCategoryText, spinStateText);
+                try{
+                    new ProductApiCommunication().postProduct(textNombre,spinCategoryText, spinStateText, latitude, longitude);
+                }catch (JSONException ex){
+                    Log.i(TAG, "Problems in creating json: " + ex);
+                }
+                catch (IOException ex){
+                    Log.i(TAG, "Problems in connection: " + ex);
+                }
 
             }
         });

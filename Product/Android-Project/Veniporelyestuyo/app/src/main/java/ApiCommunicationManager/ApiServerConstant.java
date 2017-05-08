@@ -5,11 +5,11 @@ package ApiCommunicationManager;
  */
 
 public class ApiServerConstant {
-    public static String url = ApiServerConstant.address + ":" + ApiServerConstant.port;
-    public static String address = "localhost";
-    public static String port = "localhost";
+    public static String address = "http://192.168.0.110";
+    public static String port = "51339";
+    public static String url = address + ":" + port + "/api/";
 
-    public static String productPostUri = ApiServerConstant.url + "/product";
+    public static String productPostUri = ApiServerConstant.url + "/Product";
 
 
 }
