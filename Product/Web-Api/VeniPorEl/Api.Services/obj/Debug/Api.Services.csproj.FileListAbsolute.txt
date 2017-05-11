@@ -1,0 +1,16 @@
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
