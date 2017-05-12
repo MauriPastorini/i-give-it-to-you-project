@@ -29,5 +29,10 @@ namespace Api.Services
            return categoryToReturn;
 
         }
+
+        public IEnumerable<Category> GetAllCategories()
+        {
+            return unitOfWork.CategoryRepository.GetAll();
+        }
     }
 }

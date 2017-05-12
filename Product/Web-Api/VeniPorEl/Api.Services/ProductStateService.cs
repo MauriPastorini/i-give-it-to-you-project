@@ -28,5 +28,10 @@ namespace Api.Services
             ProductState productStateToReturn = unitOfWork.ProductStateRepository.Get(productStateId);
             return productStateToReturn;
         }
+
+        public IEnumerable<ProductState> GetAllCategories()
+        {
+            return unitOfWork.ProductStateRepository.GetAll();
+        }
     }
 }

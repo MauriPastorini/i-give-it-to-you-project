@@ -33,3 +33,26 @@ D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Rep
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.csprojResolveAssemblyReference.cache
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.dll
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Repository.dll.config
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Repository.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Repository.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Access.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Cors.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.Cors.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Access.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.Cors.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.csprojResolveAssemblyReference.cache
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.pdb

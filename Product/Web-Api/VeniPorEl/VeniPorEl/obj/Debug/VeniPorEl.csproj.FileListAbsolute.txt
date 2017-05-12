@@ -69,3 +69,46 @@ D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\VeniPorE
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.pdb
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\bin\EntityFramework.SqlServer.dll
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\bin\EntityFramework.SqlServer.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.csprojResolveAssemblyReference.cache
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\csc.exe
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\vbc.exe
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\VBCSCompiler.exe
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\VeniPorEl.dll.config
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\VeniPorEl.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\VeniPorEl.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Api.Services.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Data.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\EntityFramework.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\EntityFramework.SqlServer.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Newtonsoft.Json.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Net.Http.Formatting.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Cors.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Http.Cors.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Http.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Http.WebHost.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Data.Repository.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Data.Access.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Api.Services.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Data.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\EntityFramework.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\EntityFramework.SqlServer.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Http.Cors.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Newtonsoft.Json.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Net.Http.Formatting.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Http.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\System.Web.Http.WebHost.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Data.Repository.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\VeniPorEl\bin\Data.Access.pdb
