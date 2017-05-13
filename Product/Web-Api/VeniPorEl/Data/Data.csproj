@@ -72,6 +72,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Product.cs" />
+    <Compile Include="ProductImage.cs" />
     <Compile Include="ProductState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

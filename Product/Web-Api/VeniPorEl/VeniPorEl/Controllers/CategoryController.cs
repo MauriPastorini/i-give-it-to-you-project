@@ -13,7 +13,7 @@ namespace VeniPorEl.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CategoryController : ApiController
     {
-        CategoryService categoryService;
+        ICategoryService categoryService;
 
         public CategoryController()
         {

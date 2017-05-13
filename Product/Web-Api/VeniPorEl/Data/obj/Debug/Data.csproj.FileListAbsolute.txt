@@ -3,21 +3,3 @@ C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\D
 C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
 C:\Users\Fausto\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.pdb
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Newtonsoft.Json.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Net.Http.Formatting.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Cors.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.Cors.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Newtonsoft.Json.xml
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Net.Http.Formatting.xml
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.xml
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.Cors.xml
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll.config
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.SqlServer.dll
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.xml
-D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.SqlServer.xml

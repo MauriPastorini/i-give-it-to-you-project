@@ -10,6 +10,6 @@ namespace Api.Services
     public interface IProductStateService : IDisposable
     {
         ProductState GetProductStateById(int productStateId);
-
+        IEnumerable<ProductState> GetAllCategories();
     }
 }

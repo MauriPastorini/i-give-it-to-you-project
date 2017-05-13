@@ -12,6 +12,7 @@ namespace Data.Repository
         IRepository<Product> ProductRepository { get; }
         IRepository<ProductState> ProductStateRepository { get; }
         IRepository<Category> CategoryRepository { get; }
+        IRepository<ProductImage> ProductImagesRepository { get; }
 
         void Save();
     }

@@ -14,9 +14,13 @@ namespace Data
         public Category Category { get; set; }
         public ProductState State { get; set; }
         public Location Location { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
+
 
         private Product()
-        { }
+        {
+            ProductImages = new List<ProductImage>();
+        }
 
         private Product(string name, Category category, ProductState state, Location location)
         {
@@ -24,6 +28,7 @@ namespace Data
             Category = category;
             State = state;
             Location = location;
+            ProductImages = new List<ProductImage>();
         }
 
         public static Product CreateWithNameCategoryStateLocation(string name, Category category, ProductState state, Location location)
@@ -32,7 +37,7 @@ namespace Data
             {
                 throw new ArgumentException("Product creation argument error!");
             }
-            return new Product(name, category, state, location);
+            return new Product(name, category,state, location);
         }
 
         private static bool IsNameCorrect(string name)

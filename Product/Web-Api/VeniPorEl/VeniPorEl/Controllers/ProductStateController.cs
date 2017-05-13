@@ -13,7 +13,7 @@ namespace VeniPorEl.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProductStateController : ApiController
     {
-        ProductStateService stateService;
+        IProductStateService stateService;
         public ProductStateController()
         {
             stateService = new ProductStateService();

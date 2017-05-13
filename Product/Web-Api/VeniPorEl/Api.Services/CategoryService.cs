@@ -25,7 +25,7 @@ namespace Api.Services
 
         public Category GetCategoryById(int categoryId)
         {
-           Category categoryToReturn =  unitOfWork.CategoryRepository.Get(categoryId);
+           Category categoryToReturn =  unitOfWork.CategoryRepository.Get(categoryId);        
            return categoryToReturn;
 
         }

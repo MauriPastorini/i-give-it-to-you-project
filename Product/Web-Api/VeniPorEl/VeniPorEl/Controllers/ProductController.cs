@@ -13,7 +13,7 @@ namespace VeniPorEl.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProductController : ApiController
     {
-        ProductService productService;
+        IProductService productService;
 
         public ProductController()
         {
@@ -28,53 +28,39 @@ namespace VeniPorEl.Controllers
             {
                 return BadRequest("No data sent.");
             }
-            else if(!ModelState.IsValid)
+            else if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }else
+            }
+            else
             {
-                Category productCategory = null;
-                IHttpActionResult loadProductCategory = LoadProductCategory(ref productCategory,productModel);
-                if (!(loadProductCategory is OkResult))
-                    return loadProductCategory;
-                ProductState productState = null;
-                IHttpActionResult loadProductState = LoadProductState(ref productState, productModel);
-                if (!(loadProductState is OkResult))
-                    return loadProductState;
                 try
                 {
-                    int productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productCategory, productState, productModel.Latitude, productModel.Longitude);
+                    int productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude);
                     return Ok(productId);
                 }
                 catch (ArgumentException ex)
                 {
                     return BadRequest(ex.Message);
                 }
-            }           
-        }
-
-        private IHttpActionResult LoadProductState(ref ProductState productState, ProductModel productModel)
-        {
-            
-            IProductStateService productStateService = new ProductStateService();
-            productState = productStateService.GetProductStateById(productModel.State);
-            if (productState == null)
-            {
-                return NotFound();
             }
-            return Ok();
         }
 
-        private IHttpActionResult LoadProductCategory(ref Category productCategory, ProductModel productModel)
+
+        [HttpPost]
+        [Route("{productId}")]
+        [ResponseType(typeof(ImageModel))]
+        public IHttpActionResult UploadProductImage(int productId, ImageModel imageModel)
         {
-            ICategoryService categoryService = new CategoryService();          
-            productCategory = categoryService.GetCategoryById(productModel.CategoryId);
-            if (productCategory == null)
+            try
             {
-                return NotFound();
+                productService.AddImageToProduct(productId, imageModel.ImageName, imageModel.ImageByteArray);
+                return Ok();
             }
-            return Ok();
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
     }
 }

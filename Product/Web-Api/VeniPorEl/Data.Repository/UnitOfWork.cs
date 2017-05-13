@@ -15,6 +15,7 @@ namespace Data.Repository
         private Repository<Product> productRepository;
         private Repository<Category> categoryRepository;
         private Repository<ProductState> productStateRepository;
+        private Repository<ProductImage> productImagesRepository;
 
         public UnitOfWork()
         {
@@ -62,6 +63,17 @@ namespace Data.Repository
             }
         }
 
+        public IRepository<ProductImage> ProductImagesRepository
+        {
+            get
+            {
+                if (productImagesRepository == null)
+                {
+                    productImagesRepository = new Repository<ProductImage>(Context);
+                }
+                return productImagesRepository;
+            }
+        }
 
         public void Save()
         {

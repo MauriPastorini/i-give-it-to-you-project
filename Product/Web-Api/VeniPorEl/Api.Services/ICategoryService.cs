@@ -9,8 +9,7 @@ namespace Api.Services
 {
     public interface ICategoryService : IDisposable
     {
-
         Category GetCategoryById(int categoryId);
-
+        IEnumerable<Category> GetAllCategories();
     }
 }
