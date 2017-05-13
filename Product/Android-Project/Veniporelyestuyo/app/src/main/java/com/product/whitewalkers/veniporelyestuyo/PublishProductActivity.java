@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,13 +19,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import ApiCommunicationManager.CategoryApiCommunication;
 import ApiCommunicationManager.ProductApiCommunication;
+import ApiCommunicationManager.ProductStateApiCommunication;
+import Domain.Category;
 import Domain.Product;
+import Domain.ProductState;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static android.os.Build.VERSION_CODES.M;
 import static com.product.whitewalkers.veniporelyestuyo.R.id.image;
 import static com.product.whitewalkers.veniporelyestuyo.R.id.imgPhoto1;
 import static com.product.whitewalkers.veniporelyestuyo.R.id.productState;
@@ -95,6 +103,79 @@ public class PublishProductActivity extends AppCompatActivity {
             }
         });
 
+
+
+        new Thread(new Runnable() {
+            public void run() {
+                loadCategories();
+                loadProductStates();
+            }
+        }).start();
+    }
+
+    public void loadCategories(){
+        ArrayList<Category> categories = new ArrayList<>();
+        try{
+            categories = new CategoryApiCommunication().getCategories();
+        }
+        catch (IOException ex){
+            Log.i(TAG, "Error en get de categorias del servidor: " + ex);
+        }
+        catch (JSONException ex){
+            Log.i(TAG, "Error convirtiendo data a JSON: " + ex);
+        }
+
+        ArrayList<String> categoriesOptions = new ArrayList<String>();
+        for (int i=0;i<categories.size();i++){
+            Category cate = categories.get(i);
+            categoriesOptions.add(cate.getName());
+        }
+        this.loadCategorySpinner(categoriesOptions);
+    }
+
+    public void loadProductStates(){
+        ArrayList<ProductState> productStates = new ArrayList<>();
+        try{
+            productStates = new ProductStateApiCommunication().getProductState();
+        }
+        catch (IOException ex){
+            Log.i(TAG, "Error en get de categorias del servidor: " + ex);
+        }
+        catch (JSONException ex){
+            Log.i(TAG, "Error convirtiendo data a JSON: " + ex);
+        }
+
+        ArrayList<String> productStatesOptions = new ArrayList<String>();
+        for (int i=0;i<productStates.size();i++){
+            ProductState productState = productStates.get(i);
+            productStatesOptions.add(productState.getName());
+        }
+        this.loadProductStateSpinner(productStatesOptions);
+    }
+
+    private void loadCategorySpinner(ArrayList<String> categoriesOptions) {
+        Spinner spinnerCategory = (Spinner) findViewById(R.id.productCategory);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesOptions); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        runTherD(spinnerCategory,spinnerArrayAdapter);
+    }
+
+    private void loadProductStateSpinner(ArrayList<String> prouctStateOptions) {
+
+        Spinner spinnerStates = (Spinner) findViewById(R.id.productState);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, prouctStateOptions); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        runTherD(spinnerStates,spinnerArrayAdapter);
+    }
+
+    private void runTherD(final Spinner spinnerStates, final ArrayAdapter<String> spinnerArrayAdapter) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                spinnerStates.setAdapter(spinnerArrayAdapter);
+            }
+        });
     }
 
     @Override
@@ -133,6 +214,7 @@ public class PublishProductActivity extends AppCompatActivity {
                 actualProduct.name = textNombre;
                 actualProduct.category = spinCategoryText;
                 actualProduct.state = spinStateText;
+
                 actualProduct.latitude = 1; //HARDCODE, change for getMapLatitude()
                 actualProduct.longitude = 1;//HARDCODE, change for getMapLongitude()
                 actualProduct.category = "1"; //HARDCODE, change for getCategoryIdFromName(spinCategoryText)
