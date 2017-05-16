@@ -14,4 +14,5 @@ public class ApiServerConstant {
     public static String categoryGetUri = ApiServerConstant.url + "Category";
 
     public static String productStateApiUri = ApiServerConstant.url + "ProductState";
+    public static String productPostPhotoUri = ApiServerConstant.url + "Product/1"; //HARDCODED: Change for getId
 }

@@ -222,6 +222,7 @@ public class PublishProductActivity extends AppCompatActivity {
                 Log.i(TAG, "Click info " + textNombre + " - " + spinCategoryText + " - " + spinStateText);
                 try{
                     new ProductApiCommunication().postProduct(actualProduct);
+                    new ProductApiCommunication().postProductPhoto(actualProduct);
                 }catch (JSONException ex){
                     Log.i(TAG, "Problems in creating json: " + ex);
                 }
