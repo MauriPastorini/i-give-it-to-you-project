@@ -5,11 +5,14 @@ package ApiCommunicationManager;
  */
 
 public class ApiServerConstant {
-    public static String address = "http://192.168.0.110";
+    public static String address = "http://192.168.0.109";
     public static String port = "51339";
     public static String url = address + ":" + port + "/api/";
 
     public static String productPostUri = ApiServerConstant.url + "/Product";
 
+    public static String categoryGetUri = ApiServerConstant.url + "Category";
 
+    public static String productStateApiUri = ApiServerConstant.url + "ProductState";
+    public static String productPostPhotoUri = ApiServerConstant.url + "Product/1"; //HARDCODED: Change for getId
 }
