@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY url "localhost:8080">
+    ]>
+
+<resources>
+    <string name="url">&url;</string>
+    <string name="productPostUri">&url;/product</string>
+</resources>

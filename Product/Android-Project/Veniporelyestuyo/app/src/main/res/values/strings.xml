@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Veni por el y es tuyo!</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="makeProduct">Realizar Publicación</string>
+    <string name="productName">Nombre del Producto</string>
+    <string name="category">Categoría</string>
+    <string name="state">Estado</string>
+    <string name="continueText">Continuar</string>
+    <string name="products">Productos</string>
+    <string name="profile">Perfil</string>
+    <string name="map">Mapa</string>
+    <string name="name">Nombre</string>
+    <string name="takePhoto1Text">Tomar foto 1</string>
+    <string name="takePhoto2Text">Tomar foto 2</string>
+    <string name="takePhoto3Text">Tomar foto 3</string>
+
+    <string-array name="categories_array">
+        <item>Juguetes</item>
+        <item>Informatica</item>
+        <item>Salud</item>
+        <item>Deporte</item>
+    </string-array>
+
+    <string-array name="states_array">
+        <item>Excelente</item>
+        <item>Bien</item>
+        <item>Regular</item>
+        <item>Malo</item>
+    </string-array>
+
+</resources>
