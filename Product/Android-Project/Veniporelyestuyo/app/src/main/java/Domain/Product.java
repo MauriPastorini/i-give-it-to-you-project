@@ -8,9 +8,10 @@ import android.graphics.Bitmap;
 
 public class Product {
 
+    public int id;
     public String name;
-    public String category;
-    public String state;
+    public int categoryId;
+    public int stateId;
     public double latitude;
     public double longitude;
     public Bitmap image1;

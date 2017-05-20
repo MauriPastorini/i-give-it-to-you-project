@@ -13,7 +13,7 @@ namespace VeniPorEl.Models
         [Display(Name = "ImageName")]
         public string ImageName { get; set; }
         [Required]
-        [Display(Name = "ImageByteArray")]
-        public byte[] ImageByteArray { get; set; }
+        [Display(Name = "ImageBase64")]
+        public string ImageBase64 { get; set; }
     }
 }

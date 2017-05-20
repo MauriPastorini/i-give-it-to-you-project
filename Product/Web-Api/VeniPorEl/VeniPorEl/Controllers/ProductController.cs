@@ -6,6 +6,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 using VeniPorEl.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace VeniPorEl.Controllers
 {
@@ -52,9 +53,14 @@ namespace VeniPorEl.Controllers
         [ResponseType(typeof(ImageModel))]
         public IHttpActionResult UploadProductImage(int productId, ImageModel imageModel)
         {
+            if (imageModel == null || productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
             try
             {
-                productService.AddImageToProduct(productId, imageModel.ImageName, imageModel.ImageByteArray);
+                byte[] photo = Convert.FromBase64String(imageModel.ImageBase64);
+                productService.AddImageToProduct(productId, imageModel.ImageName, photo);
                 return Ok();
             }
             catch (ArgumentException ex)

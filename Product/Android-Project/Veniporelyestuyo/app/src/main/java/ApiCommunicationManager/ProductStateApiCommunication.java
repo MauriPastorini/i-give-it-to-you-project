@@ -1,5 +1,6 @@
 package ApiCommunicationManager;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,6 +15,8 @@ import java.util.List;
 import Domain.Category;
 import Domain.Product;
 import Domain.ProductState;
+
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Mauri on 11-May-17.
@@ -39,5 +42,14 @@ public class ProductStateApiCommunication {
             productStatesResult.add(productState);
         }
         return productStatesResult;
+    }
+
+    public int getStateIdFromStatesCollection(String stateName, ArrayList<ProductState> productStates){
+        for (int i = 0; i < productStates.size(); i++) {
+            if (productStates.get(i).getName() == stateName) {
+                return productStates.get(i).getId();
+            }
+        }
+        throw new Resources.NotFoundException();
     }
 }
