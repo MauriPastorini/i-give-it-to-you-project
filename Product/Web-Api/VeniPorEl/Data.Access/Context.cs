@@ -49,7 +49,7 @@ namespace Data.Access
 
         private void CreateDefaultCategories()
         {
-            var path = @"D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\Categories.txt";
+            var path = Properties.Resources.CategoryTextDefault;
             string[] lines = System.IO.File.ReadAllLines(path);
             foreach (string line in lines)
             {

@@ -79,8 +79,8 @@ namespace Api.Services
             if (productToUpdate == null)
                 throw new ArgumentException("Product Not Found");
 
-            var directoryPath = $@"D:\Facultad\Ingenieria Software Practica\Images\";
-            var filename = $@"{directoryPath}{imageName}{DateTime.Now.Ticks}.";
+            var directoryPath = Properties.Resources.ImageFolderPath;
+            var filename = $@"{directoryPath}{@"\ProductID_ "}{productId}{"_"}{imageName}.";
             using (var imageToSave = Image.FromStream(new MemoryStream(imageByteArray)))
             {
                 ImageFormat imageFormat;

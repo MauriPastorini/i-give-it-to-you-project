@@ -1,6 +1,9 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
@@ -23,13 +26,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import ApiCommunicationManager.CategoryApiCommunication;
+import ApiCommunicationManager.ConnectionHandler;
 import ApiCommunicationManager.ProductApiCommunication;
 import ApiCommunicationManager.ProductStateApiCommunication;
 import Domain.Category;
 import Domain.Product;
 import Domain.ProductState;
+import MyStaticElements.DialogCloseDueToConnection;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static android.os.Build.VERSION_CODES.M;
@@ -58,11 +64,15 @@ public class PublishProductActivity extends AppCompatActivity {
     private ImageView imgPhoto3;
 
     private Product actualProduct;
+    private ArrayList<Category> categories;
+    private ArrayList<ProductState> productStates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_product);
+
+        CheckConnection();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -103,8 +113,6 @@ public class PublishProductActivity extends AppCompatActivity {
             }
         });
 
-
-
         new Thread(new Runnable() {
             public void run() {
                 loadCategories();
@@ -113,8 +121,12 @@ public class PublishProductActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void CheckConnection() {
+        new ConnectionHandler().controlConnectionsAvaiable(this);
+    }
+
     public void loadCategories(){
-        ArrayList<Category> categories = new ArrayList<>();
+        categories = new ArrayList<>();
         try{
             categories = new CategoryApiCommunication().getCategories();
         }
@@ -134,7 +146,7 @@ public class PublishProductActivity extends AppCompatActivity {
     }
 
     public void loadProductStates(){
-        ArrayList<ProductState> productStates = new ArrayList<>();
+        productStates = new ArrayList<>();
         try{
             productStates = new ProductStateApiCommunication().getProductState();
         }
@@ -212,17 +224,27 @@ public class PublishProductActivity extends AppCompatActivity {
                 String spinCategoryText = spinCategory.getSelectedItem().toString();
                 String spinStateText = spinState.getSelectedItem().toString();
                 actualProduct.name = textNombre;
-                actualProduct.category = spinCategoryText;
-                actualProduct.state = spinStateText;
 
                 actualProduct.latitude = 1; //HARDCODE, change for getMapLatitude()
                 actualProduct.longitude = 1;//HARDCODE, change for getMapLongitude()
-                actualProduct.category = "1"; //HARDCODE, change for getCategoryIdFromName(spinCategoryText)
-                actualProduct.state = "1";//HARDCODE, change for getStateIdFromName(spinStateText)
-                Log.i(TAG, "Click info " + textNombre + " - " + spinCategoryText + " - " + spinStateText);
+                ProductApiCommunication productApiCommunication = new ProductApiCommunication();
+                CategoryApiCommunication categoryApiCommunication = new CategoryApiCommunication();
+                ProductStateApiCommunication productStateApiCommunication = new ProductStateApiCommunication();
+
                 try{
-                    new ProductApiCommunication().postProduct(actualProduct);
-                    new ProductApiCommunication().postProductPhoto(actualProduct);
+                    actualProduct.categoryId = categoryApiCommunication.getCategorieIdFromCategoriesCollection(spinCategoryText, categories);
+                }
+                catch (Resources.NotFoundException ex){
+                    Log.i(TAG, "Error en cargar id de categoria, no se encontro la categoria de nombre: " + spinCategoryText + " en la lista: " + categories.toString());
+                }
+                try{
+                    actualProduct.stateId = productStateApiCommunication.getStateIdFromStatesCollection(spinStateText, productStates);
+                }
+                catch (Resources.NotFoundException ex){
+                    Log.i(TAG, "Error en cargar id de Estado, no se encontro la categoria de nombre: " + spinCategoryText + " en la lista: " + categories.toString());
+                }
+                try{
+                    productApiCommunication.postProduct(actualProduct);
                 }catch (JSONException ex){
                     Log.i(TAG, "Problems in creating json: " + ex);
                 }

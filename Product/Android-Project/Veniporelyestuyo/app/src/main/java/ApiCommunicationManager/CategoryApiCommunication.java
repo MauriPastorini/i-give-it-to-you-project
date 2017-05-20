@@ -1,5 +1,6 @@
 package ApiCommunicationManager;
 
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -36,5 +37,14 @@ public class CategoryApiCommunication {
             categoriesResult.add(category);
         }
         return categoriesResult;
+    }
+
+    public int getCategorieIdFromCategoriesCollection(String categoryName, ArrayList<Category> categories){
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getName() == categoryName) {
+                return categories.get(i).getId();
+            }
+        }
+        throw new Resources.NotFoundException();
     }
 }
