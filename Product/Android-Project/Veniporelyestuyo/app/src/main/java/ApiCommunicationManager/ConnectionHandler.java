@@ -1,10 +1,9 @@
 package ApiCommunicationManager;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 
@@ -15,61 +14,27 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
 
+import Domain.ResponseHttp;
 import MyExceptions.PostReturnFunctionException;
 import MyStaticElements.DialogCloseDueToConnection;
 
-import static ApiCommunicationManager.ApiServerConstant.address;
-import static android.R.attr.host;
 import static android.content.ContentValues.TAG;
-import static com.product.whitewalkers.veniporelyestuyo.R.string.url;
 
 /**
  * Created by Mauri on 08-May-17.
  */
 
 public class ConnectionHandler {
-    private int posConHttpUrlConectInColect = 0;
-    private int posDataInColect = 1;
-    private int posIHttpApiCommunicationInColect = 2;
 
-    public String getDataInJson(String url) throws IOException{
-        Object[] objs = new Object[2];
+    //GET verb methods
+    public ResponseHttp getDataInJson(String url) throws IOException{
         HttpURLConnection con = createGetJsonConnection(url);
         return getHttpRequestData(con);
-    }
-
-    private String getHttpRequestData(HttpURLConnection con) throws IOException{
-        StringBuilder sb = new StringBuilder();
-        int HttpResult = con.getResponseCode();
-        if (HttpResult == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream(), "utf-8"));
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            br.close();
-            Log.i(TAG, "" + sb.toString());
-            return sb.toString();
-        } else {
-            Log.i(TAG, con.getResponseMessage());
-        }
-        return "";
-    }
-
-    public void PostDataJson(IHttpApiCommunication httpHandler, String url, JSONObject data) throws IOException{
-        Object[] objs = new Object[3];
-        HttpURLConnection con = createPostJsonConnection(url);
-        objs[0] = con;
-        objs[1] = data;
-        objs[2] = httpHandler;
-        new PostProductTask().execute(objs);
     }
 
     private static HttpURLConnection createGetJsonConnection(String url) throws IOException {
@@ -80,6 +45,24 @@ public class ConnectionHandler {
         con.setRequestProperty("Accept", "application/json");
         con.setRequestMethod("GET");
         return con;
+    }
+
+    private ResponseHttp getHttpRequestData(HttpURLConnection con) throws IOException{
+        StringBuilder stringBuilder = new StringBuilder();
+        int httpResult = con.getResponseCode();
+        ResponseHttp response = new ResponseHttp(httpResult);
+
+        return readFromConnectionResponse(con, stringBuilder, response);
+    }
+
+    //POST verb methods
+    public void postDataJson(IHttpApiPostCommunication httpHandler, String url, JSONObject data) throws IOException{
+        Object[] objs = new Object[3];
+        HttpURLConnection con = createPostJsonConnection(url);
+        objs[0] = con;
+        objs[1] = data;
+        objs[2] = httpHandler;
+        new PostProductTask().execute(objs);
     }
 
     private static HttpURLConnection createPostJsonConnection(String url) throws IOException {
@@ -93,31 +76,11 @@ public class ConnectionHandler {
         return con;
     }
 
-    private HttpURLConnection createPostConnection(String url) throws IOException {
-        URL object=new URL(url);
-        HttpURLConnection con = (HttpURLConnection)object.openConnection();
-        con.setDoOutput(true);
-        con.setDoInput(true);
-        con.setRequestMethod("POST");
-        return con;
-    }
-
-
-    public void PostDataBytes(ProductApiCommunication productApiCommunication, String productPostPhotoUri, String im) throws IOException{
-        Object[] objs = new Object[3];
-        HttpURLConnection con = createPostConnection(productPostPhotoUri);
-        objs[0] = con;
-        objs[1] = im;
-        objs[2] = productApiCommunication;
-        new PostProductPhotoTask().execute(objs);
-    }
-
     private class PostProductTask extends AsyncTask {
         protected void onPostExecute(Object result){
             if(result != null){
                 Pair pairRes = (Pair)result;
-                Log.i(TAG, "Post realizado");
-                IHttpApiCommunication httpHandler = (IHttpApiCommunication)pairRes.first;
+                IHttpApiPostCommunication httpHandler = (IHttpApiPostCommunication)pairRes.first;
                 try{
                     httpHandler.postFunctionReturn(pairRes.second);
                 }catch (PostReturnFunctionException ex){
@@ -139,22 +102,12 @@ public class ConnectionHandler {
                 osw.flush();
                 osw.close();
                 //Read response
-                StringBuilder sb = new StringBuilder();
-                int HttpResult = con.getResponseCode();
-                if (HttpResult == HttpURLConnection.HTTP_OK) {
-                    BufferedReader br = new BufferedReader(
-                            new InputStreamReader(con.getInputStream(), "utf-8"));
-                    String line = null;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                    br.close();
-                    Log.i(TAG, "" + sb.toString());
-                    Pair<IHttpApiCommunication,String> result = Pair.create((IHttpApiCommunication)params[2],sb.toString());
-                    return result;
-                } else {
-                    Log.i(TAG, con.getResponseMessage());
-                }
+                StringBuilder stringBuilder = new StringBuilder();
+                int httpResult = con.getResponseCode();
+                ResponseHttp response = new ResponseHttp(httpResult);
+                response = readFromConnectionResponse(con, stringBuilder, response);
+                Pair<IHttpApiPostCommunication,ResponseHttp> result = Pair.create((IHttpApiPostCommunication)params[2],response);
+                return result;
             }
             catch (IOException ex){
                 Log.i(TAG, "Error en comunicacion post");
@@ -162,13 +115,25 @@ public class ConnectionHandler {
             return null;
         }
     }
+    @NonNull
+    private ResponseHttp readFromConnectionResponse(HttpURLConnection con, StringBuilder stringBuilder, ResponseHttp response) throws IOException {
+        BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream(), "utf-8"));
+        String line;
+        while ((line = br.readLine()) != null) {
+            stringBuilder.append(line + "\n");
+        }
+        br.close();
+        response.setMessage(stringBuilder.toString());
+        return response;
+    }
 
     private class PostProductPhotoTask extends AsyncTask {
         protected void onPostExecute(Object result){
             if(result != null){
                 Pair pairRes = (Pair)result;
                 Log.i(TAG, "Post realizado");
-                IHttpApiCommunication httpHandler = (IHttpApiCommunication)pairRes.first;
+                IHttpApiPostCommunication httpHandler = (IHttpApiPostCommunication)pairRes.first;
                 try{
                     httpHandler.postFunctionReturn(pairRes.second);
                 }catch (PostReturnFunctionException ex){
@@ -201,7 +166,7 @@ public class ConnectionHandler {
                     }
                     br.close();
                     Log.i(TAG, "" + sb.toString());
-                    Pair<IHttpApiCommunication,String> result = Pair.create((IHttpApiCommunication)params[2],sb.toString());
+                    Pair<IHttpApiPostCommunication,String> result = Pair.create((IHttpApiPostCommunication)params[2],sb.toString());
                     return result;
                 } else {
                     Log.i(TAG, con.getResponseMessage());
@@ -246,7 +211,7 @@ public class ConnectionHandler {
             try {
                 SocketAddress socketAddress = new InetSocketAddress("192.168.0.114", 51339);
                 Socket socket = new Socket();
-                socket.connect(socketAddress, 2000);
+                socket.connect(socketAddress, 900000);
                 socket.close();
             } catch (Exception e) {
                 ((Activity)context).runOnUiThread(new Runnable() {

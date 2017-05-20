@@ -9,19 +9,17 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import Domain.Product;
+import Domain.ResponseHttp;
 import MyExceptions.PostReturnFunctionException;
-
-import static android.view.View.Z;
 
 /**
  * Created by Mauri on 07-May-17.
  */
 
-public class ProductApiCommunication implements IHttpApiCommunication {
+public class ProductApiCommunication implements IHttpApiPostCommunication {
     private static final String TAG = "myLogMessageTag";
     private Product product;
     private boolean photosUploaded;
@@ -31,7 +29,7 @@ public class ProductApiCommunication implements IHttpApiCommunication {
         Log.i(TAG, "Comenzando post product");
         product = productParm;
         JSONObject productJson = createProductJsonData(product.name, product.categoryId, product.stateId, product.latitude, product.longitude);
-        new ConnectionHandler().PostDataJson(this, ApiServerConstant.productPostUri, productJson);
+        new ConnectionHandler().postDataJson(this, ApiServerConstant.productPostUri, productJson);
     }
 
     @NonNull
@@ -49,9 +47,8 @@ public class ProductApiCommunication implements IHttpApiCommunication {
         Log.i(TAG, "Comenzando post photo");
         ArrayList<JSONObject> productsPhotosJson = createPhotosJsonData(product);
         for(int i=0; i<productsPhotosJson.size();i++){
-            new ConnectionHandler().PostDataJson(this, ApiServerConstant.productPostPhotoUri(product.id), productsPhotosJson.get(i));
+            new ConnectionHandler().postDataJson(this, ApiServerConstant.productPostPhotoUri(product.id), productsPhotosJson.get(i));
         }
-        //TODO: Send product images to the api
     }
 
     private ArrayList<JSONObject> createPhotosJsonData(Product product) {
@@ -94,7 +91,8 @@ public class ProductApiCommunication implements IHttpApiCommunication {
     @Override
     public void postFunctionReturn(Object obj) throws PostReturnFunctionException{
         if (!photosUploaded){
-            String res = (String)obj;
+            ResponseHttp response = (ResponseHttp)obj;
+            String res = response.getMessage();
             res = res.replace("\n","");
             int id  = Integer.parseInt(res);
             Product actualProduct = this.product;
