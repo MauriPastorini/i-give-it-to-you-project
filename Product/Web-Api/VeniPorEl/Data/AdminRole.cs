@@ -12,7 +12,7 @@ namespace Data
         {
             get
             {
-                return (int)User.Roles.Admin
+                return (int)User.Roles.Admin;
             }
         }
 
