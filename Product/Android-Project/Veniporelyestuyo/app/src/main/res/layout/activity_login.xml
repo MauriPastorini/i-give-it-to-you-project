@@ -33,25 +33,25 @@
         android:id="@+id/txtViewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nombre_de_usuario"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/txtViewContraseña"
-        android:layout_marginTop="95dp"
-        tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="96dp"
+        android:layout_marginTop="95dp"
+        android:text="@string/username"
+        app:layout_constraintBottom_toTopOf="@+id/txtViewContraseña"
         app:layout_constraintLeft_toLeftOf="@+id/txtEditUsername"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/txtViewContraseña"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contrase_a"
-        tools:layout_constraintBottom_creator="1"
+        android:text="@string/password"
         app:layout_constraintBottom_toTopOf="@+id/txtEditContraseña"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/txtEditContraseña" />
+        app:layout_constraintLeft_toLeftOf="@+id/txtEditContraseña"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <EditText
         android:id="@+id/txtEditUsername"
