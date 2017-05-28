@@ -16,12 +16,15 @@ namespace Data.Access
         public DbSet<ProductState> ProductStates { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         public Context() : base("VeniPorEl") { addDefault(); }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //Database.SetInitializer<Context>(null);
+            //modelBuilder.Configurations.Add(new UserConfigurations());
             base.OnModelCreating(modelBuilder);
         }
 
