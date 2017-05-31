@@ -5,9 +5,14 @@ package ApiCommunicationManager;
  */
 
 public class ApiServerConstant {
-    public static String address = "http://192.168.0.114";
+    //HARDCODED: Migrate this variables to runtime execution lecture for defer binding
+    public static String ip = "192.168.0.102";
     public static String port = "51339";
-    public static String serverUrl = address + ":" + port ;
+    public static int timeOutConnectionApi = 900000;
+    //
+
+    private static String address = "http://" + ip;
+    private static String serverUrl = address + ":" + port ;
 
     public static String apiUrl = address + ":" + port + "/api/";
 
@@ -16,7 +21,9 @@ public class ApiServerConstant {
     public static String categoryGetUri = ApiServerConstant.apiUrl + "Category";
 
     public static String productStateApiUri = ApiServerConstant.apiUrl + "ProductState";
+
     public static String productPostPhotoUri(int idProduct){
         return ApiServerConstant.apiUrl + "Product/" + idProduct;
     }
+    public static String accountPostTokenUri = ApiServerConstant.serverUrl + "/token";
 }
