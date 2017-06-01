@@ -27,11 +27,6 @@
         </activity>
         <activity android:name=".PublishProductActivity" />
         <activity android:name=".RegisterActivity" />
-
-        <service
-            android:name="myServices.AccountService"
-            android:enabled="true"
-            android:exported="true"></service>
     </application>
 
 </manifest>

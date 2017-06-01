@@ -43,12 +43,14 @@ public class LoginActivity extends AppCompatActivity {
         EditText txtEditContraseña = (EditText)findViewById(R.id.txtEditContraseña);
         String username = txtEditUsername.getText().toString();
         String pass = txtEditContraseña.getText().toString();
-        if(username.equals("")||pass.equals(""))
+        if(username.equals("")||pass.equals("")){
             Toast.makeText(this,"Usuario ni contraseña pueden ser vacios." ,Toast.LENGTH_LONG).show();
-        String[] data = new String[2];
-        data[0] = username;
-        data[1] = pass;
-        new LoginTask(this).execute(data);
+        } else{
+            String[] data = new String[2];
+            data[0] = username;
+            data[1] = pass;
+            new LoginTask(this).execute(data);
+        }
     }
 
     private class LoginTask extends AsyncTask<String, Void, ResponseAsyncTask> {
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postToken(new Account(username,password));
+                response = new AccountApiCommunication().postToken(new Account(username,password), mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
