@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    class NormalUserRole : IRole
+    public class NormalUserRole : IRole
     {
         public int RoleId
         {

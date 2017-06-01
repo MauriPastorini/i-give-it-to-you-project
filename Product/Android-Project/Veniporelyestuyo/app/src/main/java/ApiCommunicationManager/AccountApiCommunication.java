@@ -22,14 +22,14 @@ public class AccountApiCommunication {
     public ResponseHttp postToken(Account account, Context context) throws JSONException, IOException {
         String data = createPostUrlEncoded(account);
         ResponseHttp responseHttp = new ConnectionHandler().postData2(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data);
-        if(!(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)){
+        if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
             saveToken(responseHttp.getMessage(), context);
         }
         String tokenResp = getToken(context);
         return responseHttp;
     }
 
-    private void saveToken(String message, Context context) {
+    private void saveToken(String message, Context context) throws IOException,JSONException{
         String token = extractTokenFromMessage(message);
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -38,8 +38,9 @@ public class AccountApiCommunication {
         editor.commit();
     }
 
-    private String extractTokenFromMessage(String message){
-        return "Hardcoded test token";
+    private String extractTokenFromMessage(String message) throws IOException, JSONException{
+        JSONObject tokenJson = new JSONObject(message);
+        return tokenJson.getString("access_token");
     }
 
     @NonNull

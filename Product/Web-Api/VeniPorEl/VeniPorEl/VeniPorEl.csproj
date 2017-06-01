@@ -151,6 +151,11 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductStateController.cs" />
+    <Compile Include="Migrations\201705281647283_InitialCreate.cs" />
+    <Compile Include="Migrations\201705281647283_InitialCreate.Designer.cs">
+      <DependentUpon>201705281647283_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -179,6 +184,11 @@
       <Project>{F1D96924-A15E-4517-A478-FA03FE39DFAE}</Project>
       <Name>Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201705281647283_InitialCreate.resx">
+      <DependentUpon>201705281647283_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

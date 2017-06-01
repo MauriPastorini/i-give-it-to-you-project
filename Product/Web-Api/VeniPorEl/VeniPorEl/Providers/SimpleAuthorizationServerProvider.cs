@@ -19,6 +19,7 @@ namespace VeniPorEl.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            var userRoles = new List<string>();
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             using(AuthRepository _repo = new AuthRepository())
             {
@@ -28,13 +29,24 @@ namespace VeniPorEl.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+                userRoles = _repo.GetRoles(user.Id);
             }
 
-            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim("role", "user"));
+            var identity = GetAcualUserRoles(context, userRoles);
 
             context.Validated(identity);
+        }
+
+        private ClaimsIdentity GetAcualUserRoles(OAuthGrantResourceOwnerCredentialsContext context, List<string> userRoles)
+        {
+            var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+            identity.AddClaim(new Claim("sub", context.UserName));
+            foreach(var item in userRoles)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, item));
+            }
+            return identity;
         }
 
     }

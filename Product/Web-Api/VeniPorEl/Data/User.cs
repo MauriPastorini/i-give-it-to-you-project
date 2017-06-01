@@ -9,6 +9,7 @@ namespace Data
 {
     public class User
     {
+        public int UserId { get; set; }
         public enum Roles : int
         {
             Admin = 1,
