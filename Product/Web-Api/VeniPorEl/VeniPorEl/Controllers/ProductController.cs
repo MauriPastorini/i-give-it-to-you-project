@@ -7,6 +7,7 @@ using System.Web.Http.Results;
 using VeniPorEl.Models;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace VeniPorEl.Controllers
 {
@@ -62,6 +63,38 @@ namespace VeniPorEl.Controllers
                 byte[] photo = Convert.FromBase64String(imageModel.ImageBase64);
                 productService.AddImageToProduct(productId, imageModel.ImageName, photo);
                 return Ok();
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("{productId}")]
+        [ResponseType(typeof(ICollection<ImageModel>))]
+        public IHttpActionResult GetProductImage(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                ICollection<ProductImage> photos = productService.GetImagesFromProductId(productId);
+                ICollection<ImageModel> imageModels = new List<ImageModel>();
+                foreach (var photo in photos)
+                {
+                    ImageModel image = new ImageModel();
+                    var base64Image = Convert.ToBase64String(photo.Image);
+                    image.ImageBase64 = base64Image;
+                    image.ImageName = ProductImage.GetNameFromPath(photo.ImagePath);
+                }
+                return Ok(imageModels);
             }
             catch (ArgumentException ex)
             {
