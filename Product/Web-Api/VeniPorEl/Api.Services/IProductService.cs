@@ -12,6 +12,6 @@ namespace Api.Services
     {
         int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, int productLatitude, int productLongitude);
         bool AddImageToProduct(int productId, string imageName, byte[] imageByteArray);
-
+        int AcceptProduct(int productId);
     }
 }

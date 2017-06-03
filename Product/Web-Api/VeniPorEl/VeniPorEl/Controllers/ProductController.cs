@@ -68,5 +68,25 @@ namespace VeniPorEl.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("{productId}")]
+        [ResponseType(typeof(ProductModel))]
+        public IHttpActionResult AcceptProduct(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                productService.AcceptProduct(productId);
+                return Ok();
+            } catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
     }
 }

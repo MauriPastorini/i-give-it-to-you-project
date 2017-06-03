@@ -103,6 +103,15 @@ namespace Api.Services
             return true;
         }
 
+        public int AcceptProduct(int productId)
+        {
+            Product productToUpdate = unitOfWork.ProductRepository.Get(productId);
+            if (productToUpdate == null)
+                throw new ArgumentException("Product Not Found");
+            productToUpdate.Moderated = true;
+            unitOfWork.Save();
+            return productToUpdate.ProductId;
+        }
 
         public void Dispose()
         {
