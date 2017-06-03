@@ -46,9 +46,11 @@ namespace Data
 
         public static string GetNameFromPath(string pathImage)
         {
-            int start = pathImage.IndexOf('-') + 2;
-            int end = pathImage.LastIndexOf('.') - 1;
-            string filename = pathImage.Substring(start, end);
+            int startFileName = pathImage.LastIndexOf(@"\")+1;
+            string filename = pathImage.Substring(startFileName);
+
+            int start = filename.LastIndexOf('_')+1;
+            filename = filename.Substring(start);
             return filename;
         }
     }

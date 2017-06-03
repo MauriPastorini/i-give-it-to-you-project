@@ -129,5 +129,11 @@ namespace Api.Services
         {
             unitOfWork.Dispose();
         }
+
+        public Product GetProduct(int productId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p=>p.ProductId == productId).FirstOrDefault();
+            return product;
+        }
     }
 }

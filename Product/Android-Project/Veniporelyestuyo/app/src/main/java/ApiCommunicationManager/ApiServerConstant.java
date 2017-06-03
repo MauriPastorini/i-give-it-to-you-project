@@ -26,4 +26,12 @@ public class ApiServerConstant {
         return ApiServerConstant.apiUrl + "Product/" + idProduct;
     }
     public static String accountPostTokenUri = ApiServerConstant.serverUrl + "/token";
+
+    public static String productGetUri(int productId) {
+        return ApiServerConstant.apiUrl + "Product/" + productId;
+    }
+
+    public static String productPhotoGetUri(int productId) {
+        return ApiServerConstant.apiUrl + "Product/" + productId;
+    }
 }

@@ -75,7 +75,7 @@ namespace VeniPorEl.Controllers
         }
 
         [HttpGet]
-        [Route("{productId}")]
+        [Route("{productId}/photo")]
         [ResponseType(typeof(ICollection<ImageModel>))]
         public IHttpActionResult GetProductImage(int productId)
         {
@@ -93,6 +93,7 @@ namespace VeniPorEl.Controllers
                     var base64Image = Convert.ToBase64String(photo.Image);
                     image.ImageBase64 = base64Image;
                     image.ImageName = ProductImage.GetNameFromPath(photo.ImagePath);
+                    imageModels.Add(image);
                 }
                 return Ok(imageModels);
             }
@@ -100,6 +101,23 @@ namespace VeniPorEl.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("{productId}")]
+        [ResponseType(typeof(ICollection<ImageModel>))]
+        public IHttpActionResult GetCompleteProductImage(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            var product = productService.GetProduct(productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
     }
 }
