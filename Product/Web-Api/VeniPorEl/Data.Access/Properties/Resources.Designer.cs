@@ -61,7 +61,7 @@ namespace Data.Access.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\CategoriesDefault.txt.
+        ///   Looks up a localized string similar to C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\CategoriesDefault.txt.
         /// </summary>
         internal static string CategoryTextDefault {
             get {

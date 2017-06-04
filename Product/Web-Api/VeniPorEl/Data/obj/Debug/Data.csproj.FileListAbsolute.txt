@@ -14,6 +14,5 @@ C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.xml
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.Cors.xml
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb
