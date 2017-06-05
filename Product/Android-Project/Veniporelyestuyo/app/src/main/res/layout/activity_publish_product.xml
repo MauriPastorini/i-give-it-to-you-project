@@ -17,8 +17,8 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <TextView
@@ -97,16 +97,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/imgPhoto1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.10" />
+
             <ImageView
                 android:id="@+id/imgPhoto2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.10" />
+
             <ImageView
                 android:id="@+id/imgPhoto3"
                 android:layout_width="match_parent"
@@ -118,6 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btnTakePhoto1"
                 android:layout_width="match_parent"
@@ -125,6 +129,7 @@
                 android:layout_weight="0.10"
                 android:text="@string/takePhoto1Text"
                 tools:text="@string/takePhoto1Text" />
+
             <Button
                 android:id="@+id/btnTakePhoto2"
                 android:layout_width="match_parent"
@@ -132,6 +137,7 @@
                 android:layout_weight="0.10"
                 android:text="@string/takePhoto2Text"
                 tools:text="@string/takePhoto2Text" />
+
             <Button
                 android:id="@+id/btnTakePhoto3"
                 android:layout_width="match_parent"
@@ -140,9 +146,6 @@
                 android:text="@string/takePhoto3Text"
                 tools:text="@string/takePhoto3Text" />
         </LinearLayout>
-
-
-        
 
 
         <Button

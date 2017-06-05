@@ -245,7 +245,7 @@ public class ConnectionHandler {
     }
 
 
-    private static HttpURLConnection createPostJsonConnection2(String url, Verb verb, Content_Type content_type) throws IOException {
+    private static HttpURLConnection createFormatConnection(String url, Verb verb, Content_Type content_type) throws IOException {
         URL object=new URL(url);
         HttpURLConnection con = (HttpURLConnection)object.openConnection();
         con.setDoOutput(true);
@@ -262,13 +262,26 @@ public class ConnectionHandler {
     }
 
     public ResponseHttp postData2(String url, Content_Type content_type, String data) throws IOException, JSONException{
-        HttpURLConnection con = createPostJsonConnection2(url, Verb.POST, content_type);
-        con.connect();
-        OutputStream os = con.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(data);
-        osw.flush();
-        osw.close();
+        HttpURLConnection con = createFormatConnection(url, Verb.POST, content_type);
+        return connectAndGetResponse(data, con);
+    }
+
+    public ResponseHttp getDataInJson2(String url, Content_Type content_type) throws IOException, JSONException{
+        HttpURLConnection con = createFormatConnection(url, Verb.GET, content_type);
+        return connectAndGetResponse(null, con);
+    }
+
+
+    @NonNull
+    ResponseHttp connectAndGetResponse(String data, HttpURLConnection con) throws IOException, JSONException {
+        if(data != null){
+            con.connect();
+            OutputStream os = con.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(data);
+            osw.flush();
+            osw.close();
+        }
         //Read response
         int httpResponseCode = con.getResponseCode();
         ResponseHttp response = new ResponseHttp(httpResponseCode);
