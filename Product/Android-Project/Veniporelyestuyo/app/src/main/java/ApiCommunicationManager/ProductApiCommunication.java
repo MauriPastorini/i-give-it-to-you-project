@@ -138,26 +138,27 @@ public class ProductApiCommunication implements IHttpApiPostCommunication {
 
         for(int i = 0; i<productPhotos.length() ; i++){
             JSONObject cateJson = productPhotos.getJSONObject(i);
-            String name = cateJson.getString("ImageName");
-            String imageString = cateJson.getString("ImageBase64");
+            String name = cateJson.getString("imageName");
+            String imageString = cateJson.getString("imageBase64");
 
             byte[] decodedString = Base64.decode(imageString, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             photos.add(decodedByte);
             photosNames.add(name);
         }
-        product.image1 = photos.get(1);
-        product.image2 = photos.get(2);
-        product.image3 = photos.get(3);
-        product.image1Name = photosNames.get(1);
-        product.image2Name = photosNames.get(2);
-        product.image3Name = photosNames.get(3);
+        product.image1 = photos.get(0);
+        product.image2 = photos.get(1);
+        product.image3 = photos.get(2);
+        product.image1Name = photosNames.get(0);
+        product.image2Name = photosNames.get(1);
+        product.image3Name = photosNames.get(2);
     }
 
     private Product decodeMessageToProduct(String message) throws JSONException{
         Product product = new Product();
         JSONObject productJson = new JSONObject(message);
         product.id = productJson.getInt("productId");
+        product.name = productJson.getString("name");
         product.categoryId = productJson.getJSONObject("category").getInt("categoryId");
         product.categoryName = productJson.getJSONObject("category").getString("categoryId");
         product.stateId = productJson.getJSONObject("state").getInt("productStateId");

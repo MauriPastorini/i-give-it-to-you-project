@@ -248,7 +248,9 @@ public class ConnectionHandler {
     private static HttpURLConnection createFormatConnection(String url, Verb verb, Content_Type content_type) throws IOException {
         URL object=new URL(url);
         HttpURLConnection con = (HttpURLConnection)object.openConnection();
-        con.setDoOutput(true);
+        if(verb != Verb.GET){
+            con.setDoOutput(true);
+        }
         con.setDoInput(true);
         if (content_type == Content_Type.JSON){
             con.setRequestProperty("Content-Type", "application/json");
@@ -258,6 +260,7 @@ public class ConnectionHandler {
         }
         String verb2 = verb.name();
         con.setRequestMethod(verb2);
+        con.setConnectTimeout(ApiServerConstant.timeOutConnectionApi);
         return con;
     }
 

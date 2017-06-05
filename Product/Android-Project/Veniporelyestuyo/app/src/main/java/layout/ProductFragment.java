@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.product.whitewalkers.veniporelyestuyo.ProductActivity;
 import com.product.whitewalkers.veniporelyestuyo.R;
 
 import org.json.JSONException;
@@ -37,25 +38,43 @@ import static android.content.ContentValues.TAG;
 
 public class ProductFragment extends Fragment {
 
+    IProductFragment iProductFragment;
+
+    public interface IProductFragment {
+        void loadingVisible(boolean visible);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            iProductFragment = (IProductFragment) context;
+        }catch (ClassCastException ex){
+            throw ex;
+        }
+    }
+
     View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product, container, false);
-        changeVisibility(View.INVISIBLE);
-        view.findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+        changeVisibility(View.INVISIBLE, view);
+        ProductActivity context = (ProductActivity)getActivity();
         return view;
     }
+
+
 
     //Call from activity
     public void setProductInfo(int productId){
         setProductData(productId);
     }
 
-    private void changeVisibility(int visibility) {
+    private void changeVisibility(int visibility, View parmView) {
         try {
-            ViewGroup rootView = (ViewGroup) getView();
+            ViewGroup rootView = (ViewGroup) parmView;
             int childViewCount = rootView.getChildCount();
             for (int i=0; i<childViewCount;i++){
                 View view = rootView.getChildAt(i);
@@ -83,9 +102,7 @@ public class ProductFragment extends Fragment {
         }
 
         @Override
-        protected void onPreExecute() {
-            view.findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
-        }
+        protected void onPreExecute() {}
 
         @Override
         protected ResponseAsyncTask doInBackground(Void... params) {
@@ -112,8 +129,8 @@ public class ProductFragment extends Fragment {
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
-                    changeVisibility(View.VISIBLE);
-                    view.findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+                    changeVisibility(View.VISIBLE, getView());
+                    iProductFragment.loadingVisible(false);
                     loadProductValues(view, (Product)responseHttp.getMessageObject());
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
                     Toast.makeText(mContext,"Error en solicitud",Toast.LENGTH_LONG).show();
