@@ -6,7 +6,7 @@ package ApiCommunicationManager;
 
 public class ApiServerConstant {
     //HARDCODED: Migrate this variables to runtime execution lecture for defer binding
-    public static String ip = "192.168.0.100";
+    public static String ip = "192.168.0.103";
     public static String port = "51339";
     public static int timeOutConnectionApi = 900000;
     //

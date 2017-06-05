@@ -274,14 +274,14 @@ public class ConnectionHandler {
 
     @NonNull
     ResponseHttp connectAndGetResponse(String data, HttpURLConnection con) throws IOException, JSONException {
-        con.connect();
-        OutputStream os = con.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
         if(data != null){
+            con.connect();
+            OutputStream os = con.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
             osw.write(data);
+            osw.flush();
+            osw.close();
         }
-        osw.flush();
-        osw.close();
         //Read response
         int httpResponseCode = con.getResponseCode();
         ResponseHttp response = new ResponseHttp(httpResponseCode);
