@@ -15,6 +15,13 @@
     <string name="takePhoto1Text">Tomar foto 1</string>
     <string name="takePhoto2Text">Tomar foto 2</string>
     <string name="takePhoto3Text">Tomar foto 3</string>
+    <string name="bienvenido">Bienvenido</string>
+    <string name="login">Login</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="register">Registrate</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
 
     <string-array name="categories_array">
         <item>Juguetes</item>
@@ -29,5 +36,8 @@
         <item>Regular</item>
         <item>Malo</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

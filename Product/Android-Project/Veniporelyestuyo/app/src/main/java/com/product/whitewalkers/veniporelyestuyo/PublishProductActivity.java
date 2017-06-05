@@ -1,11 +1,8 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -19,14 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 import ApiCommunicationManager.CategoryApiCommunication;
 import ApiCommunicationManager.ConnectionHandler;
@@ -35,14 +29,6 @@ import ApiCommunicationManager.ProductStateApiCommunication;
 import Domain.Category;
 import Domain.Product;
 import Domain.ProductState;
-import MyStaticElements.DialogCloseDueToConnection;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static android.os.Build.VERSION_CODES.M;
-import static com.product.whitewalkers.veniporelyestuyo.R.id.image;
-import static com.product.whitewalkers.veniporelyestuyo.R.id.imgPhoto1;
-import static com.product.whitewalkers.veniporelyestuyo.R.id.productState;
-import static com.product.whitewalkers.veniporelyestuyo.R.id.text;
 
 public class PublishProductActivity extends AppCompatActivity {
 
@@ -68,11 +54,15 @@ public class PublishProductActivity extends AppCompatActivity {
     private ArrayList<ProductState> productStates;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        checkConnection();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_product);
-
-        CheckConnection();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -85,6 +75,17 @@ public class PublishProductActivity extends AppCompatActivity {
         imgPhoto2 = (ImageView)findViewById(R.id.imgPhoto2);
         imgPhoto3 = (ImageView)findViewById(R.id.imgPhoto3);
 
+        setPhotosBtns();
+
+        new Thread(new Runnable() {
+            public void run() {
+                getAndLoadCategories();
+                loadProductStates();
+            }
+        }).start();
+    }
+
+    private void setPhotosBtns() {
         Button btnPhoto1 = (Button)findViewById(R.id.btnTakePhoto1);
         Button btnPhoto2 = (Button)findViewById(R.id.btnTakePhoto2);
         Button btnPhoto3 = (Button)findViewById(R.id.btnTakePhoto3);
@@ -112,20 +113,13 @@ public class PublishProductActivity extends AppCompatActivity {
                 dispatchTakePictureIntent(3);
             }
         });
-
-        new Thread(new Runnable() {
-            public void run() {
-                loadCategories();
-                loadProductStates();
-            }
-        }).start();
     }
 
-    private void CheckConnection() {
+    private void checkConnection() {
         new ConnectionHandler().controlConnectionsAvaiable(this);
     }
 
-    public void loadCategories(){
+    public void getAndLoadCategories(){
         categories = new ArrayList<>();
         try{
             categories = new CategoryApiCommunication().getCategories();
@@ -136,7 +130,10 @@ public class PublishProductActivity extends AppCompatActivity {
         catch (JSONException ex){
             Log.i(TAG, "Error convirtiendo data a JSON: " + ex);
         }
+        loadCategories();
+    }
 
+    private void loadCategories() {
         ArrayList<String> categoriesOptions = new ArrayList<String>();
         for (int i=0;i<categories.size();i++){
             Category cate = categories.get(i);
@@ -232,7 +229,7 @@ public class PublishProductActivity extends AppCompatActivity {
                 ProductStateApiCommunication productStateApiCommunication = new ProductStateApiCommunication();
 
                 try{
-                    actualProduct.categoryId = categoryApiCommunication.getCategorieIdFromCategoriesCollection(spinCategoryText, categories);
+                    actualProduct.categoryId = categoryApiCommunication.getCategoryIdFromCategoriesCollection(spinCategoryText, categories);
                 }
                 catch (Resources.NotFoundException ex){
                     Log.i(TAG, "Error en cargar id de categoria, no se encontro la categoria de nombre: " + spinCategoryText + " en la lista: " + categories.toString());

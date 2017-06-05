@@ -59,14 +59,5 @@ namespace Api.Services.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Images server.
-        /// </summary>
-        public static string ImageFolderPath {
-            get {
-                return ResourceManager.GetString("ImageFolderPath", resourceCulture);
-            }
-        }
     }
 }

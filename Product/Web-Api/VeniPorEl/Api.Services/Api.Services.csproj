@@ -53,6 +53,7 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="ICategoryService.cs" />
     <Compile Include="IProductStateService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="ProductStateService.cs" />
@@ -62,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data.Repository\Data.Repository.csproj">

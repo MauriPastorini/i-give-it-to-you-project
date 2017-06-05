@@ -21,12 +21,13 @@ public class CategoryApiCommunication {
     private static final String TAG = "myLogMessageTag";
 
     public ArrayList<Category> getCategories() throws JSONException, IOException {
-        Log.i(TAG, "Comenzando get categories");
-
         ArrayList<Category> categoriesResult = new ArrayList<Category>();
-        String catergoriesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.categoryGetUri);
-        JSONArray categoriesArray = new JSONArray(catergoriesGetResult);
+        String catergoriesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.categoryGetUri).getMessage();
+        return getCategoriesFromJsonString(categoriesResult, catergoriesGetResult);
+    }
 
+    ArrayList<Category> getCategoriesFromJsonString(ArrayList<Category> categoriesResult, String catergoriesGetResult) throws JSONException {
+        JSONArray categoriesArray = new JSONArray(catergoriesGetResult);
         for(int i = 0; i<categoriesArray.length() ; i++){
             JSONObject cateJson = categoriesArray.getJSONObject(i);
             String name = cateJson.getString("Name");
@@ -39,7 +40,7 @@ public class CategoryApiCommunication {
         return categoriesResult;
     }
 
-    public int getCategorieIdFromCategoriesCollection(String categoryName, ArrayList<Category> categories){
+    public int getCategoryIdFromCategoriesCollection(String categoryName, ArrayList<Category> categories){
         for (int i = 0; i < categories.size(); i++) {
             if (categories.get(i).getName() == categoryName) {
                 return categories.get(i).getId();

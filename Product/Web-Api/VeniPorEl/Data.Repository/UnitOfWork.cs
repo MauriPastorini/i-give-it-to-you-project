@@ -16,6 +16,7 @@ namespace Data.Repository
         private Repository<Category> categoryRepository;
         private Repository<ProductState> productStateRepository;
         private Repository<ProductImage> productImagesRepository;
+        private Repository<User> usersRepository;
 
         public UnitOfWork()
         {
@@ -72,6 +73,18 @@ namespace Data.Repository
                     productImagesRepository = new Repository<ProductImage>(Context);
                 }
                 return productImagesRepository;
+            }
+        }
+
+        public IRepository<User> UsersRepository
+        {
+            get
+            {
+                if(usersRepository == null)
+                {
+                    usersRepository = new Repository<User>(Context);
+                }
+                return usersRepository;
             }
         }
 

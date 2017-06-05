@@ -29,7 +29,7 @@ public class ProductStateApiCommunication {
         Log.i(TAG, "Comenzando get products");
 
         ArrayList<ProductState> productStatesResult = new ArrayList<ProductState>();
-        String productStatesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.productStateApiUri);
+        String productStatesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.productStateApiUri).getMessage();
         JSONArray productStatesArray = new JSONArray(productStatesGetResult);
 
         for(int i = 0; i<productStatesArray.length() ; i++){
