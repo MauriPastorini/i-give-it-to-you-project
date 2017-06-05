@@ -19,6 +19,16 @@ import Domain.ResponseHttp;
 
 public class AccountApiCommunication {
 
+    public ResponseHttp postAccount(Account account) throws JSONException, IOException{
+        String data = account.GetAsJSON().toString();
+        ResponseHttp responseHttp = new ConnectionHandler().postData2(ApiServerConstant.accountPostUri, ConnectionHandler.Content_Type.JSON, data);
+        if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+            int a = 1;
+            System.out.println(responseHttp.getCodeResponse());
+        }
+        return responseHttp;
+    }
+
     public ResponseHttp postToken(Account account, Context context) throws JSONException, IOException {
         String data = createPostUrlEncoded(account);
         ResponseHttp responseHttp = new ConnectionHandler().postData2(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data);

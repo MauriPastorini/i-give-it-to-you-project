@@ -20,6 +20,8 @@ public class ApiServerConstant {
 
     public static String categoryGetUri = ApiServerConstant.apiUrl + "Category";
 
+    public static String accountPostUri = ApiServerConstant.apiUrl + "Account";
+
     public static String productStateApiUri = ApiServerConstant.apiUrl + "ProductState";
 
     public static String productPostPhotoUri(int idProduct){
