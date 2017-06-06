@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Data
             NormalUser = 2
         }
         public string UserName { get; set; }
+        public string Email { get; set; }
         public int RoleId { get; set; }
         private string PassAux { get; set; }
         public string Pass
@@ -45,15 +47,16 @@ namespace Data
 
         private User() { }
 
-        private User(string name, string pass, IRole role)
+        private User(string name, string email, string pass, IRole role)
         {
             UserName = name;
+            Email = email;
             Pass = pass;
             Role = role;
             RoleId = role.RoleId;
         }
 
-        public static User CreateWithNamePasswordAndRole(string name, string pass, IRole role)
+        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role)
         {
             if(!IsNameCorrect(name))
             {
@@ -63,9 +66,13 @@ namespace Data
             {
                 throw new ArgumentException("Wrong password format!");
             }
+            else if(!IsEmailCorrect(email))
+            {
+                throw new ArgumentException("Wrong email format!");
+            }
             else
             {
-                return new User(name, pass, role);
+                return new User(name, email, pass, role);
             }
         }
 
@@ -75,6 +82,19 @@ namespace Data
                 this.Role = new AdminRole();
             else if(roleId == (int)Roles.NormalUser)
                 this.Role = new NormalUserRole();
+        }
+
+        private static bool IsEmailCorrect(string email)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(email);
+                return true;
+            }
+            catch(FormatException)
+            {
+                return false;
+            }
         }
 
         private static bool IsPasswordCorrect(string pass)
