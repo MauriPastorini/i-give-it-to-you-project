@@ -1,7 +1,6 @@
 package ApiCommunicationManager;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +21,7 @@ public class CategoryApiCommunication {
 
     public ArrayList<Category> getCategories() throws JSONException, IOException {
         ArrayList<Category> categoriesResult = new ArrayList<Category>();
-        String catergoriesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.categoryGetUri).getMessage();
+        String catergoriesGetResult = new ConnectionHandler().getData(ApiServerConstant.categoryGetUri, ConnectionHandler.Content_Type.JSON).getMessage();
         return getCategoriesFromJsonString(categoriesResult, catergoriesGetResult);
     }
 

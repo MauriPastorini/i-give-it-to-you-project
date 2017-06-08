@@ -16,25 +16,21 @@ import java.util.ArrayList;
 
 import Domain.Product;
 import Domain.ResponseHttp;
-import MyExceptions.PostReturnFunctionException;
-
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Mauri on 07-May-17.
  */
 
-public class ProductApiCommunication implements IHttpApiPostCommunication {
+public class ProductApiCommunication{
     private static final String TAG = "myLogMessageTag";
     private Product product;
-    private boolean photosUploaded;
 
     public void postProduct(Product productParm) throws JSONException, IOException{
-        photosUploaded = false;
         Log.i(TAG, "Comenzando post product");
         product = productParm;
         JSONObject productJson = createProductJsonData(product.name, product.categoryId, product.stateId, product.latitude, product.longitude);
-        new ConnectionHandler().postDataJson(this, ApiServerConstant.productPostUri, productJson);
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString());
+        postFunctionReturn(responseHttp);
     }
 
     @NonNull
@@ -52,7 +48,7 @@ public class ProductApiCommunication implements IHttpApiPostCommunication {
         Log.i(TAG, "Comenzando post photo");
         ArrayList<JSONObject> productsPhotosJson = createPhotosJsonData(product);
         for(int i=0; i<productsPhotosJson.size();i++){
-            new ConnectionHandler().postDataJson(this, ApiServerConstant.productPostPhotoUri(product.id), productsPhotosJson.get(i));
+            new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString());
         }
     }
 
@@ -93,34 +89,23 @@ public class ProductApiCommunication implements IHttpApiPostCommunication {
         return byteArray;
     }
 
-    @Override
-    public void postFunctionReturn(Object obj) throws PostReturnFunctionException{
-        if (!photosUploaded){
-            ResponseHttp response = (ResponseHttp)obj;
-            String res = response.getMessage();
-            res = res.replace("\n","");
-            int id  = Integer.parseInt(res);
-            Product actualProduct = this.product;
-            actualProduct.id = id;
-            photosUploaded = true;
-            try{
-                this.postProductPhoto(actualProduct);
-            }
-            catch (JSONException ex){
-                throw new PostReturnFunctionException("Error JSONException posting image: " + ex);
-            }
-            catch (IOException ex){
-                throw new PostReturnFunctionException("Error IOException posting image: " + ex);
-            }
-        }
+    public void postFunctionReturn(ResponseHttp obj) throws IOException, JSONException{
+        ResponseHttp response = obj;
+        String res = response.getMessage();
+        res = res.replace("\n","");
+        int id  = Integer.parseInt(res);
+        Product actualProduct = this.product;
+        actualProduct.id = id;
+        this.postProductPhoto(actualProduct);
+
     }
 
     public ResponseHttp getProductAndImages(int productId) throws IOException, JSONException {
-        ResponseHttp responseHttpProduct = new ConnectionHandler().getDataInJson2(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON);
         if (responseHttpProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProduct;
         }
-        ResponseHttp responseHttpProductImage = new ConnectionHandler().getDataInJson2(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON);
         if(responseHttpProductImage.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductImage;
         }

@@ -40,6 +40,8 @@ public class ResponseHttp {
     }
 
     public String getMessage() {
+        if(codeResponse==404)
+            return "Not Found";
         return message;
     }
 

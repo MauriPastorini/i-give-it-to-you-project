@@ -133,7 +133,7 @@ public class ProductFragment extends Fragment {
                     iProductFragment.loadingVisible(false);
                     loadProductValues(view, (Product)responseHttp.getMessageObject());
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

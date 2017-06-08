@@ -8,15 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
-import Domain.Category;
-import Domain.Product;
 import Domain.ProductState;
-
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by Mauri on 11-May-17.
@@ -29,7 +23,7 @@ public class ProductStateApiCommunication {
         Log.i(TAG, "Comenzando get products");
 
         ArrayList<ProductState> productStatesResult = new ArrayList<ProductState>();
-        String productStatesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.productStateApiUri).getMessage();
+        String productStatesGetResult = new ConnectionHandler().getData(ApiServerConstant.productStateApiUri, ConnectionHandler.Content_Type.JSON).getMessage();
         JSONArray productStatesArray = new JSONArray(productStatesGetResult);
 
         for(int i = 0; i<productStatesArray.length() ; i++){

@@ -21,13 +21,13 @@ public class AccountApiCommunication {
 
     public ResponseHttp postAccount(Account account) throws JSONException, IOException{
         String data = account.GetAsJSON().toString();
-        ResponseHttp responseHttp = new ConnectionHandler().postData2(ApiServerConstant.accountPostUri, ConnectionHandler.Content_Type.JSON, data);
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostUri, ConnectionHandler.Content_Type.JSON, data);
         return responseHttp;
     }
 
     public ResponseHttp postToken(Account account, Context context) throws JSONException, IOException {
         String data = createPostUrlEncoded(account);
-        ResponseHttp responseHttp = new ConnectionHandler().postData2(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data);
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data);
         if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
             saveToken(responseHttp.getMessage(), context);
         }
