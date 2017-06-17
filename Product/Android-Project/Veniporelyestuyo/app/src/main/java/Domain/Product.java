@@ -17,6 +17,13 @@ public class Product {
     public Bitmap image1;
     public Bitmap image2;
     public Bitmap image3;
+    public String image1Name;
+    public String image2Name;
+    public String image3Name;
+    public String categoryName;
+    public String stateName;
+    public String description;
+
 
     public Product() {
     }

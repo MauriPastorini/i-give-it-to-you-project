@@ -1,0 +1,89 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="layout.ProductFragment"
+    tools:layout_editor_absoluteY="0dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="300"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:text="Producto" />
+
+
+        <ImageView
+            android:id="@+id/imgViewPhoto1"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            />
+
+
+        <ImageView
+            android:id="@+id/imgViewPhoto2"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            />
+        <ImageView
+            android:id="@+id/imgViewPhoto3"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="300"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:text="Nombre del producto" />
+        <TextView
+            android:id="@+id/txtViewName"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="300"
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="Nombre content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="300"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:text="Descripción del producto" />
+        <TextView
+            android:id="@+id/txtViewDescription"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="300"
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="Descripcion content" />
+        <Button
+            android:id="@+id/btnWantIt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="300"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Lo quiero!" />
+
+    </LinearLayout>
+</ScrollView>

@@ -9,6 +9,16 @@ import static android.os.Build.VERSION_CODES.M;
 public class ResponseHttp {
     private int codeResponse;
     private String message;
+    private Object messageObject;
+
+    public Object getMessageObject() {
+        return messageObject;
+    }
+
+    public void setMessageObject(Object messageObject) {
+        this.messageObject = messageObject;
+    }
+
     private String messageToClient;
     private CategoryCodeResponse typeCode;
 
@@ -30,6 +40,8 @@ public class ResponseHttp {
     }
 
     public String getMessage() {
+        if(codeResponse==404)
+            return "Not Found";
         return message;
     }
 

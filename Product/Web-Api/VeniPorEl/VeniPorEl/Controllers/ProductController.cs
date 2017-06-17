@@ -7,6 +7,7 @@ using System.Web.Http.Results;
 using VeniPorEl.Models;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace VeniPorEl.Controllers
 {
@@ -63,11 +64,16 @@ namespace VeniPorEl.Controllers
                 productService.AddImageToProduct(productId, imageModel.ImageName, photo);
                 return Ok();
             }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
 
         [HttpPost]
         [Route("{productId}")]
@@ -82,11 +88,73 @@ namespace VeniPorEl.Controllers
             {
                 productService.AcceptProduct(productId);
                 return Ok();
-            } catch (ArgumentException ex)
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+        [HttpGet]
+        [Route("{productId}/photo")]
+        [ResponseType(typeof(ICollection<ImageModel>))]
+        public IHttpActionResult GetProductImage(int productId)
+
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                ICollection<ProductImage> photos = productService.GetImagesFromProductId(productId);
+                ICollection<ImageModel> imageModels = new List<ImageModel>();
+                foreach (var photo in photos)
+                {
+                    ImageModel image = new ImageModel();
+                    var base64Image = Convert.ToBase64String(photo.Image);
+                    image.ImageBase64 = base64Image;
+                    image.ImageName = ProductImage.GetNameFromPath(photo.ImagePath);
+                    imageModels.Add(image);
+                }
+                return Ok(imageModels);
+            }
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+        }
+
+        [HttpGet]
+        [Route("{productId}")]
+        [ResponseType(typeof(ICollection<ImageModel>))]
+        public IHttpActionResult GetCompleteProductImage(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            var product = productService.GetProduct(productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+
+        }
+
+        [HttpGet]
+        [Route("Unmoderated")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetUnmoderatedProducts()
+        {
+            ICollection<Product> unmoderatedProducts = productService.GetUnmoderatedProducts();
+            if (unmoderatedProducts == null)
+            {
+                return NotFound();
+            }
+            return Ok(unmoderatedProducts);
         }
     }
 }

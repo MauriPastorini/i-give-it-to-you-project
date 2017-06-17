@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -79,8 +80,7 @@ namespace Api.Services
             if (productToUpdate == null)
                 throw new ArgumentException("Product Not Found");
 
-            var directoryPath = Properties.Resources.ImageFolderPath;
-            var filename = $@"{directoryPath}{@"\ProductID_ "}{productId}{"_"}{imageName}.";
+            string filename = ProductImage.EncodePathForImage(productId, imageName);
             using (var imageToSave = Image.FromStream(new MemoryStream(imageByteArray)))
             {
                 ImageFormat imageFormat;
@@ -102,6 +102,12 @@ namespace Api.Services
             unitOfWork.Save();
             return true;
         }
+        
+        public ICollection<Product> GetUnmoderatedProducts()
+        {
+            ICollection<Product> unmoderatedProducts = unitOfWork.ProductRepository.Find(p=>p.Moderated == false).ToList();
+            return unmoderatedProducts;
+        }
 
         public int AcceptProduct(int productId)
         {
@@ -113,10 +119,37 @@ namespace Api.Services
             return productToUpdate.ProductId;
         }
 
+        public ICollection<ProductImage> GetImagesFromProductId(int productId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(c => c.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                return null;
+            }
+            ICollection<ProductImage> productImage = unitOfWork.ProductImagesRepository.Find(c => c.Product.ProductId == productId).ToList();
+            return DownloadImages(productImage);
+        }
+
+        private ICollection<ProductImage> DownloadImages(ICollection<ProductImage> productImages)
+        {
+            foreach (var productImage in productImages)
+            {
+                var webClient = new WebClient();
+                byte[] imageBytes = webClient.DownloadData(productImage.ImagePath);
+                productImage.Image = imageBytes;
+            }
+            return productImages;
+        }
+
         public void Dispose()
         {
             unitOfWork.Dispose();
         }
 
+        public Product GetProduct(int productId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p=>p.ProductId == productId).FirstOrDefault();
+            return product;
+        }
     }
 }
