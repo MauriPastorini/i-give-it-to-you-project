@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 
 import com.product.whitewalkers.veniporelyestuyo.R;
 
+import java.util.ArrayList;
+
+import Domain.Product;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,8 +65,8 @@ public class ProductFilters extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface IProductFilter {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void updateProductList(ArrayList<Product> productList);
     }
 }

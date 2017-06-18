@@ -13,12 +13,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import Domain.Product;
+import layout.ProductFilters;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ProductFilters.IProductFilter {
 
     private GoogleMap mMap;
 
     ArrayList<Product> productsToShow = new ArrayList<Product>();
+
+    public void updateProductList(ArrayList<Product> productList){
+        productsToShow = productList;
+        //ToDo Actualizar mapa segun la nueva lista. 
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
