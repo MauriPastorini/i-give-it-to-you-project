@@ -178,5 +178,18 @@ namespace VeniPorEl.Controllers
             }
             return Ok(unmoderatedProducts);
         }
+
+        [HttpGet]
+        [Route("Category/{categoryId}")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetProductsByCategory(int categoryId)
+        {
+            ICollection<Product> productsByCategory = productService.GetProductsByCategory(categoryId);
+            if (productsByCategory == null)
+            {
+                return NotFound();
+            }
+            return Ok(productsByCategory);
+        }
     }
 }

@@ -30,6 +30,10 @@ public class ApiServerConstant {
         return ApiServerConstant.apiUrl + "Product/" + idProduct + "/Accept";
     }
 
+    public static String getProductsByCategory(int categoryId){
+        return ApiServerConstant.apiUrl + "Product/Category" + categoryId;
+    }
+
     public static String deleteProductUri(int idProduct){
         return ApiServerConstant.apiUrl + "Product/" + idProduct;
     }

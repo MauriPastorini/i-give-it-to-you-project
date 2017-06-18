@@ -17,6 +17,7 @@ namespace Api.Services
         void DeleteProduct(int productId);
         ICollection<ProductImage> GetImagesFromProductId(int productId);
         Product GetProduct(int productId);
+        ICollection<Product> GetProductsByCategory(int categoryId);
 
     }
 }
