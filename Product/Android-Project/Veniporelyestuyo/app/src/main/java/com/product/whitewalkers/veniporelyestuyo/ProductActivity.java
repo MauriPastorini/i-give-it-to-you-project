@@ -13,7 +13,7 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        callLoadFragment();
+        loadInfoProductFragment();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
     }
 
 
-    private void callLoadFragment(){
+    private void loadInfoProductFragment(){
         ProductFragment bottomPictureFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.productInfoFragment);
         bottomPictureFragment.setProductInfo(1);
     }

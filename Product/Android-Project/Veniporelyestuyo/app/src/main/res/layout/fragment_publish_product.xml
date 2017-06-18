@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.product.whitewalkers.veniporelyestuyo.PublishProductActivity"
+    tools:context="com.product.whitewalkers.veniporelyestuyo.PublishProductFragment"
     android:weightSum="1">
 
     <Space
@@ -87,6 +87,7 @@
             android:id="@+id/productState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#000000"
             android:entries="@array/states_array" />
 
         <Space
@@ -116,7 +117,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.10" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,8 +146,6 @@
                 android:text="@string/takePhoto3Text"
                 tools:text="@string/takePhoto3Text" />
         </LinearLayout>
-
-
         <Button
             android:id="@+id/btnContinuar"
             android:layout_width="match_parent"
@@ -155,19 +153,5 @@
             android:layout_weight="0.10"
             android:text="@string/continueText"
             tools:text="@string/continueText" />
-
-
     </LinearLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/colorSecondary"
-        app:itemTextColor="@color/colorSecondary"/>
-
 </LinearLayout>
