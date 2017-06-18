@@ -25,7 +25,7 @@ import Domain.Product;
  */
 public class ProductFilters extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private IProductFilter mListener;
 
     public ProductFilters() {
         // Required empty public constructor
@@ -47,8 +47,8 @@ public class ProductFilters extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof IProductFilter) {
+            mListener = (IProductFilter) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

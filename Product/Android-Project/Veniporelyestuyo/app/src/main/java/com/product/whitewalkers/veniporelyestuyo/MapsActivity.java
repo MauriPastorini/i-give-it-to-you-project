@@ -23,7 +23,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void updateProductList(ArrayList<Product> productList){
         productsToShow = productList;
-        //ToDo Actualizar mapa segun la nueva lista. 
+        //ToDo Actualizar mapa segun la nueva lista.
     }
 
     @Override
