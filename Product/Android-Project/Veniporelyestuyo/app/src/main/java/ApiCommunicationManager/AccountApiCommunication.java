@@ -65,4 +65,10 @@ public class AccountApiCommunication {
                 .getDefaultSharedPreferences(context);
         return settings.getString("Token", "error");
     }
+
+    public ResponseHttp aproveDenyAccount(Account account) throws IOException, JSONException {
+        String data = account.GetAsJSON().toString();
+        ResponseHttp responseHttp = new ConnectionHandler().putData(ApiServerConstant.accountAproveUri, ConnectionHandler.Content_Type.JSON, data);
+        return responseHttp;
+    }
 }

@@ -115,6 +115,11 @@ public class ConnectionHandler {
         return connectAndGetResponse(data, con);
     }
 
+    public ResponseHttp putData(String url, Content_Type content_type, String data) throws IOException, JSONException{
+        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.PUT, content_type);
+        return connectAndGetResponse(data, con);
+    }
+
     public ResponseHttp getData(String url, Content_Type content_type) throws IOException, JSONException{
         HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.GET, content_type);
         return connectAndGetResponse(null, con);
