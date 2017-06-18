@@ -2,71 +2,122 @@ package layout;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.product.whitewalkers.veniporelyestuyo.R;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
+import ApiCommunicationManager.ProductApiCommunication;
 import Domain.Product;
+import Domain.ResponseAsyncTask;
+import Domain.ResponseHttp;
+import MyStaticElements.LogRegistration;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ProductFilters.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProductFilters#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProductFilters extends Fragment {
 
-    private IProductFilter mListener;
+    private IProductFilter iProductFilter;
+    ArrayList<Product> productsByCategory;
 
+    public interface IProductFilter {
+        // TODO: Update argument type and name
+        void updateProductList(ArrayList<Product> productList);
+    }
     public ProductFilters() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-    */
-    // TODO: Rename and change types and number of parameters
-    public static ProductFilters newInstance() {
-        ProductFilters fragment = new ProductFilters();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    View view;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_product_filters, container, false);
+
+        return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof IProductFilter) {
-            mListener = (IProductFilter) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        try {
+            iProductFilter = (ProductFilters.IProductFilter) context;
+        }catch (ClassCastException ex){
+            throw ex;
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface IProductFilter {
-        // TODO: Update argument type and name
-        void updateProductList(ArrayList<Product> productList);
+    private void loadProductsList(int categoryId){
+        Integer[] params = new Integer[1];
+        params[0] =categoryId;
+
+        new ProductByCategoryTask(categoryId).execute();
+    }
+
+    private void updateActivityList(){
+        iProductFilter.updateProductList(productsByCategory);
+    }
+
+    private class ProductByCategoryTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
+
+        private Context mContext;
+        private int categoryId;
+
+        public ProductByCategoryTask (int categoryIdIN){
+            categoryId = categoryIdIN;
+            mContext = getActivity();
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected ResponseAsyncTask doInBackground(Void... params) {
+             
+            ResponseHttp response;
+            try{
+                response = new ProductApiCommunication().getProductsByCategory(categoryId);
+            } catch (IOException ioEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
+            }
+            catch (JSONException jsonEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,jsonEx);
+            }
+            return new ResponseAsyncTask<ResponseHttp>(ResponseAsyncTask.TypeResponse.OK,response);
+        }
+
+        @Override
+        protected void onPostExecute(ResponseAsyncTask result) {
+            if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
+                Toast.makeText(mContext,"Error en cargar los productos: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
+                return;
+            }
+            else{
+                ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    productsByCategory = (ArrayList<Product>) responseHttp.getMessageObject();
+                    updateActivityList();
+                } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
+                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
+                }
+                return;
+            }
+        }
     }
 }
+
+
+
