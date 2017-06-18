@@ -24,6 +24,20 @@ public class ApiServerConstant {
 
     public static String productStateApiUri = ApiServerConstant.apiUrl + "ProductState";
 
+    public static String getUnmoderatedProductsUri = ApiServerConstant.apiUrl + "Product/Unmoderated";
+
+    public static String acceptProductUri(int idProduct){
+        return ApiServerConstant.apiUrl + "Product/" + idProduct + "/Accept";
+    }
+
+    public static String getProductsByCategory(int categoryId){
+        return ApiServerConstant.apiUrl + "Product/Category" + categoryId;
+    }
+
+    public static String deleteProductUri(int idProduct){
+        return ApiServerConstant.apiUrl + "Product/" + idProduct;
+    }
+
     public static String productPostPhotoUri(int idProduct){
         return ApiServerConstant.apiUrl + "Product/" + idProduct;
     }

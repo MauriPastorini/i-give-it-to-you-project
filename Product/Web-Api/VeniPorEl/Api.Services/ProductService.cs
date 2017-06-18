@@ -109,6 +109,12 @@ namespace Api.Services
             return unmoderatedProducts;
         }
 
+        public ICollection<Product> GetProductsByCategory(int categoryId)
+        {
+            ICollection<Product> productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId).ToList();
+            return productsByCategory;
+        }
+
         public int AcceptProduct(int productId)
         {
             Product productToUpdate = unitOfWork.ProductRepository.Get(productId);

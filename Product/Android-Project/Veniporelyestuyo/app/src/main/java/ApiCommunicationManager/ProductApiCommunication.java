@@ -148,6 +148,17 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
+    public ResponseHttp getProductsByCategory(int categoryId) throws IOException, JSONException{
+        ResponseHttp responseHttpProductsByCategory = new ConnectionHandler().getData(ApiServerConstant.getProductsByCategory(categoryId), ConnectionHandler.Content_Type.JSON);
+        if (responseHttpProductsByCategory.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpProductsByCategory;
+        }
+        List<Product> productsByCategory = decodeResponseProductList(responseHttpProductsByCategory.getMessage());
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        finalResponse.setMessageObject(productsByCategory);
+        return finalResponse;
+    }
+
     private List<Product> decodeResponseProductList(String message)throws JSONException{
         JSONArray productsToDecode = new JSONArray(message);
         List<Product> decodedProducts = new ArrayList<Product>();
