@@ -42,3 +42,26 @@ C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.csproj.GenerateResource.Cache
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.dll
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.Access.dll.config
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.Access.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.Access.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.SqlServer.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Newtonsoft.Json.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Net.Http.Formatting.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Web.Cors.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Web.Http.Cors.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Web.Http.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Data.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\EntityFramework.SqlServer.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\Newtonsoft.Json.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Net.Http.Formatting.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Web.Http.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\System.Web.Http.Cors.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.csprojResolveAssemblyReference.cache
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.Properties.Resources.resources
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.csproj.GenerateResource.Cache
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.pdb

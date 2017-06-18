@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import Domain.Product;
 import Domain.ResponseHttp;
@@ -114,6 +115,47 @@ public class ProductApiCommunication{
         ResponseHttp finalResponse = new ResponseHttp(200);
         finalResponse.setMessageObject(product);
         return finalResponse;
+    }
+
+    public ResponseHttp acceptProduct(int productId) throws IOException, JSONException{
+        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().postData(ApiServerConstant.acceptProductUri(productId), ConnectionHandler.Content_Type.JSON,null);
+        if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpAcceptProduct;
+        }
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        return finalResponse;
+    }
+
+    public ResponseHttp deleteProduct(int productId) throws IOException, JSONException{
+        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().deleteData(ApiServerConstant.deleteProductUri(productId), ConnectionHandler.Content_Type.JSON);
+        if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpAcceptProduct;
+        }
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        return finalResponse;
+    }
+
+    public ResponseHttp getUnmoderatedProducts() throws IOException, JSONException{
+        ResponseHttp responseHttpUnmoderatedProducts = new ConnectionHandler().getData(ApiServerConstant.getUnmoderatedProductsUri, ConnectionHandler.Content_Type.JSON);
+        if (responseHttpUnmoderatedProducts.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpUnmoderatedProducts;
+        }
+        List<Product> unmoderatedProducts = decodeResponseProductList(responseHttpUnmoderatedProducts.getMessage());
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        finalResponse.setMessageObject(unmoderatedProducts);
+        return finalResponse;
+    }
+
+    private List<Product> decodeResponseProductList(String message)throws JSONException{
+        JSONArray productsToDecode = new JSONArray(message);
+        List<Product> decodedProducts = new ArrayList<Product>();
+
+        for (int currentProduct = 0; currentProduct <productsToDecode.length() ; currentProduct++) {
+            JSONObject currentProductJSON = productsToDecode.getJSONObject(currentProduct);
+            Product currentProductObj = decodeMessageToProduct(currentProductJSON.toString());
+            decodedProducts.add(currentProductObj);
+        }
+        return decodedProducts;
     }
 
     private void loadProductPhotos(Product product, String message) throws JSONException{

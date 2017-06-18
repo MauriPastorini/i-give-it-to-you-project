@@ -102,8 +102,39 @@ namespace Api.Services
             unitOfWork.Save();
             return true;
         }
+        
+        public ICollection<Product> GetUnmoderatedProducts()
+        {
+            ICollection<Product> unmoderatedProducts = unitOfWork.ProductRepository.Find(p=>p.Moderated == false).ToList();
+            return unmoderatedProducts;
+        }
 
-        public ICollection<ProductImage> GetImagesFromProductId(int productId)
+        public int AcceptProduct(int productId)
+        {
+            Product productToUpdate = unitOfWork.ProductRepository.Get(productId);
+            if (productToUpdate == null)
+                throw new ArgumentException("Product Not Found");
+            productToUpdate.Moderated = true;
+            unitOfWork.Save();
+            return productToUpdate.ProductId;
+        }
+
+
+        public void DeleteProduct(int productId)
+        {
+            Product productToUpdate = unitOfWork.ProductRepository.Get(productId);
+            if (productToUpdate == null)
+                throw new ArgumentException("Product Not Found");
+            ICollection<ProductImage> productImages = unitOfWork.ProductImagesRepository.Find(image => image.Product.ProductId == productId).ToList();
+            foreach (var productImage in productImages)
+            {
+                unitOfWork.ProductImagesRepository.Remove(productImage);
+            }
+            unitOfWork.ProductRepository.Remove(productToUpdate);
+            unitOfWork.Save();
+        }
+
+            public ICollection<ProductImage> GetImagesFromProductId(int productId)
         {
             Product product = unitOfWork.ProductRepository.Find(c => c.ProductId == productId).FirstOrDefault();
             if (product == null)

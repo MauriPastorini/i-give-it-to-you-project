@@ -50,7 +50,7 @@ namespace VeniPorEl.Controllers
 
 
         [HttpPost]
-        [Route("{productId}")]
+        [Route("{productId}/Image")]
         [ResponseType(typeof(ImageModel))]
         public IHttpActionResult UploadProductImage(int productId, ImageModel imageModel)
         {
@@ -74,10 +74,55 @@ namespace VeniPorEl.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("{productId}/Accept")]
+        [ResponseType(typeof(ProductModel))]
+        public IHttpActionResult AcceptProduct(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                productService.AcceptProduct(productId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("{productId}")]
+        [ResponseType(typeof(ProductModel))]
+        public IHttpActionResult DeleteProduct(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                productService.DeleteProduct(productId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
         [HttpGet]
         [Route("{productId}/photo")]
         [ResponseType(typeof(ICollection<ImageModel>))]
         public IHttpActionResult GetProductImage(int productId)
+
         {
             if (productId == 0)
             {
@@ -118,6 +163,20 @@ namespace VeniPorEl.Controllers
                 return NotFound();
             }
             return Ok(product);
+
+        }
+
+        [HttpGet]
+        [Route("Unmoderated")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetUnmoderatedProducts()
+        {
+            ICollection<Product> unmoderatedProducts = productService.GetUnmoderatedProducts();
+            if (unmoderatedProducts == null)
+            {
+                return NotFound();
+            }
+            return Ok(unmoderatedProducts);
         }
     }
 }
