@@ -14,6 +14,7 @@ namespace Api.Services
         bool AddImageToProduct(int productId, string imageName, byte[] imageByteArray);
         ICollection<Product> GetUnmoderatedProducts();
         int AcceptProduct(int productId);
+        void DeleteProduct(int productId);
         ICollection<ProductImage> GetImagesFromProductId(int productId);
         Product GetProduct(int productId);
 

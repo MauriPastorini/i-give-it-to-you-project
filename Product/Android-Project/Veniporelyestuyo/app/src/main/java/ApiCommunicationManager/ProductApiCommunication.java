@@ -117,6 +117,24 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
+    public ResponseHttp acceptProduct(int productId) throws IOException, JSONException{
+        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().postData(ApiServerConstant.acceptProductUri(productId), ConnectionHandler.Content_Type.JSON,null);
+        if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpAcceptProduct;
+        }
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        return finalResponse;
+    }
+
+    public ResponseHttp deleteProduct(int productId) throws IOException, JSONException{
+        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().deleteData(ApiServerConstant.deleteProductUri(productId), ConnectionHandler.Content_Type.JSON);
+        if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpAcceptProduct;
+        }
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        return finalResponse;
+    }
+
     public ResponseHttp getUnmoderatedProducts() throws IOException, JSONException{
         ResponseHttp responseHttpUnmoderatedProducts = new ConnectionHandler().getData(ApiServerConstant.getUnmoderatedProductsUri, ConnectionHandler.Content_Type.JSON);
         if (responseHttpUnmoderatedProducts.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){

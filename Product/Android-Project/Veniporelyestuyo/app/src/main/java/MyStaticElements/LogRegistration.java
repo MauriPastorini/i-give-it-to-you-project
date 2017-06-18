@@ -9,7 +9,7 @@ import android.util.Log;
 public class LogRegistration {
     private static final String TAG = "myLogMessageTag";
 
-    public enum TypeLog{
+    public static enum TypeLog{
         STEP,EXCEPTION, ERROR
     }
 

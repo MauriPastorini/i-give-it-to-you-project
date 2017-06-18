@@ -32,27 +32,6 @@ C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll.config
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll.config
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll.config
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.Properties.Resources.resources
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb

@@ -1,6 +1,7 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -94,6 +95,8 @@ public class LoginActivity extends AppCompatActivity {
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    Intent myIntent = new Intent(LoginActivity.this, ModerateProductsActivity.class);
+                    LoginActivity.this.startActivity(myIntent);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
                     Toast.makeText(mContext,"Usuario o contraseña incorrecta ",Toast.LENGTH_LONG).show();
                     Log.i(TAG, responseHttp.getMessage().toString());

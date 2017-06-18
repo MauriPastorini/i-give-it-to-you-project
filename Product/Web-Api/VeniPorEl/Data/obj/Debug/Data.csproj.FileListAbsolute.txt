@@ -19,25 +19,6 @@ C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csproj.GenerateResource.Cache
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll.config
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.pdb
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.SqlServer.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Newtonsoft.Json.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Net.Http.Formatting.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Cors.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.Cors.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\EntityFramework.SqlServer.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Newtonsoft.Json.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Net.Http.Formatting.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.Cors.xml
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
-C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll.config
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.dll
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data\bin\Debug\Data.pdb

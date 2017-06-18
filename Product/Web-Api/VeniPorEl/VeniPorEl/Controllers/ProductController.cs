@@ -50,7 +50,7 @@ namespace VeniPorEl.Controllers
 
 
         [HttpPost]
-        [Route("{productId}")]
+        [Route("{productId}/Image")]
         [ResponseType(typeof(ImageModel))]
         public IHttpActionResult UploadProductImage(int productId, ImageModel imageModel)
         {
@@ -76,7 +76,7 @@ namespace VeniPorEl.Controllers
 
 
         [HttpPost]
-        [Route("{productId}")]
+        [Route("{productId}/Accept")]
         [ResponseType(typeof(ProductModel))]
         public IHttpActionResult AcceptProduct(int productId)
         {
@@ -87,6 +87,28 @@ namespace VeniPorEl.Controllers
             try
             {
                 productService.AcceptProduct(productId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("{productId}")]
+        [ResponseType(typeof(ProductModel))]
+        public IHttpActionResult DeleteProduct(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                productService.DeleteProduct(productId);
                 return Ok();
             }
             catch (ArgumentException ex)
