@@ -249,7 +249,7 @@ public class PublishProductFragment extends Fragment {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en cargar categorías: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en publicar producto: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }

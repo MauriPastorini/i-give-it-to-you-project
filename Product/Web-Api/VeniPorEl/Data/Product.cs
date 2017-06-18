@@ -15,11 +15,12 @@ namespace Data
         public ProductState State { get; set; }
         public Location Location { get; set; }
         public List<ProductImage> ProductImages { get; set; }
-
-
+        public bool Moderated { get; set; }
+        
         private Product()
         {
             ProductImages = new List<ProductImage>();
+            Moderated = false;
         }
 
         private Product(string name, Category category, ProductState state, Location location)
@@ -29,6 +30,7 @@ namespace Data
             State = state;
             Location = location;
             ProductImages = new List<ProductImage>();
+            Moderated = false;
         }
 
         public static Product CreateWithNameCategoryStateLocation(string name, Category category, ProductState state, Location location)

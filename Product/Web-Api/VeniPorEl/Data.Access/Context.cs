@@ -52,13 +52,20 @@ namespace Data.Access
 
         private void CreateDefaultCategories()
         {
-            var path = Properties.Resources.CategoryTextDefault;
-            string[] lines = System.IO.File.ReadAllLines(path);
-            foreach (string line in lines)
+            try
             {
-                Category defaultCategory = Category.CreateWithName(line);
+                var path = Properties.Resources.CategoryTextDefault;
+                string[] lines = System.IO.File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    Category defaultCategory = Category.CreateWithName(line);
+                    Categories.Add(defaultCategory);
+                }
+            }catch (DirectoryNotFoundException)
+            {
+                Category defaultCategory = Category.CreateWithName("Tecnologia");
                 Categories.Add(defaultCategory);
-            }        
+            }   
             
         }
     }

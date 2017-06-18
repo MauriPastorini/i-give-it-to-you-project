@@ -94,7 +94,7 @@ public class ConnectionHandler {
     private static HttpURLConnection createConnectionForUrlVerbAndContentType(String url, Verb verb, Content_Type content_type) throws IOException {
         URL object=new URL(url);
         HttpURLConnection con = (HttpURLConnection)object.openConnection();
-        if(verb != Verb.GET){
+        if(verb != Verb.GET && verb != Verb.DELETE){
             con.setDoOutput(true);
         }
         con.setDoInput(true);
@@ -117,6 +117,11 @@ public class ConnectionHandler {
 
     public ResponseHttp getData(String url, Content_Type content_type) throws IOException, JSONException{
         HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.GET, content_type);
+        return connectAndGetResponse(null, con);
+    }
+
+    public ResponseHttp deleteData(String url, Content_Type content_type) throws IOException, JSONException{
+        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.DELETE, content_type);
         return connectAndGetResponse(null, con);
     }
 
