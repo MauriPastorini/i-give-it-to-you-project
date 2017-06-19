@@ -94,10 +94,10 @@ public class PublishProductFragment extends Fragment {
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, prouctStateOptions); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        runTherD(spinnerStates,spinnerArrayAdapter);
+        fillSpinners(spinnerStates,spinnerArrayAdapter);
     }
 
-    private void runTherD(final Spinner spinnerStates, final ArrayAdapter<String> spinnerArrayAdapter) {
+    private void fillSpinners(final Spinner spinnerStates, final ArrayAdapter<String> spinnerArrayAdapter) {
         spinnerStates.setAdapter(spinnerArrayAdapter);
     }
 
@@ -157,7 +157,7 @@ public class PublishProductFragment extends Fragment {
         Spinner spinnerCategory = (Spinner) view.findViewById(R.id.productCategory);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, categoriesOptions); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        runTherD(spinnerCategory,spinnerArrayAdapter);
+        fillSpinners(spinnerCategory,spinnerArrayAdapter);
     }
 
     //Images Logic

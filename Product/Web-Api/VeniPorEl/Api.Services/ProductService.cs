@@ -111,7 +111,16 @@ namespace Api.Services
 
         public ICollection<Product> GetProductsByCategory(int categoryId)
         {
-            ICollection<Product> productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId).ToList();
+            ICollection<Product> productsByCategory = null;
+            if (categoryId!=0)
+            {
+                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId && p.Moderated == true).ToList();
+            }
+            else
+            {
+                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Moderated == true).ToList();
+            }
+          
             return productsByCategory;
         }
 

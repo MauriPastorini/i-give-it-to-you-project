@@ -199,10 +199,12 @@ public class ProductApiCommunication{
         JSONObject productJson = new JSONObject(message);
         product.id = productJson.getInt("productId");
         product.name = productJson.getString("name");
-        product.categoryId = productJson.getJSONObject("category").getInt("categoryId");
-        product.categoryName = productJson.getJSONObject("category").getString("categoryId");
+        product.categoryId = productJson.getInt("categoryId");
+        //product.categoryName = productJson.getJSONObject("category").getString("name");
         product.stateId = productJson.getJSONObject("state").getInt("productStateId");
-        product.stateName = productJson.getJSONObject("category").getString("categoryId");
+        product.stateName = productJson.getJSONObject("state").getString("name");
+        product.latitude = productJson.getJSONObject("location").getDouble("latitude");
+        product.longitude = productJson.getJSONObject("location").getDouble("longitude");
         return product;
     }
 }

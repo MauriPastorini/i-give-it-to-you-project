@@ -14,8 +14,8 @@ namespace Data
         public const int MIN_LONGITUDE = -180;
 
 
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         private Location() { }
 
