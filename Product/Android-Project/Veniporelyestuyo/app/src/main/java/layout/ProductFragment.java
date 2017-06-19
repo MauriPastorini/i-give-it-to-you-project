@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,11 +57,15 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product, container, false);
         changeVisibility(View.INVISIBLE, view);
+        loadButtonListener();
         return view;
     }
 
+    private int productId;
+
     //Call from activity
     public void setProductInfo(int productId){
+        this.productId = productId;
         setProductData(productId);
     }
 
@@ -146,5 +151,19 @@ public class ProductFragment extends Fragment {
         imgViewPhoto2.setImageBitmap(product.image2);
         ImageView imgViewPhoto3 = (ImageView) view.findViewById(R.id.imgViewPhoto3);
         imgViewPhoto3.setImageBitmap(product.image1);
+    }
+
+    private void loadButtonListener() {
+        Button btnSignOut = (Button)view.findViewById(R.id.btnSignOut);
+        btnSignOut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                try {
+                    new ProductApiCommunication().registerSolicitude(productId, getActivity());
+                }catch (Exception ex){
+                    LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,ex.toString());
+                }
+            }
+        });
     }
 }

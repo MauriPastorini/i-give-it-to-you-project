@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -180,6 +181,45 @@ namespace Api.Services
         {
             Product product = unitOfWork.ProductRepository.Find(p=>p.ProductId == productId).FirstOrDefault();
             return product;
+        }
+
+        public void CreateSolicitudeForProduct(int productId, int accountId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            String emailUserWhoWantIt = new UserService().GetById(accountId).Email;
+            User user = new UserService().GetById(product.UserId);
+            String emailUserProduct = user.Email;
+
+            SendEmail(product,emailUserProduct,"Quieren tu producto!", "Felicitaciones! Quieren tu producto: " + product.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu solicitud", "Felicitaciones! A la brevedad la persona se pondra en contacto contigo. Contacto: " + user.ToString());
+
+        }
+
+        private static void SendEmail(Product product, String email, String subject, String message)
+        {
+
+            String emailVeni = "venisyestuyo@gmail.com";
+            String emailPass = "venis1234";
+
+        
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress(emailVeni);
+                mail.To.Add(email);
+                mail.Subject = subject;
+                mail.Body =message;
+                mail.IsBodyHtml = true;
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential(emailVeni, emailPass);
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
         }
     }
 }

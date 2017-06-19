@@ -19,6 +19,7 @@ namespace VeniPorEl.Controllers
             stateService = new ProductStateService();
         }
 
+        [Authorize(Roles = "Admin, Normal")]
         public IHttpActionResult GetAll()
         {
             try

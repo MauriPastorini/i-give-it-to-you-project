@@ -30,6 +30,8 @@ namespace VeniPorEl.Models
         [Display(Name = "LocationLongitude")]
         public int Longitude { get; set; }
 
-
+        [Required]
+        [Display(Name = "UserId")]
+        public int UserId { get; set; }
     }
 }

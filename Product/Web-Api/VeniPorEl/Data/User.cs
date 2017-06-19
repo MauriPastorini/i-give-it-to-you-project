@@ -45,18 +45,22 @@ namespace Data
             }
         }
 
+        public bool IsModerated { get; set; }
+        public virtual List<Product> Product { get; set; }
+
         private User() { }
 
-        private User(string name, string email, string pass, IRole role)
+        private User(string name, string email, string pass, IRole role, bool isModerated)
         {
             UserName = name;
             Email = email;
             Pass = pass;
             Role = role;
             RoleId = role.RoleId;
+            IsModerated = isModerated;
         }
 
-        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role)
+        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role, bool isModerated)
         {
             if(!IsNameCorrect(name))
             {
@@ -72,7 +76,7 @@ namespace Data
             }
             else
             {
-                return new User(name, email, pass, role);
+                return new User(name, email, pass, role, isModerated);
             }
         }
 
@@ -122,6 +126,11 @@ namespace Data
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return "User Name" + this.UserName + "Email: " + this.Email + ". ";
         }
     }
 }

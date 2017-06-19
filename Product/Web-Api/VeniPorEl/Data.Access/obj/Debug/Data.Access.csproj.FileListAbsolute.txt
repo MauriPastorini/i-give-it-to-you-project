@@ -89,3 +89,5 @@ C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\
 C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.csproj.GenerateResource.Cache
 C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.dll
 C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Access\obj\Debug\Data.Access.pdb
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\es\System.Net.Http.Formatting.resources.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Access\bin\Debug\es\System.Web.Http.resources.dll

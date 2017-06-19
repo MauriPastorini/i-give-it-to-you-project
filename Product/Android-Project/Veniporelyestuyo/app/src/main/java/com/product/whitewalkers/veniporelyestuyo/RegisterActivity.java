@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
             String password = params[2];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postAccount(new Account(username, email, password));
+                response = new AccountApiCommunication().postAccount(new Account(0, username, email, password, false));
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

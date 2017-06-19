@@ -107,7 +107,7 @@ public class ProductFilters extends Fragment {
              
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().getProductsByCategory(categoryId);
+                response = new ProductApiCommunication().getProductsByCategory(categoryId, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -152,7 +152,7 @@ public class ProductFilters extends Fragment {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                response = new CategoryApiCommunication().getCategories();
+                response = new CategoryApiCommunication().getCategories(mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

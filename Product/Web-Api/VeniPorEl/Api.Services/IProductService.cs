@@ -18,6 +18,7 @@ namespace Api.Services
         ICollection<ProductImage> GetImagesFromProductId(int productId);
         Product GetProduct(int productId);
         ICollection<Product> GetProductsByCategory(int categoryId);
+        void CreateSolicitudeForProduct(int productId, int accountId);
 
     }
 }

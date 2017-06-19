@@ -9,14 +9,16 @@ namespace Data
     public class Product
     {
 
-        public int  ProductId { get; set; }
+        public int ProductId { get; set; }
         public string Name { get; set; }
         public Category Category { get; set; }
         public ProductState State { get; set; }
         public Location Location { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public bool Moderated { get; set; }
-        
+        public virtual User User { get; set; }
+        public int UserId { get; set; }
+
         private Product()
         {
             ProductImages = new List<ProductImage>();
@@ -35,11 +37,11 @@ namespace Data
 
         public static Product CreateWithNameCategoryStateLocation(string name, Category category, ProductState state, Location location)
         {
-            if(!IsNameCorrect(name) || !IsCategoryCorrect(category) || !IsProductStateCorrect(state) || !IsLocationCorrect(location))
+            if (!IsNameCorrect(name) || !IsCategoryCorrect(category) || !IsProductStateCorrect(state) || !IsLocationCorrect(location))
             {
                 throw new ArgumentException("Product creation argument error!");
             }
-            return new Product(name, category,state, location);
+            return new Product(name, category, state, location);
         }
 
         private static bool IsNameCorrect(string name)
@@ -60,6 +62,10 @@ namespace Data
         private static bool IsLocationCorrect(Location location)
         {
             return location != null;
+        }
+
+        public override string ToString() {
+            return "Name: " + this.Name + ". " + "Categoria: " + this.Category;
         }
 
     }

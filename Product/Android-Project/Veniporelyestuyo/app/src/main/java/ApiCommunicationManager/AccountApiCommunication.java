@@ -5,10 +5,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import Domain.Account;
 import Domain.ResponseHttp;
@@ -21,13 +24,13 @@ public class AccountApiCommunication {
 
     public ResponseHttp postAccount(Account account) throws JSONException, IOException{
         String data = account.GetAsJSON().toString();
-        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostUri, ConnectionHandler.Content_Type.JSON, data);
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostUri, ConnectionHandler.Content_Type.JSON, data, null);
         return responseHttp;
     }
 
     public ResponseHttp postToken(Account account, Context context) throws JSONException, IOException {
         String data = createPostUrlEncoded(account);
-        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data);
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data, null);
         if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
             saveToken(responseHttp.getMessage(), context);
         }
@@ -90,11 +93,51 @@ public class AccountApiCommunication {
         return settings.getString(key, "error");
     }
 
-    public Account getAccountInformation(Context context){
+    public Account getAccountInformation(Context context) {
         String name = getFromSharedPreference("name", context);
         String email = getFromSharedPreference("email", context);
 
         Account account = new Account(name, email);
         return account;
+    }
+
+    public ResponseHttp setAsAdminAccount(Account account, Context context) throws IOException, JSONException {
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountSetAsAdminUri(account.getId()), ConnectionHandler.Content_Type.JSON, account.GetAsJSON().toString(), getToken(context));
+        return responseHttp;
+    }
+
+    public ResponseHttp deleteAccount(Account account, Context context) throws IOException, JSONException {
+        String data = account.GetAsJSON().toString();
+        ResponseHttp responseHttp = new ConnectionHandler().deleteData(ApiServerConstant.accountDeleteUri(account.getId()), ConnectionHandler.Content_Type.JSON, data, getToken(context));
+        return responseHttp;
+    }
+
+    public ResponseHttp getUnmoderatedUsers(Context context) throws IOException, JSONException {
+        ResponseHttp responseHttp = new ConnectionHandler().getData(ApiServerConstant.accountGetUri, ConnectionHandler.Content_Type.JSON, getToken(context));
+        if (responseHttp.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttp;
+        }
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        List<Account> accounts = decodeDataToAccounts(responseHttp.getMessage());
+        finalResponse.setMessageObject(accounts);
+        return finalResponse;
+    }
+
+    private List<Account> decodeDataToAccounts(String json){
+        List<Account> result = new ArrayList<Account>();
+        try {
+            JSONArray data = new JSONArray(json);
+            for (int i = 0; i < data.length(); i++){
+                JSONObject jsonObject = data.getJSONObject(i);
+                int userId = jsonObject.getInt("userId");
+                String userName = jsonObject.getString("userName");
+                String email = jsonObject.getString("email");
+                Account a = new Account(userId, userName, email, "", false);
+                result.add(a);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

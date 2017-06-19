@@ -243,3 +243,6 @@ C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\Ve
 C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.csproj.GenerateResource.Cache
 C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.dll
 C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.pdb
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\bin\es\System.Web.Http.resources.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\VeniPorEl\bin\es\System.Web.Http.WebHost.resources.dll

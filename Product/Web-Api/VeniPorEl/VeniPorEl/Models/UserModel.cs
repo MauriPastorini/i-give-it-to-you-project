@@ -8,6 +8,10 @@ namespace VeniPorEl.Models
 {
     public class UserModel
     {
+
+        [Display(Name = "User identifier")]
+        public string UserId { get; set; }
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -27,6 +31,9 @@ namespace VeniPorEl.Models
         [Display(Name ="Confirm password")]
         [Compare("Password", ErrorMessage ="The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Is user admin")]
+        public bool IsAdmin { get; set; }
 
     }
 }
