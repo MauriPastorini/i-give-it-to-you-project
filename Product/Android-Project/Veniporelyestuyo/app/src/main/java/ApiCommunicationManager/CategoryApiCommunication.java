@@ -1,5 +1,6 @@
 package ApiCommunicationManager;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import org.json.JSONArray;
@@ -20,8 +21,9 @@ import Domain.ResponseHttp;
 public class CategoryApiCommunication {
     private static final String TAG = "myLogMessageTag";
 
-    public ResponseHttp getCategories() throws JSONException, IOException {
-        ResponseHttp response = new ConnectionHandler().getData(ApiServerConstant.categoryGetUri, ConnectionHandler.Content_Type.JSON);
+    public ResponseHttp getCategories(Context context) throws JSONException, IOException {
+        String token = (new AccountApiCommunication()).getToken(context);
+        ResponseHttp response = new ConnectionHandler().getData(ApiServerConstant.categoryGetUri, ConnectionHandler.Content_Type.JSON, token);
         ArrayList<Category> categories = getCategoriesFromJsonString(response.getMessage());
         ResponseHttp finalResponse = new ResponseHttp(200);
         finalResponse.setMessageObject(categories);
