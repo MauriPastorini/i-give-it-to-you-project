@@ -17,25 +17,19 @@ import Domain.ProductState;
  */
 
 public class ProductStateApiCommunication {
-    private static final String TAG = "myLogMessageTag";
 
-    public ArrayList<ProductState> getProductState() throws JSONException, IOException {
-        Log.i(TAG, "Comenzando get products");
+    ArrayList<ProductState> states = new ArrayList<>();
 
-        ArrayList<ProductState> productStatesResult = new ArrayList<ProductState>();
-        String productStatesGetResult = new ConnectionHandler().getData(ApiServerConstant.productStateApiUri, ConnectionHandler.Content_Type.JSON).getMessage();
-        JSONArray productStatesArray = new JSONArray(productStatesGetResult);
+    ProductState stateNew = new ProductState("Nuevo",1);
+    ProductState stateUsed = new ProductState("Usado" ,2);
 
-        for(int i = 0; i<productStatesArray.length() ; i++){
-            JSONObject cateJson = productStatesArray.getJSONObject(i);
-            String name = cateJson.getString("Name");
-            int id = Integer.parseInt(cateJson.getString("ProductStateId"));
-            ProductState productState = new ProductState();
-            productState.setId(id);
-            productState.setName(name);
-            productStatesResult.add(productState);
-        }
-        return productStatesResult;
+    public ProductStateApiCommunication() {
+        states.add(stateNew);
+        states.add(stateUsed);
+    }
+
+    public ArrayList<ProductState> getProductState(){
+        return states;
     }
 
     public int getStateIdFromStatesCollection(String stateName, ArrayList<ProductState> productStates){

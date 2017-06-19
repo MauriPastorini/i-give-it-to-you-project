@@ -31,7 +31,7 @@ public class ApiServerConstant {
     }
 
     public static String getProductsByCategory(int categoryId){
-        return ApiServerConstant.apiUrl + "Product/Category" + categoryId;
+        return ApiServerConstant.apiUrl + "Product/Category/" + categoryId;
     }
 
     public static String deleteProductUri(int idProduct){

@@ -61,11 +61,8 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product, container, false);
         changeVisibility(View.INVISIBLE, view);
-        ProductActivity context = (ProductActivity)getActivity();
         return view;
     }
-
-
 
     //Call from activity
     public void setProductInfo(int productId){

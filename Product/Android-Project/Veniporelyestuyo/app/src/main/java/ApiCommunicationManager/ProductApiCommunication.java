@@ -18,6 +18,8 @@ import java.util.List;
 import Domain.Product;
 import Domain.ResponseHttp;
 
+import static com.product.whitewalkers.veniporelyestuyo.R.string.state;
+
 /**
  * Created by Mauri on 07-May-17.
  */
@@ -26,31 +28,31 @@ public class ProductApiCommunication{
     private static final String TAG = "myLogMessageTag";
     private Product product;
 
-    public void postProduct(Product productParm) throws JSONException, IOException{
+    public ResponseHttp postProduct(Product productParm) throws JSONException, IOException{
         Log.i(TAG, "Comenzando post product");
         product = productParm;
-        JSONObject productJson = createProductJsonData(product.name, product.categoryId, product.stateId, product.latitude, product.longitude);
+        JSONObject productJson = new JSONObject();
+        productJson.put("Name", product.name);
+        productJson.put("CategoryId", product.categoryId);
+        productJson.put("State", product.stateId);
+        productJson.put("Latitude", product.latitude);
+        productJson.put("Longitude", product.longitude);
         ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString());
-        postFunctionReturn(responseHttp);
+        if (responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
+            responseHttp = postFunctionReturn(responseHttp);
+        return responseHttp;
     }
 
-    @NonNull
-    private JSONObject createProductJsonData(String name, int category, int state, double latitude, double longitude) throws JSONException {
-        JSONObject product = new JSONObject();
-        product.put("Name", name);
-        product.put("CategoryId", category);
-        product.put("State", state);
-        product.put("Latitude", latitude);
-        product.put("Longitude", longitude);
-        return product;
-    }
-
-    public void postProductPhoto(Product product) throws JSONException, IOException{
-        Log.i(TAG, "Comenzando post photo");
+    public ResponseHttp postProductPhoto(Product product) throws JSONException, IOException{
         ArrayList<JSONObject> productsPhotosJson = createPhotosJsonData(product);
         for(int i=0; i<productsPhotosJson.size();i++){
-            new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString());
+            ResponseHttp responseAux = new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString());
+            if (responseAux.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+                return responseAux;
+            }
         }
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        return finalResponse;
     }
 
     private ArrayList<JSONObject> createPhotosJsonData(Product product) {
@@ -90,15 +92,15 @@ public class ProductApiCommunication{
         return byteArray;
     }
 
-    public void postFunctionReturn(ResponseHttp obj) throws IOException, JSONException{
+    public ResponseHttp postFunctionReturn(ResponseHttp obj) throws IOException, JSONException{
         ResponseHttp response = obj;
         String res = response.getMessage();
         res = res.replace("\n","");
         int id  = Integer.parseInt(res);
         Product actualProduct = this.product;
         actualProduct.id = id;
-        this.postProductPhoto(actualProduct);
-
+        ResponseHttp newResponse = this.postProductPhoto(actualProduct);
+        return newResponse;
     }
 
     public ResponseHttp getProductAndImages(int productId) throws IOException, JSONException {
