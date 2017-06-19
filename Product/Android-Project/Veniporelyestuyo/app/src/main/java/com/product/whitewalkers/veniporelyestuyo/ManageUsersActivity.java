@@ -1,71 +1,56 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ApiCommunicationManager.AccountApiCommunication;
 import Domain.Account;
 import Domain.ResponseAsyncTask;
 import Domain.ResponseHttp;
+import MyStaticElements.LogRegistration;
 
-public class RegisterActivity extends AppCompatActivity {
+public class ManageUsersActivity extends AppCompatActivity {
 
-    private EditText usernameTxt;
-    private EditText emailTxt;
-    private EditText passTxt;
+    ListView listview;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        usernameTxt = (EditText)findViewById(R.id.username);
-        emailTxt = (EditText)findViewById(R.id.email);
-        passTxt = (EditText)findViewById(R.id.password);
+        setContentView(R.layout.activity_manage_users);
+        listview = (ListView) findViewById(R.id.userManageList);
+        getInactiveUsers();
     }
 
-    public void registerClick(View v) {
-        String username = usernameTxt.getText().toString();
-        String email = emailTxt.getText().toString();
-        String password = passTxt.getText().toString();
-        String[] data = new String[3];
-        data[0] = username;
-        data[1] = email;
-        data[2] = password;
-        new RegisterTask(this).execute(data);
+    private void getInactiveUsers() {
+        new UnmoderatedUsersTask(this).execute();
     }
 
-    private class RegisterTask extends AsyncTask<String, Void, ResponseAsyncTask> {
+    private class UnmoderatedUsersTask extends AsyncTask<String, Void, ResponseAsyncTask> {
 
         private Context mContext;
 
-        public RegisterTask (Context context){
+        public UnmoderatedUsersTask (Context context){
             mContext = context;
         }
 
         @Override
-        protected void onPreExecute() {}
-
-        @Override
         protected ResponseAsyncTask doInBackground(String... params) {
-            String username = params[0];
-            String email = params[1];
-            String password = params[2];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postAccount(new Account(0, username, email, password, false));
+                response = new AccountApiCommunication().getUnmoderatedUsers(mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -78,17 +63,21 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en registro: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
                 return;
             }
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                List<Account> inactiveUsers = (List<Account>)responseHttp.getMessageObject();
+                if (inactiveUsers != null) {
+                    listview.setAdapter(new UsersManageListAdapter(mContext, inactiveUsers));
+                }
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    startActivity(i);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Usuario o contraseña incorrecta ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
                 }
                 return;
             }
@@ -96,5 +85,4 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 }
-
 

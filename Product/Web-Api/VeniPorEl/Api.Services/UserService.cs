@@ -23,9 +23,25 @@ namespace Api.Services
             this.UnitOfWork = uow;
         }
 
+        public void Delete(int id)
+        {
+            UnitOfWork.UsersRepository.Remove(GetById(id));
+            UnitOfWork.Save();
+        }
+
+        public User GetById(int id)
+        {
+            return UnitOfWork.UsersRepository.SingleOrDefault(u => (u.UserId == id));
+        }
+
         public User GetByUserName(string userName)
         {
             return UnitOfWork.UsersRepository.SingleOrDefault(u => (u.UserName == userName));
+        }
+
+        public ICollection<User> GetUnmoderatedUsers()
+        {
+            return UnitOfWork.UsersRepository.Find(u => (u.IsModerated == false)).ToList();
         }
 
         public void Register(User user)

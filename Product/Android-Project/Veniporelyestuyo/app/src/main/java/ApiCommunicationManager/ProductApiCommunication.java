@@ -104,11 +104,11 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp getProductAndImages(int productId) throws IOException, JSONException {
-        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
         if (responseHttpProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProduct;
         }
-        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
         if(responseHttpProductImage.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductImage;
         }
