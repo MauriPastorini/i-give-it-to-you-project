@@ -13,6 +13,8 @@ namespace Api.Services
         void Register(User user);
         User GetByUserName(string userName);
         void Update(User user);
+        ICollection<User> GetUnmoderatedUsers();
+        void Delete(int id);
 
     }
 }

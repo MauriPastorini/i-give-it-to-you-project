@@ -97,6 +97,10 @@ namespace VeniPorEl
             IdentityResult result = IdentityResult.Failed();
             if(user != null)
             {
+                if(userModel.IsAdmin)
+                {
+                    SetAsAdmin(userModel);
+                }
                 _userManager.RemovePassword(user.Id);
                 _userManager.AddPassword(user.Id, userModel.Password);
                 result = _userManager.Update(user);
