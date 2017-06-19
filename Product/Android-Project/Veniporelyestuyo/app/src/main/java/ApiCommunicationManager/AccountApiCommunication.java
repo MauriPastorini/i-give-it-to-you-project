@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.common.api.Response;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,19 +34,26 @@ public class AccountApiCommunication {
         String data = createPostUrlEncoded(account);
         ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.accountPostTokenUri, ConnectionHandler.Content_Type.URL_ENCODED, data, null);
         if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-            saveToken(responseHttp.getMessage(), context);
+            String token =responseHttp.getMessage();
+            saveToken(token, context);
+            saveAccount(account,context);
+            token = extractTokenFromMessage(token);
+            ResponseHttp responseHttp1 = new ConnectionHandler().getData(ApiServerConstant.isAdminUri, ConnectionHandler.Content_Type.JSON, token);
+            if (responseHttp1.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
+                account.setAdmin(true);
+            else
+                account.setAdmin(false);
         }
-        saveAccount(account,context);
-        String tokenResp = getToken(context);
-        return responseHttp;
+       return responseHttp;
     }
 
-    private void saveAccount(Account account,Context context) {
+    public void saveAccount(Account account,Context context) {
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("name", account.getUserName());
         editor.putString("email", account.getEmail());
+        editor.putString("id", ""+account.getId());
         editor.commit();
     }
 
@@ -96,8 +105,9 @@ public class AccountApiCommunication {
     public Account getAccountInformation(Context context) {
         String name = getFromSharedPreference("name", context);
         String email = getFromSharedPreference("email", context);
-
+        String id = getFromSharedPreference("id", context);
         Account account = new Account(name, email);
+        account.setId(Integer.parseInt(id));
         return account;
     }
 
@@ -132,7 +142,7 @@ public class AccountApiCommunication {
                 int userId = jsonObject.getInt("userId");
                 String userName = jsonObject.getString("userName");
                 String email = jsonObject.getString("email");
-                Account a = new Account(userId, userName, email, "", false);
+                Account a = new Account(userId, userName, email, "");
                 result.add(a);
             }
         } catch (JSONException e) {

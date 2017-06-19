@@ -70,7 +70,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().getUnmoderatedProducts(mContext);
+                response = new ProductApiCommunication(mContext).getUnmoderatedProducts(mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -117,7 +117,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
             int productId = params[0];
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().acceptProduct(productId, mContext);
+                response = new ProductApiCommunication(mContext).acceptProduct(productId, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -163,7 +163,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
             int productId = params[0];
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().deleteProduct(productId, mContext);
+                response = new ProductApiCommunication(mContext).deleteProduct(productId, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

@@ -151,9 +151,21 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductStateController.cs" />
-    <Compile Include="Migrations\201705281647283_InitialCreate.cs" />
-    <Compile Include="Migrations\201705281647283_InitialCreate.Designer.cs">
-      <DependentUpon>201705281647283_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201706191609425_InitialCreate.cs" />
+    <Compile Include="Migrations\201706191609425_InitialCreate.Designer.cs">
+      <DependentUpon>201706191609425_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706191615565_InitialCreate2.cs" />
+    <Compile Include="Migrations\201706191615565_InitialCreate2.Designer.cs">
+      <DependentUpon>201706191615565_InitialCreate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706191622113_InitialCreate3.cs" />
+    <Compile Include="Migrations\201706191622113_InitialCreate3.Designer.cs">
+      <DependentUpon>201706191622113_InitialCreate3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706191628045_InitialCreate4.cs" />
+    <Compile Include="Migrations\201706191628045_InitialCreate4.Designer.cs">
+      <DependentUpon>201706191628045_InitialCreate4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ImageModel.cs" />
@@ -186,8 +198,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705281647283_InitialCreate.resx">
-      <DependentUpon>201705281647283_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706191609425_InitialCreate.resx">
+      <DependentUpon>201706191609425_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706191615565_InitialCreate2.resx">
+      <DependentUpon>201706191615565_InitialCreate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706191622113_InitialCreate3.resx">
+      <DependentUpon>201706191622113_InitialCreate3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706191628045_InitialCreate4.resx">
+      <DependentUpon>201706191628045_InitialCreate4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

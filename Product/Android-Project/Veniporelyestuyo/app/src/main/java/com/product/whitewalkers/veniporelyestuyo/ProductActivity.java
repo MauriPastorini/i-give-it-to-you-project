@@ -1,10 +1,15 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import ApiCommunicationManager.AccountApiCommunication;
 import ApiCommunicationManager.ConnectionHandler;
+import Domain.Account;
+import MyStaticElements.LogRegistration;
 import layout.ProductFragment;
 
 public class ProductActivity extends AppCompatActivity implements ProductFragment.IProductFragment{
@@ -13,7 +18,7 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        loadInfoProductFragment();
+       loadInfoProductFragment();
     }
 
     @Override
@@ -28,15 +33,22 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
 
 
     private void loadInfoProductFragment(){
-        ProductFragment bottomPictureFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.productInfoFragment);
-        bottomPictureFragment.setProductInfo(1);
+
+        ProductFragment productFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.productInfoFragment);
+        productFragment.setProductInfo(11);
     }
 
+    @Override
     public void loadingVisible(boolean visible) {
         if (visible) {
             findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void returnToMainMenu() {
+        startActivity(new Intent(ProductActivity.this,MainMenuUserActivity.class));
     }
 }

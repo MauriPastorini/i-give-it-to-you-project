@@ -47,35 +47,39 @@
             />
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="300"
             android:gravity="center_horizontal"
-            android:textSize="12sp"
-            android:text="Nombre del producto" />
+            android:text="Nombre del producto"
+            android:textSize="30sp" />
+
         <TextView
             android:id="@+id/txtViewName"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="300"
             android:gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="Nombre content" />
+            android:text="Nombre content"
+            android:textSize="18sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="300"
             android:gravity="center_horizontal"
-            android:textSize="12sp"
-            android:text="Descripción del producto" />
+            android:text="Descripción del producto"
+            android:textSize="30sp" />
+
         <TextView
             android:id="@+id/txtViewDescription"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="300"
             android:gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="Descripcion content" />
+            android:text="Descripcion content"
+            android:textSize="18sp" />
         <Button
             android:id="@+id/btnWantIt"
             android:layout_width="match_parent"

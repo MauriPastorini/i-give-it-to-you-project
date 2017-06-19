@@ -16,6 +16,13 @@ public class Account {
     private String password;
     private boolean isAdmin;
 
+    public Account(int id, String userName, String email, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.isAdmin = false;
+    }
     public Account(int id, String userName, String email, String password, boolean isAdmin) {
         this.id = id;
         this.userName = userName;
@@ -23,7 +30,6 @@ public class Account {
         this.email = email;
         this.isAdmin = isAdmin;
     }
-
     public int getId() {
         return id;
     }

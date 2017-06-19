@@ -8,6 +8,8 @@ using VeniPorEl.Models;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 
 namespace VeniPorEl.Controllers
 {
@@ -200,12 +202,12 @@ namespace VeniPorEl.Controllers
             return Ok(productsByCategory);
         }
 
-        [HttpGet]
-        //  [Authorize(Roles = "Admin, Normal")]
+        [HttpPost]
+        [Authorize(Roles = "Admin, Normal")]
         [Route("{productId}/solicitude/{accountId}")]
         public IHttpActionResult RegisterProductSolicitude(int productId, int accountId)
         {
-            if (productId==0 || accountId==0)
+            if (productId == 0 || accountId == 0)
             {
                 return BadRequest("No data sent.");
             }
@@ -214,9 +216,18 @@ namespace VeniPorEl.Controllers
                 try
                 {
                     productService.CreateSolicitudeForProduct(productId, accountId);
-                }catch(KeyNotFoundException ex)
+                }
+                catch (KeyNotFoundException ex)
                 {
-                    return BadRequest("Product doesnt exists");
+                    return Content(HttpStatusCode.NotFound, ex.Message);
+                }
+                catch (ProductAlreadySolicitatedException ex)
+                {
+                    return BadRequest("Product has been already solicitated");
+                }
+                catch (SmtpException ex)
+                {
+                    return InternalServerError(ex);
                 }
                 return Ok("Solicitude registered");
             }

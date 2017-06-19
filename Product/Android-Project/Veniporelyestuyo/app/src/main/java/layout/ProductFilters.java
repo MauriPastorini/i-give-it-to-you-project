@@ -119,7 +119,7 @@ public class ProductFilters extends Fragment {
              
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().getProductsByCategory(categoryId, mContext);
+                response = new ProductApiCommunication(getActivity()).getProductsByCategory(categoryId, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

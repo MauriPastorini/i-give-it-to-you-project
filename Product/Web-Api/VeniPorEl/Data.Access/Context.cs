@@ -24,7 +24,17 @@ namespace Data.Access
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer<Context>(null);
-            //modelBuilder.Configurations.Add(new UserConfigurations());
+            modelBuilder.Entity<Product>()
+                   .HasRequired(m => m.UserOwnProduct)
+                   .WithMany(t => t.ProductsOwner)
+                   .HasForeignKey(m => m.UserOwnProductId)
+                   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Product>()
+                   .HasOptional(m => m.UserSolicitudeProduct)
+                   .WithMany(t => t.ProductsSolicitude)
+                   .HasForeignKey(m => m.UserSolicitudeProductId)
+                   .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
 

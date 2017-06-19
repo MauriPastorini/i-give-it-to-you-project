@@ -245,7 +245,7 @@ public class PublishProductFragment extends Fragment {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().postProduct(actualProduct, mContext);
+                response = new ProductApiCommunication(mContext).postProduct(actualProduct, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

@@ -70,7 +70,7 @@ namespace Api.Services
             {
                 throw new ArgumentException("Given Product State doesn't exists.");
             }
-          
+
             return productStateToReturn;
         }
 
@@ -103,17 +103,17 @@ namespace Api.Services
             unitOfWork.Save();
             return true;
         }
-        
+
         public ICollection<Product> GetUnmoderatedProducts()
         {
-            ICollection<Product> unmoderatedProducts = unitOfWork.ProductRepository.Find(p=>p.Moderated == false).ToList();
+            ICollection<Product> unmoderatedProducts = unitOfWork.ProductRepository.Find(p => p.Moderated == false).ToList();
             return unmoderatedProducts;
         }
 
         public ICollection<Product> GetProductsByCategory(int categoryId)
         {
             ICollection<Product> productsByCategory = null;
-            if (categoryId!=0)
+            if (categoryId != 0)
             {
                 productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId && p.Moderated == true).ToList();
             }
@@ -121,7 +121,7 @@ namespace Api.Services
             {
                 productsByCategory = unitOfWork.ProductRepository.Find(p => p.Moderated == true).ToList();
             }
-          
+
             return productsByCategory;
         }
 
@@ -150,7 +150,7 @@ namespace Api.Services
             unitOfWork.Save();
         }
 
-            public ICollection<ProductImage> GetImagesFromProductId(int productId)
+        public ICollection<ProductImage> GetImagesFromProductId(int productId)
         {
             Product product = unitOfWork.ProductRepository.Find(c => c.ProductId == productId).FirstOrDefault();
             if (product == null)
@@ -179,7 +179,7 @@ namespace Api.Services
 
         public Product GetProduct(int productId)
         {
-            Product product = unitOfWork.ProductRepository.Find(p=>p.ProductId == productId).FirstOrDefault();
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
             return product;
         }
 
@@ -188,15 +188,31 @@ namespace Api.Services
             Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
             if (product == null)
             {
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Product doesnt exists");
             }
-            String emailUserWhoWantIt = new UserService().GetById(accountId).Email;
-            User user = new UserService().GetById(product.UserId);
-            String emailUserProduct = user.Email;
+            if (product.UserSolicitudeProductId != null || product.UserSolicitudeProductId == 0)
+            {
+                throw new ProductAlreadySolicitatedException();
+            }
+            User userSolicitude = new UserService().GetById(accountId);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User that made the solicitude doesnt exists");
+            }
+            String emailUserWhoWantIt = userSolicitude.Email;
+            User user = new UserService().GetById(product.UserOwnProductId);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User owner doesnt exists");
+            }
+            String emailUserProductOwner = user.Email;
+            product.UserSolicitudeProduct = userSolicitude;
+            unitOfWork.UsersRepository.Atach(userSolicitude);
+            unitOfWork.ProductRepository.Update(product);
+            unitOfWork.Save();
 
-            SendEmail(product,emailUserProduct,"Quieren tu producto!", "Felicitaciones! Quieren tu producto: " + product.ToString());
+            SendEmail(product, emailUserProductOwner, "Quieren tu producto!", "Felicitaciones! Quieren tu producto: " + product.ToString() + userSolicitude.ToString());
             SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu solicitud", "Felicitaciones! A la brevedad la persona se pondra en contacto contigo. Contacto: " + user.ToString());
-
         }
 
         private static void SendEmail(Product product, String email, String subject, String message)
@@ -205,19 +221,21 @@ namespace Api.Services
             String emailVeni = "venisyestuyo@gmail.com";
             String emailPass = "venis1234";
 
-        
+
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress(emailVeni);
                 mail.To.Add(email);
                 mail.Subject = subject;
-                mail.Body =message;
+                mail.Body = message;
                 mail.IsBodyHtml = true;
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
                     smtp.Credentials = new NetworkCredential(emailVeni, emailPass);
                     smtp.EnableSsl = true;
+
                     smtp.Send(mail);
+
                 }
             }
         }

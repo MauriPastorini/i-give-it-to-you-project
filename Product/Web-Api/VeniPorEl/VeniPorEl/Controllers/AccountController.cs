@@ -310,5 +310,13 @@ namespace VeniPorEl.Controllers
             }
             return null;
         }
+
+        [HttpGet]
+        [Route("admin")]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult IsAdmin()
+        {
+            return Ok(Data.User.Roles.Admin);
+        }
     }
 }

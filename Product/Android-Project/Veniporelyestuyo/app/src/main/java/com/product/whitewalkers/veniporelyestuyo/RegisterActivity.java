@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
             String password = params[2];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postAccount(new Account(0, username, email, password, false));
+                response = new AccountApiCommunication().postAccount(new Account(0, username, email, password));
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Registro OK",Toast.LENGTH_LONG).show();
                     Intent i = new Intent(mContext, LoginActivity.class);
                     startActivity(i);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){

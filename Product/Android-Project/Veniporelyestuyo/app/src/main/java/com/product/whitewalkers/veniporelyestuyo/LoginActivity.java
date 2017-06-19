@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private class LoginTask extends AsyncTask<String, Void, ResponseAsyncTask> {
 
         private Context mContext;
+        private Account account;
 
         public LoginTask (Context context){
             mContext = context;
@@ -73,7 +74,8 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postToken(new Account(0,username,"",password, true), mContext);
+                account = new Account(0,username,"",password);
+                response = new AccountApiCommunication().postToken(account, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -95,7 +97,12 @@ public class LoginActivity extends AppCompatActivity {
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
-                    Intent myIntent = new Intent(LoginActivity.this, ModerateProductsActivity.class);
+                    Intent myIntent = null;
+                    if(account.isAdmin()){
+                        myIntent = new Intent(LoginActivity.this, ModerateProductsActivity.class);
+                    } else{
+                        myIntent = new Intent(LoginActivity.this, MainMenuUserActivity.class);
+                    }
                     LoginActivity.this.startActivity(myIntent);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
                     Toast.makeText(mContext,"Usuario o contraseña incorrecta ",Toast.LENGTH_LONG).show();
@@ -107,6 +114,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View view){
-
+        startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
     }
 }

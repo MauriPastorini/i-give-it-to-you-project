@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,13 @@ namespace Data
         public Location Location { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public bool Moderated { get; set; }
-        public virtual User User { get; set; }
-        public int UserId { get; set; }
+        [ForeignKey("UserOwnProductId")]
+        public virtual User UserOwnProduct { get; set; }
+        public int UserOwnProductId { get; set; }
+        [ForeignKey("UserSolicitudeProductId")]
+        public virtual User UserSolicitudeProduct { get; set; }
+        public int? UserSolicitudeProductId { get; set; }
+
 
         private Product()
         {
@@ -66,7 +72,7 @@ namespace Data
         }
 
         public override string ToString() {
-            return "Name: " + this.Name + ". " + "Categoria: " + this.Category;
+            return "Name: " + this.Name + ". " + this.Category;
         }
 
     }

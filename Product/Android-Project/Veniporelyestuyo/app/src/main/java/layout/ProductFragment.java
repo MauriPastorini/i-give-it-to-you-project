@@ -38,6 +38,7 @@ public class ProductFragment extends Fragment {
 
     public interface IProductFragment {
         void loadingVisible(boolean visible);
+        void returnToMainMenu();
     }
 
     @Override
@@ -105,7 +106,13 @@ public class ProductFragment extends Fragment {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().getProductAndImages(productId);
+                Account account = new Account("superUser","mauri295@gmail.com");
+                account.setPassword("Super123");
+                account.setId(1);
+                new AccountApiCommunication().postToken(account, getActivity());
+                new AccountApiCommunication().saveAccount(account, mContext);
+
+                response = new ProductApiCommunication(getActivity()).getProductAndImages(productId);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -154,16 +161,61 @@ public class ProductFragment extends Fragment {
     }
 
     private void loadButtonListener() {
-        Button btnSignOut = (Button)view.findViewById(R.id.btnSignOut);
+        Button btnSignOut = (Button)view.findViewById(R.id.btnWantIt);
         btnSignOut.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                try {
-                    new ProductApiCommunication().registerSolicitude(productId, getActivity());
-                }catch (Exception ex){
-                    LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,ex.toString());
-                }
+                iProductFragment.loadingVisible(true);
+                view.findViewById(R.id.btnWantIt).setEnabled(false);
+                new SolicitudeTask(productId).execute();
             }
         });
+    }
+
+    private class SolicitudeTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
+
+        private int productId;
+        private Context mContext;
+
+        public SolicitudeTask (int parmProductId){
+            productId = parmProductId;
+            mContext = getActivity();
+        }
+
+        @Override
+        protected ResponseAsyncTask doInBackground(Void... params) {
+            ResponseHttp response;
+            try{
+                response = new ProductApiCommunication(mContext).registerSolicitude(productId, mContext);
+            } catch (IOException ioEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
+            }
+            catch (JSONException jsonEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,jsonEx);
+            }
+            return new ResponseAsyncTask<ResponseHttp>(ResponseAsyncTask.TypeResponse.OK,response);
+        }
+
+        @Override
+        protected void onPostExecute(ResponseAsyncTask result) {
+            iProductFragment.loadingVisible(false);
+            if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
+                Toast.makeText(mContext,"Error en realizar la solicitud: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
+                return;
+            }
+            else{
+                ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+                    Toast.makeText(mContext,"Solicitud realizada",Toast.LENGTH_LONG).show();
+                    changeVisibility(View.VISIBLE, getView());
+                    iProductFragment.returnToMainMenu();
+                } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
+                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
+                }
+                return;
+            }
+        }
     }
 }

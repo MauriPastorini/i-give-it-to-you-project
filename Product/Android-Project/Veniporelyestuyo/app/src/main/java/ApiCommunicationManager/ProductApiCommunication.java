@@ -1,11 +1,15 @@
 package ApiCommunicationManager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.util.Log;
+
+import com.google.android.gms.common.api.Response;
+import com.product.whitewalkers.veniporelyestuyo.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,9 +32,15 @@ import static com.product.whitewalkers.veniporelyestuyo.R.string.state;
 public class ProductApiCommunication{
     private static final String TAG = "myLogMessageTag";
     private Product product;
+    private String token;
+    private Context context;
+
+    public ProductApiCommunication(Context context) {
+        this.context = context;
+        token = new AccountApiCommunication().getToken(context);
+    }
 
     public ResponseHttp postProduct(Product productParm, Context context) throws JSONException, IOException{
-        String token = (new AccountApiCommunication()).getToken(context);
         Log.i(TAG, "Comenzando post product");
         product = productParm;
         JSONObject productJson = new JSONObject();
@@ -46,7 +56,6 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp postProductPhoto(Product product, Context context) throws JSONException, IOException{
-        String token = (new AccountApiCommunication()).getToken(context);
         ArrayList<JSONObject> productsPhotosJson = createPhotosJsonData(product);
         for(int i=0; i<productsPhotosJson.size();i++){
             ResponseHttp responseAux = new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString(), token);
@@ -107,11 +116,11 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp getProductAndImages(int productId) throws IOException, JSONException {
-        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
+        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON, token);
         if (responseHttpProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProduct;
         }
-        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
+        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON, token);
         if(responseHttpProductImage.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductImage;
         }
@@ -123,7 +132,6 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp acceptProduct(int productId, Context context) throws IOException, JSONException{
-        String token = (new AccountApiCommunication()).getToken(context);
         ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().postData(ApiServerConstant.acceptProductUri(productId), ConnectionHandler.Content_Type.JSON,null, token);
         if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpAcceptProduct;
@@ -133,7 +141,6 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp deleteProduct(int productId, Context context) throws IOException, JSONException{
-        String token = (new AccountApiCommunication()).getToken(context);
         ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().deleteData(ApiServerConstant.deleteProductUri(productId), ConnectionHandler.Content_Type.JSON, "", token);
         if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpAcceptProduct;
@@ -143,7 +150,6 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp getUnmoderatedProducts(Context context) throws IOException, JSONException{
-        String token = (new AccountApiCommunication()).getToken(context);
         ResponseHttp responseHttpUnmoderatedProducts = new ConnectionHandler().getData(ApiServerConstant.getUnmoderatedProductsUri, ConnectionHandler.Content_Type.JSON, token);
         if (responseHttpUnmoderatedProducts.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpUnmoderatedProducts;
@@ -155,7 +161,6 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp getProductsByCategory(int categoryId, Context context) throws IOException, JSONException{
-        String token = (new AccountApiCommunication()).getToken(context);
         ResponseHttp responseHttpProductsByCategory = new ConnectionHandler().getData(ApiServerConstant.getProductsByCategory(categoryId), ConnectionHandler.Content_Type.JSON, token);
         if (responseHttpProductsByCategory.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductsByCategory;
@@ -193,11 +198,29 @@ public class ProductApiCommunication{
             photos.add(decodedByte);
             photosNames.add(name);
         }
+        if(productPhotos.length() == 0) {
+            Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image);
+            product.image1 = largeIcon;
+            product.image2 = largeIcon;
+            product.image3 = largeIcon;
+            return;
+        }
         product.image1 = photos.get(0);
-        product.image2 = photos.get(1);
-        product.image3 = photos.get(2);
         product.image1Name = photosNames.get(0);
+        if(productPhotos.length() == 1) {
+            Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image);
+            product.image2 = largeIcon;
+            product.image3 = largeIcon;
+            return;
+        }
+        product.image2 = photos.get(1);
         product.image2Name = photosNames.get(1);
+        if(productPhotos.length() == 2) {
+            Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.no_image);
+            product.image3 = largeIcon;
+            return;
+        }
+        product.image3 = photos.get(2);
         product.image3Name = photosNames.get(2);
     }
 
@@ -215,11 +238,15 @@ public class ProductApiCommunication{
         return product;
     }
 
-    public void registerSolicitude(int productId, Context context) throws JSONException,IOException {
+    public ResponseHttp registerSolicitude(int productId, Context context) throws JSONException,IOException {
         int idAccount = new AccountApiCommunication().getAccountInformation(context).getId();
-        String token = (new AccountApiCommunication()).getToken(context);
-        new ConnectionHandler().postData(ApiServerConstant.postSolicitude(productId,idAccount),ConnectionHandler.Content_Type.JSON,"",token);
-            }
+        if (idAccount == 0){
+            ResponseHttp responseHttp = new ResponseHttp(500);
+            responseHttp.setMessage("No hay datos del usuario en el sistema");
+            return responseHttp;
+        }
+        return new ConnectionHandler().postData(ApiServerConstant.postSolicitude(productId,idAccount),ConnectionHandler.Content_Type.JSON,"",token);
+    }
 }
 
 

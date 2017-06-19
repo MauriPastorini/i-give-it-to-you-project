@@ -46,7 +46,9 @@ namespace Data
         }
 
         public bool IsModerated { get; set; }
-        public virtual List<Product> Product { get; set; }
+        public virtual ICollection<Product> ProductsOwner { get; set; }
+        public virtual ICollection<Product> ProductsSolicitude { get; set; }
+
 
         private User() { }
 
@@ -130,7 +132,7 @@ namespace Data
 
         public override string ToString()
         {
-            return "User Name" + this.UserName + "Email: " + this.Email + ". ";
+            return "Nombre de usuario: " + this.UserName + ". Email: " + this.Email + ". ";
         }
     }
 }
