@@ -6,7 +6,7 @@ package ApiCommunicationManager;
 
 public class ApiServerConstant {
     //HARDCODED: Migrate this variables to runtime execution lecture for defer binding
-    public static String ip = "192.168.2.117";
+    public static String ip = "192.168.2.116";
     public static String port = "51339";
     public static int timeOutConnectionApi = 9000;
     //
@@ -24,8 +24,22 @@ public class ApiServerConstant {
 
     public static String productStateApiUri = ApiServerConstant.apiUrl + "ProductState";
 
-    public static String productPostPhotoUri(int idProduct){
+    public static String getUnmoderatedProductsUri = ApiServerConstant.apiUrl + "Product/Unmoderated";
+
+    public static String acceptProductUri(int idProduct){
+        return ApiServerConstant.apiUrl + "Product/" + idProduct + "/Accept";
+    }
+
+    public static String getProductsByCategory(int categoryId){
+        return ApiServerConstant.apiUrl + "Product/Category/" + categoryId;
+    }
+
+    public static String deleteProductUri(int idProduct){
         return ApiServerConstant.apiUrl + "Product/" + idProduct;
+    }
+
+    public static String productPostPhotoUri(int idProduct){
+        return ApiServerConstant.apiUrl + "Product/" + idProduct+"/Image";
     }
     public static String accountPostTokenUri = ApiServerConstant.serverUrl + "/token";
 

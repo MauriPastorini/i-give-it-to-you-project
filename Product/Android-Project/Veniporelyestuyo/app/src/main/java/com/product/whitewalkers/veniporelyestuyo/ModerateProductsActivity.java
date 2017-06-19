@@ -51,10 +51,10 @@ public class ModerateProductsActivity extends AppCompatActivity {
     private void updateProductList(){
         new ProductTask(this).execute();
     }
+
     private void checkConnection() {
         new ConnectionHandler().controlConnectionsAvaiable(this);
     }
-
 
     private class ProductTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
 
