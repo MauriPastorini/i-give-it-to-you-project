@@ -20,7 +20,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProductActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ManageUsersActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManageUsersActivity"></activity>
     </application>
 
 </manifest>

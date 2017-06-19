@@ -29,7 +29,7 @@ public class ProductApiCommunication{
         Log.i(TAG, "Comenzando post product");
         product = productParm;
         JSONObject productJson = createProductJsonData(product.name, product.categoryId, product.stateId, product.latitude, product.longitude);
-        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString());
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString(), null);
         postFunctionReturn(responseHttp);
     }
 
@@ -48,7 +48,7 @@ public class ProductApiCommunication{
         Log.i(TAG, "Comenzando post photo");
         ArrayList<JSONObject> productsPhotosJson = createPhotosJsonData(product);
         for(int i=0; i<productsPhotosJson.size();i++){
-            new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString());
+            new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString(), null);
         }
     }
 
@@ -101,11 +101,11 @@ public class ProductApiCommunication{
     }
 
     public ResponseHttp getProductAndImages(int productId) throws IOException, JSONException {
-        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
         if (responseHttpProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProduct;
         }
-        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
         if(responseHttpProductImage.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductImage;
         }
