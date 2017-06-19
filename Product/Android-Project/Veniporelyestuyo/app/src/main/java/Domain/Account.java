@@ -18,6 +18,11 @@ public class Account {
         this.email = email;
     }
 
+    public Account(String userName, String email) {
+        this.userName = userName;
+        this.email = email;
+    }
+
     public String getUserName() {
         return userName;
     }

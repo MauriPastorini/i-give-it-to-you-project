@@ -1,4 +1,4 @@
-package com.product.whitewalkers.veniporelyestuyo;
+package layout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.product.whitewalkers.veniporelyestuyo.R;
 
 import org.json.JSONException;
 
@@ -56,6 +58,14 @@ public class PublishProductFragment extends Fragment {
     private ArrayList<ProductState> productStates;
     View view;
 
+    Context context;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,7 +81,7 @@ public class PublishProductFragment extends Fragment {
         imgPhoto3 = (ImageView)view.findViewById(R.id.imgPhoto3);
 
         setPhotosBtns();
-        new CategoriesTask().execute();
+        new CategoriesTask(context).execute();
         productStates = new ProductStateApiCommunication().getProductState();
         loadProductStates();
         return view;
@@ -91,7 +101,7 @@ public class PublishProductFragment extends Fragment {
     private void loadProductStateSpinner(ArrayList<String> prouctStateOptions) {
 
         Spinner spinnerStates = (Spinner) view.findViewById(R.id.productState);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, prouctStateOptions); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context.getApplicationContext(), android.R.layout.simple_spinner_item, prouctStateOptions); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         fillSpinners(spinnerStates,spinnerArrayAdapter);
@@ -105,8 +115,8 @@ public class PublishProductFragment extends Fragment {
 
         private Context mContext;
 
-        public CategoriesTask(){
-            mContext = getActivity();
+        public CategoriesTask(Context context){
+            mContext = context;
         }
 
         @Override
@@ -155,7 +165,7 @@ public class PublishProductFragment extends Fragment {
 
     private void loadCategorySpinner(ArrayList<String> categoriesOptions) {
         Spinner spinnerCategory = (Spinner) view.findViewById(R.id.productCategory);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, categoriesOptions); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context.getApplicationContext(), android.R.layout.simple_spinner_item, categoriesOptions); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fillSpinners(spinnerCategory,spinnerArrayAdapter);
     }
@@ -214,9 +224,9 @@ public class PublishProductFragment extends Fragment {
                     Log.i(TAG, "Error en cargar id de Estado, no se encontro la categoria de nombre: " + spinCategoryText + " en la lista: " + categories.toString());
                 }
                 if(actualProduct.image1 == null || actualProduct.image2 == null || actualProduct.image3 == null )
-                    Toast.makeText(getActivity(),"Debe tener al menos 3 fotos",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Debe tener al menos 3 fotos",Toast.LENGTH_LONG).show();
                 else
-                    new ProductTask(actualProduct).execute();
+                    new ProductTask(actualProduct,context).execute();
             }
         });
     }
@@ -226,9 +236,9 @@ public class PublishProductFragment extends Fragment {
         private Context mContext;
         private Product actualProduct;
 
-        public ProductTask(Product actualProduct){
+        public ProductTask(Product actualProduct,Context context){
             this.actualProduct = actualProduct;
-            mContext = getActivity();
+            mContext = context;
         }
 
         @Override
@@ -298,7 +308,7 @@ public class PublishProductFragment extends Fragment {
 
     private void dispatchTakePictureIntent(int imageCode) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getApplicationContext().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(context.getApplicationContext().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, imageCode);
         }
     }

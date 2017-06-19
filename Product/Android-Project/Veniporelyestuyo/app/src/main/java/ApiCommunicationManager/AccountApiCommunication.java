@@ -31,8 +31,18 @@ public class AccountApiCommunication {
         if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
             saveToken(responseHttp.getMessage(), context);
         }
+        saveAccount(account,context);
         String tokenResp = getToken(context);
         return responseHttp;
+    }
+
+    private void saveAccount(Account account,Context context) {
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("name", account.getUserName());
+        editor.putString("email", account.getEmail());
+        editor.commit();
     }
 
     private void saveToken(String message, Context context) throws IOException,JSONException{
@@ -64,5 +74,27 @@ public class AccountApiCommunication {
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(context);
         return settings.getString("Token", "error");
+    }
+
+    public void signOut(Context context) {
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Token", "");
+        editor.commit();
+    }
+
+    private String getFromSharedPreference(String key, Context context){
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return settings.getString(key, "error");
+    }
+
+    public Account getAccountInformation(Context context){
+        String name = getFromSharedPreference("name", context);
+        String email = getFromSharedPreference("email", context);
+
+        Account account = new Account(name, email);
+        return account;
     }
 }

@@ -67,3 +67,28 @@ D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Rep
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.csprojResolveAssemblyReference.cache
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.dll
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.pdb
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Repository.dll.config
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Repository.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Repository.pdb
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Access.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.SqlServer.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Newtonsoft.Json.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Net.Http.Formatting.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Cors.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.Cors.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Access.pdb
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.Access.dll.config
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.pdb
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Data.dll.config
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.xml
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\EntityFramework.SqlServer.xml
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\Newtonsoft.Json.xml
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Net.Http.Formatting.xml
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.xml
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\bin\Debug\System.Web.Http.Cors.xml
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.csprojResolveAssemblyReference.cache
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.dll
+C:\Datos\Ing Software\Obli\Repo\Product\Web-Api\VeniPorEl\Data.Repository\obj\Debug\Data.Repository.pdb
