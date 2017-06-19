@@ -70,47 +70,95 @@ public class UsersManageListAdapter extends BaseAdapter {
         aproveBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String[] params = new String[3];
-                params[0] = data.get(position).getUserName();
-                params[1] = data.get(position).getPassword();
-                params[2] = "true";
-                new ManageUserTask(context).execute(params);
+                String[] params = new String[5];
+                params[0] = data.get(position).getId() + "";
+                params[1] = data.get(position).getUserName();
+                params[2] = data.get(position).getEmail();
+                params[3] = data.get(position).getPassword();
+                new SetAsAdminUserTask(context).execute(params);
                 notifyDataSetChanged();
             }
         });
         denyBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String[] params = new String[3];
-                params[0] = data.get(position).getUserName();
-                params[1] = data.get(position).getPassword();
-                params[2] = "false";
-                new ManageUserTask(context).execute(params);
+                String[] params = new String[5];
+                params[0] = data.get(position).getId() + "";
+                params[1] = data.get(position).getUserName();
+                params[2] = data.get(position).getEmail();
+                params[3] = data.get(position).getPassword();
+                new DeleteUserTask(context).execute(params);
                 notifyDataSetChanged();
             }
         });
         return vi;
     }
 
-    private class ManageUserTask extends AsyncTask<String, Void, ResponseAsyncTask> {
+    private class SetAsAdminUserTask extends AsyncTask<String, Void, ResponseAsyncTask> {
 
         private Context mContext;
 
-        public ManageUserTask (Context context){
+        public SetAsAdminUserTask (Context context){
             mContext = context;
         }
 
         @Override
         protected ResponseAsyncTask doInBackground(String... params) {
-            String username = params[0];
-            String password = params[1];
-            boolean isActive = false;
-            if (params[2] == "true"){
-                isActive = true;
-            }
+            int id = Integer.parseInt(params[0]);
+            String username = params[1];
+            String email = params[2];
+            String password = params[3];
+            Account account = new Account(id, username, email, password, false);
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().aproveDenyAccount(new Account(username,"",password, isActive));
+                response = new AccountApiCommunication().setAsAdminAccount(account, mContext);
+            } catch (IOException ioEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
+            }
+            catch (JSONException jsonEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,jsonEx);
+            }
+            return new ResponseAsyncTask<ResponseHttp>(ResponseAsyncTask.TypeResponse.OK,response);
+        }
+
+        @Override
+        protected void onPostExecute(ResponseAsyncTask result) {
+            if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
+                Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                return;
+            }
+            else{
+                ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
+                    Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                }
+                return;
+            }
+        }
+    }
+
+    private class DeleteUserTask extends AsyncTask<String, Void, ResponseAsyncTask> {
+
+        private Context mContext;
+
+        public DeleteUserTask (Context context){
+            mContext = context;
+        }
+
+        @Override
+        protected ResponseAsyncTask doInBackground(String... params) {
+            int id = Integer.parseInt(params[0]);
+            String username = params[1];
+            String email = params[2];
+            String password = params[3];
+            Account account = new Account(id, username, email, password, false);
+            ResponseHttp response;
+            try{
+                response = new AccountApiCommunication().deleteAccount(account, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

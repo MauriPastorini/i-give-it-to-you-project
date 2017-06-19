@@ -31,14 +31,57 @@ public class ManageUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_users);
         listview = (ListView) findViewById(R.id.userManageList);
-        List<Account> inactiveUsers = getInactiveUsers();
-        listview.setAdapter(new UsersManageListAdapter(this, inactiveUsers));
+        getInactiveUsers();
     }
 
-    private List<Account> getInactiveUsers() {
-        ArrayList<Account> result = new ArrayList<Account>();
-        result.add(new Account("test", "Testsdfsdf123", "Abcd21213", true));
-        return result;
+    private void getInactiveUsers() {
+        new UnmoderatedUsersTask(this).execute();
+    }
+
+    private class UnmoderatedUsersTask extends AsyncTask<String, Void, ResponseAsyncTask> {
+
+        private Context mContext;
+
+        public UnmoderatedUsersTask (Context context){
+            mContext = context;
+        }
+
+        @Override
+        protected ResponseAsyncTask doInBackground(String... params) {
+            ResponseHttp response;
+            try{
+                response = new AccountApiCommunication().getUnmoderatedUsers(mContext);
+            } catch (IOException ioEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
+            }
+            catch (JSONException jsonEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,jsonEx);
+            }
+            return new ResponseAsyncTask<ResponseHttp>(ResponseAsyncTask.TypeResponse.OK,response);
+        }
+
+        @Override
+        protected void onPostExecute(ResponseAsyncTask result) {
+            if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
+                Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                return;
+            }
+            else{
+                ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                List<Account> inactiveUsers = (List<Account>)responseHttp.getMessageObject();
+                if (inactiveUsers != null) {
+                    listview.setAdapter(new UsersManageListAdapter(mContext, inactiveUsers));
+                }
+                if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
+                    Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                }
+                return;
+            }
+        }
     }
 
 }

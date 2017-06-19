@@ -91,7 +91,7 @@ public class ConnectionHandler {
         }
     }
 
-    private static HttpURLConnection createConnectionForUrlVerbAndContentType(String url, Verb verb, Content_Type content_type) throws IOException {
+    private static HttpURLConnection createConnectionForUrlVerbAndContentType(String url, Verb verb, Content_Type content_type, String token) throws IOException {
         URL object=new URL(url);
         HttpURLConnection con = (HttpURLConnection)object.openConnection();
         if(verb != Verb.GET){
@@ -99,6 +99,9 @@ public class ConnectionHandler {
         }
         con.setDoInput(true);
         if (content_type == Content_Type.JSON){
+            if (token != null){
+                con.setRequestProperty("Authorization", "bearer " + token);
+            }
             con.setRequestProperty("Content-Type", "application/json");
             con.setRequestProperty("Accept", "application/json");
         } else if(content_type == Content_Type.URL_ENCODED){
@@ -110,19 +113,24 @@ public class ConnectionHandler {
         return con;
     }
 
-    public ResponseHttp postData(String url, Content_Type content_type, String data) throws IOException, JSONException{
-        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.POST, content_type);
+    public ResponseHttp postData(String url, Content_Type content_type, String data, String token) throws IOException, JSONException{
+        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.POST, content_type, token);
         return connectAndGetResponse(data, con);
     }
 
-    public ResponseHttp putData(String url, Content_Type content_type, String data) throws IOException, JSONException{
-        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.PUT, content_type);
+    public ResponseHttp putData(String url, Content_Type content_type, String data, String token) throws IOException, JSONException{
+        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.PUT, content_type, token);
         return connectAndGetResponse(data, con);
     }
 
-    public ResponseHttp getData(String url, Content_Type content_type) throws IOException, JSONException{
-        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.GET, content_type);
+    public ResponseHttp getData(String url, Content_Type content_type, String token) throws IOException, JSONException{
+        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.GET, content_type, token);
         return connectAndGetResponse(null, con);
+    }
+
+    public ResponseHttp deleteData(String url, Content_Type content_type, String data, String token) throws IOException, JSONException{
+        HttpURLConnection con = createConnectionForUrlVerbAndContentType(url, Verb.DELETE, content_type, token);
+        return connectAndGetResponse(data, con);
     }
 
     @NonNull

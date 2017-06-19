@@ -9,14 +9,21 @@
         android:text="username"
         android:id="@+id/userNameText"/>
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/aproveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/arrow_up_float" />
 
     <Button
         android:id="@+id/denyBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_delete" />
 
 </LinearLayout>

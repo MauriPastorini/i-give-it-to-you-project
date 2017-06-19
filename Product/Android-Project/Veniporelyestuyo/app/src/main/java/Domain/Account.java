@@ -10,16 +10,26 @@ import org.json.JSONObject;
  */
 
 public class Account {
+    private int id;
     private String userName;
     private String email;
     private String password;
     private boolean isAdmin;
 
-    public Account(String userName, String email, String password, boolean isAdmin) {
+    public Account(int id, String userName, String email, String password, boolean isAdmin) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.isAdmin = isAdmin;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -56,7 +66,7 @@ public class Account {
         user.put("email", this.email);
         user.put("password", this.password);
         user.put("confirmPassword", this.password);
-        user.put("isActive", this.isAdmin);
+        user.put("isAdmin", this.isAdmin);
         return user;
     }
 
