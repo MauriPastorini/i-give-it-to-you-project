@@ -1,8 +1,49 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.product.whitewalkers.veniporelyestuyo.ModerateProductsActivity">
+
+
+    <fragment
+        android:id="@+id/productFilter"
+        android:name="layout.ProductFilters"
+        android:layout_width="196dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_product_filters" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.product.whitewalkers.veniporelyestuyo.ProductsMapActivity" />
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    tools:context="com.product.whitewalkers.veniporelyestuyo.ProductsMapActivity"
+    android:layout_marginRight="15dp"
+    map:layout_constraintRight_toRightOf="parent"
+    android:layout_marginLeft="15dp"
+    map:layout_constraintLeft_toLeftOf="parent"
+    tools:layout_constraintTop_creator="1"
+    tools:layout_constraintRight_creator="1"
+    tools:layout_constraintBottom_creator="1"
+    android:layout_marginStart="15dp"
+    map:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="7dp"
+    map:layout_constraintTop_toBottomOf="@+id/productFilter"
+    tools:layout_constraintLeft_creator="1"
+    android:layout_marginBottom="8dp" />
+
+</android.support.constraint.ConstraintLayout>
