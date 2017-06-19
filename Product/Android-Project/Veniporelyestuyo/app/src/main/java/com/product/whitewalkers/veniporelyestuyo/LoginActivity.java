@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postToken(new Account(username,"",password), mContext);
+                response = new AccountApiCommunication().postToken(new Account(0,username,"",password, true), mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }

@@ -1,5 +1,6 @@
 package ApiCommunicationManager;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -28,7 +29,8 @@ public class ProductApiCommunication{
     private static final String TAG = "myLogMessageTag";
     private Product product;
 
-    public ResponseHttp postProduct(Product productParm) throws JSONException, IOException{
+    public ResponseHttp postProduct(Product productParm, Context context) throws JSONException, IOException{
+        String token = (new AccountApiCommunication()).getToken(context);
         Log.i(TAG, "Comenzando post product");
         product = productParm;
         JSONObject productJson = new JSONObject();
@@ -37,16 +39,17 @@ public class ProductApiCommunication{
         productJson.put("State", product.stateId);
         productJson.put("Latitude", product.latitude);
         productJson.put("Longitude", product.longitude);
-        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString());
+        ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString(), token);
         if (responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
-            responseHttp = postFunctionReturn(responseHttp);
+            responseHttp = postFunctionReturn(responseHttp, context);
         return responseHttp;
     }
 
-    public ResponseHttp postProductPhoto(Product product) throws JSONException, IOException{
+    public ResponseHttp postProductPhoto(Product product, Context context) throws JSONException, IOException{
+        String token = (new AccountApiCommunication()).getToken(context);
         ArrayList<JSONObject> productsPhotosJson = createPhotosJsonData(product);
         for(int i=0; i<productsPhotosJson.size();i++){
-            ResponseHttp responseAux = new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString());
+            ResponseHttp responseAux = new ConnectionHandler().postData(ApiServerConstant.productPostPhotoUri(product.id), ConnectionHandler.Content_Type.JSON, productsPhotosJson.get(i).toString(), token);
             if (responseAux.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
                 return responseAux;
             }
@@ -92,23 +95,23 @@ public class ProductApiCommunication{
         return byteArray;
     }
 
-    public ResponseHttp postFunctionReturn(ResponseHttp obj) throws IOException, JSONException{
+    public ResponseHttp postFunctionReturn(ResponseHttp obj, Context context) throws IOException, JSONException{
         ResponseHttp response = obj;
         String res = response.getMessage();
         res = res.replace("\n","");
         int id  = Integer.parseInt(res);
         Product actualProduct = this.product;
         actualProduct.id = id;
-        ResponseHttp newResponse = this.postProductPhoto(actualProduct);
+        ResponseHttp newResponse = this.postProductPhoto(actualProduct, context);
         return newResponse;
     }
 
     public ResponseHttp getProductAndImages(int productId) throws IOException, JSONException {
-        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProduct = new ConnectionHandler().getData(ApiServerConstant.productGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
         if (responseHttpProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProduct;
         }
-        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON);
+        ResponseHttp responseHttpProductImage = new ConnectionHandler().getData(ApiServerConstant.productPhotoGetUri(productId), ConnectionHandler.Content_Type.JSON, null);
         if(responseHttpProductImage.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductImage;
         }
@@ -119,8 +122,9 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
-    public ResponseHttp acceptProduct(int productId) throws IOException, JSONException{
-        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().postData(ApiServerConstant.acceptProductUri(productId), ConnectionHandler.Content_Type.JSON,null);
+    public ResponseHttp acceptProduct(int productId, Context context) throws IOException, JSONException{
+        String token = (new AccountApiCommunication()).getToken(context);
+        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().postData(ApiServerConstant.acceptProductUri(productId), ConnectionHandler.Content_Type.JSON,null, token);
         if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpAcceptProduct;
         }
@@ -128,8 +132,9 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
-    public ResponseHttp deleteProduct(int productId) throws IOException, JSONException{
-        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().deleteData(ApiServerConstant.deleteProductUri(productId), ConnectionHandler.Content_Type.JSON);
+    public ResponseHttp deleteProduct(int productId, Context context) throws IOException, JSONException{
+        String token = (new AccountApiCommunication()).getToken(context);
+        ResponseHttp responseHttpAcceptProduct = new ConnectionHandler().deleteData(ApiServerConstant.deleteProductUri(productId), ConnectionHandler.Content_Type.JSON, "", token);
         if (responseHttpAcceptProduct.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpAcceptProduct;
         }
@@ -137,8 +142,9 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
-    public ResponseHttp getUnmoderatedProducts() throws IOException, JSONException{
-        ResponseHttp responseHttpUnmoderatedProducts = new ConnectionHandler().getData(ApiServerConstant.getUnmoderatedProductsUri, ConnectionHandler.Content_Type.JSON);
+    public ResponseHttp getUnmoderatedProducts(Context context) throws IOException, JSONException{
+        String token = (new AccountApiCommunication()).getToken(context);
+        ResponseHttp responseHttpUnmoderatedProducts = new ConnectionHandler().getData(ApiServerConstant.getUnmoderatedProductsUri, ConnectionHandler.Content_Type.JSON, token);
         if (responseHttpUnmoderatedProducts.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpUnmoderatedProducts;
         }
@@ -148,8 +154,9 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
-    public ResponseHttp getProductsByCategory(int categoryId) throws IOException, JSONException{
-        ResponseHttp responseHttpProductsByCategory = new ConnectionHandler().getData(ApiServerConstant.getProductsByCategory(categoryId), ConnectionHandler.Content_Type.JSON);
+    public ResponseHttp getProductsByCategory(int categoryId, Context context) throws IOException, JSONException{
+        String token = (new AccountApiCommunication()).getToken(context);
+        ResponseHttp responseHttpProductsByCategory = new ConnectionHandler().getData(ApiServerConstant.getProductsByCategory(categoryId), ConnectionHandler.Content_Type.JSON, token);
         if (responseHttpProductsByCategory.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
             return responseHttpProductsByCategory;
         }

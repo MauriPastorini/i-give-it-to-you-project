@@ -23,6 +23,7 @@ namespace VeniPorEl.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ProductModel))]
         public IHttpActionResult RegisterProduct(ProductModel productModel)
         {
@@ -51,6 +52,7 @@ namespace VeniPorEl.Controllers
 
         [HttpPost]
         [Route("{productId}/Image")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ImageModel))]
         public IHttpActionResult UploadProductImage(int productId, ImageModel imageModel)
         {
@@ -77,6 +79,7 @@ namespace VeniPorEl.Controllers
 
         [HttpPost]
         [Route("{productId}/Accept")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ProductModel))]
         public IHttpActionResult AcceptProduct(int productId)
         {
@@ -99,6 +102,7 @@ namespace VeniPorEl.Controllers
 
         [HttpDelete]
         [Route("{productId}")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ProductModel))]
         public IHttpActionResult DeleteProduct(int productId)
         {
@@ -120,6 +124,7 @@ namespace VeniPorEl.Controllers
 
         [HttpGet]
         [Route("{productId}/photo")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ICollection<ImageModel>))]
         public IHttpActionResult GetProductImage(int productId)
 
@@ -150,6 +155,7 @@ namespace VeniPorEl.Controllers
 
         [HttpGet]
         [Route("{productId}")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ICollection<ImageModel>))]
         public IHttpActionResult GetCompleteProductImage(int productId)
         {
@@ -168,6 +174,7 @@ namespace VeniPorEl.Controllers
 
         [HttpGet]
         [Route("Unmoderated")]
+        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(ICollection<Product>))]
         public IHttpActionResult GetUnmoderatedProducts()
         {
@@ -181,6 +188,7 @@ namespace VeniPorEl.Controllers
 
         [HttpGet]
         [Route("Category/{categoryId}")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ICollection<Product>))]
         public IHttpActionResult GetProductsByCategory(int categoryId)
         {

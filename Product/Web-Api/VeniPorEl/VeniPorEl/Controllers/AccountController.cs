@@ -26,6 +26,30 @@ namespace VeniPorEl.Controllers
             _repo = new AuthRepository();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult GetUnmoderatedUsers()
+        {
+            try
+            {
+                List<User> users = userService.GetUnmoderatedUsers().ToList();
+                var results = new List<UserModel>();
+                for(int i = 0; i < users.Count; i++)
+                {
+                    var model = new UserModel();
+                    model.UserId = users[i].UserId.ToString();
+                    model.UserName = users[i].UserName;
+                    model.Email = users[i].Email;
+                    results.Add(model);
+                }
+                return Ok(results);   
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IHttpActionResult> Register(UserModel userModel)
@@ -37,7 +61,7 @@ namespace VeniPorEl.Controllers
             User user;
             try
             {
-                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole());
+                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole(), false);
             }
             catch(ArgumentException ex)
             {
@@ -64,14 +88,10 @@ namespace VeniPorEl.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles ="Admin, Normal")]
+        [Authorize(Roles ="Admin")]
         public IHttpActionResult UpdateUser(string id, UserModel userModel)
         {
             if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            if(id != userModel.UserName)
             {
                 return BadRequest(ModelState);
             }
@@ -88,12 +108,30 @@ namespace VeniPorEl.Controllers
         [HttpPost]
         [Route("Admin/{id}")]
         [Authorize(Roles ="Admin")]
-        public IHttpActionResult SetAsAdmin(string id)
+        public IHttpActionResult SetAsAdmin(string id, UserModel userModel)
         {
-            IHttpActionResult dbResult = SetAsAdmin_Owin(id);
+            IHttpActionResult dbResult = SetAsAdmin_Owin(userModel.UserName);
             if(dbResult is OkResult)
             {
                 return SetAsAdmin_VeniPorEl(id);
+            }
+            else
+            {
+                return dbResult;
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult Delete(string id, UserModel user)
+        {
+            int idd = Int32.Parse(id);
+            IHttpActionResult dbResult = DeleteUser_Owin(user);
+            if(dbResult is OkResult)
+            {
+                Delete_VeniPorEl(idd);
+                return Ok();
             }
             else
             {
@@ -174,6 +212,11 @@ namespace VeniPorEl.Controllers
             userService.Register(user);
         }
 
+        private void Delete_VeniPorEl(int id)
+        {
+            userService.Delete(id);
+        }
+
         private async Task<IHttpActionResult> Register_Owin(UserModel userModel)
         {
             IdentityResult result = await _repo.RegisterUser(userModel);
@@ -198,6 +241,10 @@ namespace VeniPorEl.Controllers
             {
                 passOld = userToModify.Pass;
                 userToModify.Pass = userModel.Password;
+                if(userModel.IsAdmin != null)
+                {
+                    userToModify.IsModerated = true;
+                }
                 try
                 {
                     userService.Update(userToModify);

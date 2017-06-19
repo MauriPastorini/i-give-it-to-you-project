@@ -113,7 +113,7 @@ public class PublishProductFragment extends Fragment {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                response = new CategoryApiCommunication().getCategories();
+                response = new CategoryApiCommunication().getCategories(mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -235,7 +235,7 @@ public class PublishProductFragment extends Fragment {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                response = new ProductApiCommunication().postProduct(actualProduct);
+                response = new ProductApiCommunication().postProduct(actualProduct, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
