@@ -11,7 +11,8 @@ namespace Data
 
         public int ProductId { get; set; }
         public string Name { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
+        public int CategoryId { get; set; }
         public ProductState State { get; set; }
         public Location Location { get; set; }
         public List<ProductImage> ProductImages { get; set; }

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ApiCommunicationManager.CategoryApiCommunication;
+import ApiCommunicationManager.ConnectionHandler;
 import ApiCommunicationManager.ProductApiCommunication;
 import Domain.Category;
 import Domain.Product;
@@ -56,19 +57,29 @@ public class ProductFilters extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    int categoryId = new CategoryApiCommunication().getCategoryIdFromCategoriesCollection(parent.getItemAtPosition(position).toString(), categories);
-                    loadProductsList(categoryId);
+                    if(parent!=null && categories!=null) {
+                        int categoryId = new CategoryApiCommunication().getCategoryIdFromCategoriesCollection(parent.getItemAtPosition(position).toString(), categories);
+                        loadProductsList(categoryId);
+                    }else{
+                        loadProductsList(0);
+                    }
+
                 }catch (Resources.NotFoundException ex){
                     loadProductsList(0);
                 }
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 loadProductsList(0);
             }
         });
-
+        checkConnection();
         return view;
+    }
+
+    private void checkConnection() {
+        new ConnectionHandler().controlConnectionsAvaiable(getActivity());
     }
 
     @Override
@@ -82,6 +93,7 @@ public class ProductFilters extends Fragment {
     }
 
     private void loadProductsList(int categoryId){
+
           new ProductByCategoryTask(categoryId).execute();
     }
 
