@@ -10,6 +10,7 @@ using System.Web.Http;
 using VeniPorEl.Models;
 using System.Web.Http.Results;
 using Api.Services;
+using System.Web.Http.Description;
 
 namespace VeniPorEl.Controllers
 {
@@ -317,6 +318,28 @@ namespace VeniPorEl.Controllers
         public IHttpActionResult IsAdmin()
         {
             return Ok(Data.User.Roles.Admin);
+        }
+
+        [HttpGet]
+        [Route("{idAccount}/product")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetProductsOfAccount(int idAccount)
+        {
+            ICollection<Product> productsSolicitatedByUser = new ProductService().GetProductsSolicitatedByUser(idAccount);
+            return Ok(productsSolicitatedByUser);
+        }
+
+        [HttpGet]
+        [Route("identifier")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetIdOfTokenAccount()
+        {
+            var us = User;
+            var userIdentity = us.Identity;
+            int idAccount = userService.GetUserIdByUserName(userIdentity.Name);
+            return Ok(idAccount);
         }
     }
 }

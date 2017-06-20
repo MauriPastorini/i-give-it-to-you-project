@@ -8,30 +8,28 @@
     android:orientation="vertical"
     tools:context="com.product.whitewalkers.veniporelyestuyo.MainMenuUserActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2.85"
         android:orientation="vertical">
-
         <fragment
             android:id="@+id/fragment"
             class="layout.PublishProductFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_publish_product" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.24"
-        android:orientation="vertical"
-        android:weightSum="1">
-    </LinearLayout>
-
-    <android.support.design.widget.BottomNavigationView
+            tools:layout="@layout/fragment_publish_product"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+        <ProgressBar
+            android:id="@+id/progressBarMainMenuUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+        <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

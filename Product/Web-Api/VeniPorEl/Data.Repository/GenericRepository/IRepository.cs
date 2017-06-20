@@ -19,5 +19,6 @@ namespace Data.Repository.GenericRepository
         void RemoveRange(IEnumerable<TEntity> entities);
         void Update(TEntity entity);
         void Atach(TEntity entity);
+        Product GetProductWithUserSolicitated(int productId);
     }
 }

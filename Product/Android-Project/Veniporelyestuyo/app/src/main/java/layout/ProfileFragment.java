@@ -2,6 +2,7 @@ package layout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,31 +13,39 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.product.whitewalkers.veniporelyestuyo.ModerateProductsActivity;
 import com.product.whitewalkers.veniporelyestuyo.R;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ApiCommunicationManager.AccountApiCommunication;
+import ApiCommunicationManager.ProductApiCommunication;
 import Domain.Account;
 import Domain.Product;
+import Domain.ResponseAsyncTask;
+import Domain.ResponseHttp;
+import MyStaticElements.LogRegistration;
 
 public class ProfileFragment extends Fragment {
     ArrayList<Product> productsSolicitated = new ArrayList<>();
     View view;
     Account account;
-    IProfileFragment iprofileFragment;
+    IProfileFragment iProfileFragment;
 
     public interface IProfileFragment{
         void openLoginActivity();
+        void openProductInfoActivity(int productId);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            iprofileFragment = (IProfileFragment) context;
+            iProfileFragment = (IProfileFragment) context;
         }catch (ClassCastException ex){
             throw ex;
         }
@@ -49,18 +58,54 @@ public class ProfileFragment extends Fragment {
         account = new AccountApiCommunication().getAccountInformation(getActivity());
         loadAccountInformation();
         loadButtonListener();
-        loadHardcodedProducts();
-        loadProductListView();
+        new ProductTask(getActivity()).execute();
         return view;
     }
 
-    private void loadHardcodedProducts(){
-        Product product1 = new Product();
-        Product product2 = new Product();
-        product1.name = "Producto 1";
-        product2.name = "Producto 2";
-        productsSolicitated.add(product1);
-        productsSolicitated.add(product2);
+    private class ProductTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
+
+        private Context mContext;
+        public ProductTask (Context context){
+            mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected ResponseAsyncTask doInBackground(Void... params) {
+            ResponseHttp response;
+            try{
+                response = new ProductApiCommunication(mContext).getProductsSolicitatedByClient(mContext);
+            } catch (IOException ioEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
+            }
+            catch (JSONException jsonEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,jsonEx);
+            }
+            return new ResponseAsyncTask<ResponseHttp>(ResponseAsyncTask.TypeResponse.OK,response);
+        }
+
+        @Override
+        protected void onPostExecute(ResponseAsyncTask result) {
+            if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
+                Toast.makeText(mContext,"Error en cargar los productos: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
+                return;
+            }
+            else{
+                ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    productsSolicitated = (ArrayList<Product>) responseHttp.getMessageObject();
+                    loadProductListView();
+                } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
+                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
+                }
+                return;
+            }
+        }
     }
 
     private void loadButtonListener() {
@@ -69,7 +114,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v){
                 new AccountApiCommunication().signOut(getActivity());
-                iprofileFragment.openLoginActivity();
+                iProfileFragment.openLoginActivity();
             }
         });
     }
@@ -83,10 +128,10 @@ public class ProfileFragment extends Fragment {
 
     //List products
     private void loadProductListView(){
-        ArrayAdapter<Product> unmoderatedProductsAdapter = new UnmoderatedProductsAdapter(getActivity());
+        ArrayAdapter<Product> productsSolicitatedAdapter = new UnmoderatedProductsAdapter(getActivity());
         ListView unmoderatedProductsListView = (ListView) view.findViewById(R.id.lstProductsSolicitatedId);
         unmoderatedProductsListView.setAdapter(null);
-        unmoderatedProductsListView.setAdapter(unmoderatedProductsAdapter);
+        unmoderatedProductsListView.setAdapter(productsSolicitatedAdapter);
     }
 
     private class UnmoderatedProductsAdapter extends ArrayAdapter<Product> {
@@ -96,7 +141,6 @@ public class ProfileFragment extends Fragment {
         public UnmoderatedProductsAdapter(Context context) {
             super(context, R.layout.products_solicitated, productsSolicitated);
             this.context = context;
-
         }
 
         @Override
@@ -106,32 +150,24 @@ public class ProfileFragment extends Fragment {
                 Activity activity = (Activity) context;
                 listItemView = activity.getLayoutInflater().inflate(R.layout.products_solicitated, parent, false);
             }
-            Product currentProduct = productsSolicitated.get(currentProductIndex);
+            final Product currentProduct = productsSolicitated.get(currentProductIndex);
 
             TextView productName = (TextView) listItemView.findViewById(R.id.productSolicitatedName);
             productName.setText(currentProduct.name);
-            Button approveBtn = (Button) listItemView.findViewById(R.id.btn_product_rate);
-            Button denyBtn = (Button) listItemView.findViewById(R.id.btn_product_info);
+            Button rateBtn = (Button) listItemView.findViewById(R.id.btn_product_rate);
+            Button viewInfoBtn = (Button) listItemView.findViewById(R.id.btn_product_info);
 
-            approveBtn.setOnClickListener(new View.OnClickListener() {
+            rateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View lstView) {
-                    System.out.println("HELLOOO Listener");
-
-                    //Integer[] params = new Integer[1];
-                    // params[0] = productsSolicitated.get(currentProductIndex).id;
-                    //new AcceptProductTask(ModerateProductsActivity.this).execute(params);
-
+                    //Rate Task
                 }
             });
 
-            denyBtn.setOnClickListener(new View.OnClickListener() {
+            viewInfoBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View lstView) {
-                    System.out.println("HELLOOO");
-                    //Integer[] params = new Integer[1];
-                    //params[0] = productsSolicitated.get(currentProductIndex).id;
-                    //new DeleteProductTask(ModerateProductsActivity.this).execute(params);
+                    iProfileFragment.openProductInfoActivity(currentProduct.id);
                 }
             });
             return listItemView;

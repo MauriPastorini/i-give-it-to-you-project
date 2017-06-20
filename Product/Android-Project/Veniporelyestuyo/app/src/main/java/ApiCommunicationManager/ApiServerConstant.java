@@ -67,5 +67,15 @@ public class ApiServerConstant {
         return ApiServerConstant.apiUrl + "Product/" + productId + "/solicitude/"+accountId;
     }
 
+    public static String deleteSolicitude(int productId, int accountId){
+        return ApiServerConstant.apiUrl + "Product/" + productId + "/solicitude/"+accountId;
+    }
+
     public static String isAdminUri = ApiServerConstant.apiUrl + "account/admin";
+
+    public static String getProductsSolicitatedByClientUri(int accountId){
+        return ApiServerConstant.apiUrl + "account/" + accountId + "/product/";
+    }
+
+    public static String accountGetIdUri = ApiServerConstant.apiUrl + "account/identifier";
 }

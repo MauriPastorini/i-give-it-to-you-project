@@ -232,5 +232,47 @@ namespace VeniPorEl.Controllers
                 return Ok("Solicitude registered");
             }
         }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin, Normal")]
+        [Route("{productId}/solicitude/{accountId}")]
+        public IHttpActionResult DeleteProductSolicitude(int productId, int accountId)
+        {
+            if (productId == 0 || accountId == 0)
+            {
+                return BadRequest("No data sent.");
+            }
+            else
+            {
+                var us = User;
+                var userIdentity = us.Identity;
+                string userNameConnected = userIdentity.Name;
+                try
+                {
+                    productService.DeleteSolicitudeForProduct(productId, accountId, userNameConnected);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return Content(HttpStatusCode.NotFound, ex.Message);
+                }
+                catch (ProductAlreadySolicitatedException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                catch (SmtpException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                catch(UnauthorizedAccessException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                return Ok("Solicitude registered");
+            }
+        }
     }
 }

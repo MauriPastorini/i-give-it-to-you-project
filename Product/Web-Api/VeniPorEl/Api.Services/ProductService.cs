@@ -200,19 +200,19 @@ namespace Api.Services
                 throw new KeyNotFoundException("User that made the solicitude doesnt exists");
             }
             String emailUserWhoWantIt = userSolicitude.Email;
-            User user = new UserService().GetById(product.UserOwnProductId);
-            if (userSolicitude == null)
+            User userOwnerOfProduct = new UserService().GetById(product.UserOwnProductId);
+            if (userOwnerOfProduct == null)
             {
                 throw new KeyNotFoundException("User owner doesnt exists");
             }
-            String emailUserProductOwner = user.Email;
+            String emailUserProductOwner = userOwnerOfProduct.Email;
             product.UserSolicitudeProduct = userSolicitude;
             unitOfWork.UsersRepository.Atach(userSolicitude);
             unitOfWork.ProductRepository.Update(product);
             unitOfWork.Save();
 
             SendEmail(product, emailUserProductOwner, "Quieren tu producto!", "Felicitaciones! Quieren tu producto: " + product.ToString() + userSolicitude.ToString());
-            SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu solicitud", "Felicitaciones! A la brevedad la persona se pondra en contacto contigo. Contacto: " + user.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu solicitud", "Felicitaciones! A la brevedad la persona se pondra en contacto contigo. Contacto: " + userOwnerOfProduct.ToString());
         }
 
         private static void SendEmail(Product product, String email, String subject, String message)
@@ -220,8 +220,6 @@ namespace Api.Services
 
             String emailVeni = "venisyestuyo@gmail.com";
             String emailPass = "venis1234";
-
-
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress(emailVeni);
@@ -238,6 +236,49 @@ namespace Api.Services
 
                 }
             }
+        }
+        public void DeleteSolicitudeForProduct(int productId, int accountId, string userMakingSolicitudeId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Product doesnt exists");
+            }
+            User userSolicitude = new UserService().GetById(accountId);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User that made the solicitude doesnt exists");
+            }
+            User userConnected = new UserService().GetByUserName(userMakingSolicitudeId);
+            if (userConnected == null)
+            {
+                throw new InvalidOperationException("User connected from token doesnt exists");
+            }
+            if (userSolicitude.UserId != userSolicitude.UserId)
+            {
+                throw new UnauthorizedAccessException("The solicitude is from a different user");
+            }
+
+            User userOwnerOfProduct = new UserService().GetById(product.UserOwnProductId);
+            if (userOwnerOfProduct == null)
+            {
+                throw new KeyNotFoundException("User owner doesnt exists");
+            }
+            Product productWithUser = unitOfWork.ProductRepository.GetProductWithUserSolicitated(productId);
+
+            productWithUser.UserSolicitudeProduct = null;
+            unitOfWork.Save();
+
+            String emailUserWhoWantIt = userSolicitude.Email;
+            String emailUserProductOwner = userOwnerOfProduct.Email;
+            SendEmail(product, emailUserProductOwner, "Ya no quieren tu producto", "Lamentamos informarle que ya no quieren su producto: " + product.ToString() + userSolicitude.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado la cancelación de su solicitud", "Lamentamos que ya no lo quiera mas! Contacto del propietario: " + userOwnerOfProduct.ToString());
+        }
+
+        public ICollection<Product> GetProductsSolicitatedByUser(int userId)
+        {
+            ICollection<Product> productsSolicitatedByUser = unitOfWork.ProductRepository.Find(p => p.UserSolicitudeProductId == userId && p.Moderated).ToList();
+            return productsSolicitatedByUser;
         }
     }
 }

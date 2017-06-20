@@ -174,7 +174,6 @@ public class ProductApiCommunication{
     private List<Product> decodeResponseProductList(String message)throws JSONException{
         JSONArray productsToDecode = new JSONArray(message);
         List<Product> decodedProducts = new ArrayList<Product>();
-
         for (int currentProduct = 0; currentProduct <productsToDecode.length() ; currentProduct++) {
             JSONObject currentProductJSON = productsToDecode.getJSONObject(currentProduct);
             Product currentProductObj = decodeMessageToProduct(currentProductJSON.toString());
@@ -246,6 +245,28 @@ public class ProductApiCommunication{
             return responseHttp;
         }
         return new ConnectionHandler().postData(ApiServerConstant.postSolicitude(productId,idAccount),ConnectionHandler.Content_Type.JSON,"",token);
+    }
+
+    public  ResponseHttp cancelSolicitude(int productId)throws JSONException,IOException {
+        int idAccount = new AccountApiCommunication().getAccountInformation(context).getId();
+        if (idAccount == 0){
+            ResponseHttp responseHttp = new ResponseHttp(500);
+            responseHttp.setMessage("No hay datos del usuario en el sistema");
+            return responseHttp;
+        }
+        return new ConnectionHandler().deleteData(ApiServerConstant.deleteSolicitude(productId,idAccount),ConnectionHandler.Content_Type.JSON,"",token);
+    }
+
+    public ResponseHttp getProductsSolicitatedByClient(Context context) throws IOException, JSONException{
+        int idAccount = new AccountApiCommunication().getAccountInformation(context).getId();
+        ResponseHttp response = new ConnectionHandler().getData(ApiServerConstant.getProductsSolicitatedByClientUri(idAccount), ConnectionHandler.Content_Type.NONE, token);
+        if (response.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return response;
+        }
+        List<Product> productsOfUser = decodeResponseProductList(response.getMessage());
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        finalResponse.setMessageObject(productsOfUser);
+        return finalResponse;
     }
 }
 

@@ -102,8 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
-                    Intent myIntent = null;
+                    Intent myIntent;
                     if(account.isAdmin()){
                         myIntent = new Intent(LoginActivity.this, ModerateProductsActivity.class);
                     } else{

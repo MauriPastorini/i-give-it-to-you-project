@@ -1,6 +1,9 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +21,7 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-       loadInfoProductFragment();
+        loadInfoProductFragment();
     }
 
     @Override
@@ -33,9 +36,20 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
 
 
     private void loadInfoProductFragment(){
+        Bundle bundle = new Bundle();
+        bundle.putString("typeProductInfo", ProductFragment.TypeInfo.VIEW_SOLICITUDE.toString());
+        bundle.putString("productId", ""+ 1);//HARDCODED
 
-        ProductFragment productFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.productInfoFragment);
-        productFragment.setProductInfo(11);
+        Fragment fragment = new ProductFragment();
+        fragment.setArguments(bundle);
+
+        FragmentManager managerInfoProduct = getSupportFragmentManager();
+        FragmentTransaction transaction = managerInfoProduct.beginTransaction();
+        transaction.replace(R.id.productInfoFragment, fragment);
+        transaction.commit();
+
+       // ProductFragment productFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.productInfoFragment);
+        //productFragment.setProductInfo(11);
     }
 
     @Override
@@ -48,7 +62,7 @@ public class ProductActivity extends AppCompatActivity implements ProductFragmen
     }
 
     @Override
-    public void returnToMainMenu() {
+    public void returnToPreviousActivityOrFragment() {
         startActivity(new Intent(ProductActivity.this,MainMenuUserActivity.class));
     }
 }

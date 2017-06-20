@@ -34,7 +34,7 @@ public class ConnectionHandler {
     }
 
     public enum Content_Type {
-        JSON, URL_ENCODED, XML
+        PLAIN, JSON, URL_ENCODED, XML, NONE
     }
 
     public void controlConnectionsAvaiable(Context activityContext) {
@@ -98,10 +98,10 @@ public class ConnectionHandler {
             con.setDoOutput(true);
         }
         con.setDoInput(true);
+        if (token != null){
+            con.setRequestProperty("Authorization", "bearer " + token);
+        }
         if (content_type == Content_Type.JSON){
-            if (token != null){
-                con.setRequestProperty("Authorization", "bearer " + token);
-            }
             con.setRequestProperty("Content-Type", "application/json");
             con.setRequestProperty("Accept", "application/json");
         } else if(content_type == Content_Type.URL_ENCODED){
