@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONException;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import Domain.ResponseAsyncTask;
 import Domain.ResponseHttp;
 
 import static android.R.attr.data;
+import static com.product.whitewalkers.veniporelyestuyo.R.id.textView;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "myLogMessageTag";
@@ -37,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
+        TextView txtAdmin = (TextView)findViewById(R.id.txtEditUsername);
+        TextView txtPassAdmin = (TextView)findViewById(R.id.txtEditContraseña);
+        txtAdmin.setText("superUser");
+        txtPassAdmin.setText("Super123");
     }
 
     public void login(View view){

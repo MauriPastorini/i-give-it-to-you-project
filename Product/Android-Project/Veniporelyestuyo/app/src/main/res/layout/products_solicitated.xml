@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/productSolicitatedName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_product_rate"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/star_big_on"
+        android:elevation="10dp"
+        android:textAlignment="viewStart" />
+
+    <Button
+        android:id="@+id/btn_product_info"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/ic_menu_info_details"
+        android:elevation="10dp" />
+
+</LinearLayout>
