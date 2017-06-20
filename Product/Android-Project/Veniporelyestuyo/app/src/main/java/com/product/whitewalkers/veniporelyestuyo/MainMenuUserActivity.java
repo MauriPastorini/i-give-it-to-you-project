@@ -1,6 +1,7 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -10,17 +11,21 @@ import android.view.MenuItem;
 import android.view.Menu;
 
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import ApiCommunicationManager.ConnectionHandler;
+import layout.ProductFragment;
 import layout.ProfileFragment;
 import layout.PublishProductFragment;
+import layout.ReviewFragment;
+
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class MainMenuUserActivity extends AppCompatActivity implements ProfileFragment.IProfileFragment{
+public class MainMenuUserActivity extends AppCompatActivity implements ProfileFragment.IProfileFragment, ProductFragment.IProductFragment, ReviewFragment.IReviewFragment{
 
     private void checkConnection() {
         new ConnectionHandler().controlConnectionsAvaiable(this);
@@ -37,6 +42,8 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         setContentView(R.layout.activity_main_menu_user);
         loadInfoProductFragment();
         setNavigationView();
+        findViewById(R.id.progressBarMainMenuUser).setVisibility(View.INVISIBLE);
+        findViewById(R.id.reviewFragment).setVisibility(View.INVISIBLE);
     }
 
     private void setNavigationView() {
@@ -110,5 +117,57 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
     @Override
     public void openLoginActivity() {
         startActivity(new Intent(MainMenuUserActivity.this,LoginActivity.class));
+    }
+    @Override
+    public void openProductInfoActivity(int productId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("typeProductInfo", ProductFragment.TypeInfo.VIEW_SOLICITUDE.toString());
+        bundle.putString("productId", ""+ productId);
+
+        Fragment fragment = new ProductFragment();
+        fragment.setArguments(bundle);
+
+        FragmentManager managerInfoProduct = getSupportFragmentManager();
+        FragmentTransaction transaction = managerInfoProduct.beginTransaction();
+        transaction.replace(R.id.fragment, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void loadingVisible(boolean visible) {
+        if (visible) {
+            findViewById(R.id.progressBarMainMenuUser).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.progressBarMainMenuUser).setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void returnToPreviousActivityOrFragment() {
+        Fragment fragment = new ProfileFragment();
+        FragmentManager managerProfile = getSupportFragmentManager();
+        FragmentTransaction transactionProfile = managerProfile.beginTransaction();
+        transactionProfile.replace(R.id.fragment, fragment);
+        transactionProfile.commit();
+    }
+
+    @Override
+    public void changeOpacityFragment(boolean normal){
+        if(normal){
+            float intensity = 0f;
+            findViewById(R.id.fragment).getRootView().setBackgroundColor(Color.TRANSPARENT);
+            findViewById(R.id.fragment).setAlpha(intensity);
+        }
+        else {
+            float intensity = 0.7f;
+            //findViewById(R.id.fragment).setAlpha(intensity);
+            //findViewById(R.id.fragment).setBackgroundColor(Color.GRAY);
+        }
+    }
+
+    @Override
+    public void openReviewFragment(int id){
+        ReviewFragment.newInstance(id);
+        findViewById(R.id.reviewFragment).setVisibility(View.VISIBLE);
     }
 }

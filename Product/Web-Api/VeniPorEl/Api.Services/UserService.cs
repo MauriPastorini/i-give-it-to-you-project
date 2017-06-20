@@ -59,5 +59,11 @@ namespace Api.Services
             UnitOfWork.UsersRepository.Update(user);
             UnitOfWork.Save();
         }
+
+        public int GetUserIdByUserName(string userName)
+        {
+            return UnitOfWork.UsersRepository.SingleOrDefault(u => (u.UserName == userName)).UserId;
+
+        }
     }
 }

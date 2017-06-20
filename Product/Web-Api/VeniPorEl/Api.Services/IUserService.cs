@@ -15,6 +15,6 @@ namespace Api.Services
         void Update(User user);
         ICollection<User> GetUnmoderatedUsers();
         void Delete(int id);
-
+        int GetUserIdByUserName(String username);
     }
 }

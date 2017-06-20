@@ -36,8 +36,14 @@ public class AccountApiCommunication {
         if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
             String token =responseHttp.getMessage();
             saveToken(token, context);
-            saveAccount(account,context);
             token = extractTokenFromMessage(token);
+            ResponseHttp responseAccountId = new ConnectionHandler().getData(ApiServerConstant.accountGetIdUri, ConnectionHandler.Content_Type.JSON, token);
+            if(responseAccountId.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS)
+                return responseAccountId;
+            String id = responseAccountId.getMessage();
+            id = id.replace("\n","");
+            account.setId(Integer.parseInt(id));
+            saveAccount(account,context);
             ResponseHttp responseHttp1 = new ConnectionHandler().getData(ApiServerConstant.isAdminUri, ConnectionHandler.Content_Type.JSON, token);
             if (responseHttp1.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
                 account.setAdmin(true);

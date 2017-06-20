@@ -105,6 +105,7 @@ namespace Data
 
         private static bool IsPasswordCorrect(string pass)
         {
+            return true;//delete after debug
             Regex regex = new Regex(@"((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})");
             Match match = regex.Match(pass);
             return match.Success;

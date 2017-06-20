@@ -18,7 +18,6 @@ namespace Data.Access
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<User> Users { get; set; }
 
-
         public Context() : base("VeniPorEl") { addDefault(); }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -76,7 +75,6 @@ namespace Data.Access
                 Category defaultCategory = Category.CreateWithName("Tecnologia");
                 Categories.Add(defaultCategory);
             }   
-            
         }
     }
 }

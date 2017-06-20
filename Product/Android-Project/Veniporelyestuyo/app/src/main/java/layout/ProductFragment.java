@@ -17,28 +17,27 @@ import com.product.whitewalkers.veniporelyestuyo.R;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.LogRecord;
 
-import ApiCommunicationManager.AccountApiCommunication;
 import ApiCommunicationManager.ProductApiCommunication;
-import Domain.Account;
 import Domain.Product;
 import Domain.ResponseAsyncTask;
 import Domain.ResponseHttp;
 import MyStaticElements.LogRegistration;
 
-import static android.R.attr.data;
-import static android.content.ContentValues.TAG;
-
 
 public class ProductFragment extends Fragment {
 
+    public enum TypeInfo{
+        VIEW_SOLICITUDE, MAKE_SOLICITUDE
+    }
+
     IProductFragment iProductFragment;
+    TypeInfo typeProductInfo;
+    private int productId;
 
     public interface IProductFragment {
         void loadingVisible(boolean visible);
-        void returnToMainMenu();
+        void returnToPreviousActivityOrFragment();
     }
 
     @Override
@@ -58,15 +57,15 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product, container, false);
         changeVisibility(View.INVISIBLE, view);
+        String typeProductInfo = getArguments().getString("typeProductInfo");
+        this.typeProductInfo = TypeInfo.valueOf(typeProductInfo);
         loadButtonListener();
+        productId = Integer.parseInt(getArguments().getString("productId"));
+        setProductData(productId);
         return view;
     }
 
-    private int productId;
-
-    //Call from activity
-    public void setProductInfo(int productId){
-        this.productId = productId;
+    public void setProductInfo(){
         setProductData(productId);
     }
 
@@ -106,13 +105,7 @@ public class ProductFragment extends Fragment {
         protected ResponseAsyncTask doInBackground(Void... params) {
             ResponseHttp response;
             try{
-                Account account = new Account("superUser","mauri295@gmail.com");
-                account.setPassword("Super123");
-                account.setId(1);
-                new AccountApiCommunication().postToken(account, getActivity());
-                new AccountApiCommunication().saveAccount(account, mContext);
-
-                response = new ProductApiCommunication(getActivity()).getProductAndImages(productId);
+                response = new ProductApiCommunication(mContext).getProductAndImages(productId);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -124,6 +117,7 @@ public class ProductFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
+            view.findViewById(R.id.btnWantIt).setEnabled(true);
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
                 Toast.makeText(mContext,"Error en cargar producto: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
@@ -162,14 +156,27 @@ public class ProductFragment extends Fragment {
 
     private void loadButtonListener() {
         Button btnSignOut = (Button)view.findViewById(R.id.btnWantIt);
-        btnSignOut.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                iProductFragment.loadingVisible(true);
-                view.findViewById(R.id.btnWantIt).setEnabled(false);
-                new SolicitudeTask(productId).execute();
-            }
-        });
+        if (typeProductInfo == TypeInfo.MAKE_SOLICITUDE){
+            btnSignOut.setText("LO QUIERO!");
+            btnSignOut.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    iProductFragment.loadingVisible(true);
+                    view.findViewById(R.id.btnWantIt).setEnabled(false);
+                    new SolicitudeTask(productId).execute();
+                }
+            });
+        } else if(typeProductInfo == TypeInfo.VIEW_SOLICITUDE){
+            btnSignOut.setText("YA NO LO QUIERO");
+            btnSignOut.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    iProductFragment.loadingVisible(true);
+                    view.findViewById(R.id.btnWantIt).setEnabled(false);
+                    new SolicitudeTask(productId).execute();
+                }
+            });
+        }
     }
 
     private class SolicitudeTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
@@ -184,9 +191,14 @@ public class ProductFragment extends Fragment {
 
         @Override
         protected ResponseAsyncTask doInBackground(Void... params) {
-            ResponseHttp response;
+            ResponseHttp response = null;
             try{
-                response = new ProductApiCommunication(mContext).registerSolicitude(productId, mContext);
+                if (typeProductInfo == TypeInfo.MAKE_SOLICITUDE){
+                    response = new ProductApiCommunication(mContext).registerSolicitude(productId, mContext);
+                }
+                else if(typeProductInfo == TypeInfo.VIEW_SOLICITUDE){
+                    response = new ProductApiCommunication(mContext).cancelSolicitude(productId);
+                }
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -199,6 +211,7 @@ public class ProductFragment extends Fragment {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             iProductFragment.loadingVisible(false);
+            view.findViewById(R.id.btnWantIt).setEnabled(true);
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
                 Toast.makeText(mContext,"Error en realizar la solicitud: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
@@ -207,9 +220,9 @@ public class ProductFragment extends Fragment {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"Solicitud realizada",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Producto eliminado de tus solicitudes",Toast.LENGTH_LONG).show();
                     changeVisibility(View.VISIBLE, getView());
-                    iProductFragment.returnToMainMenu();
+                    iProductFragment.returnToPreviousActivityOrFragment();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
                     Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());

@@ -19,6 +19,9 @@ namespace Api.Services
         Product GetProduct(int productId);
         ICollection<Product> GetProductsByCategory(int categoryId);
         void CreateSolicitudeForProduct(int productId, int accountId);
-
+        void DeleteSolicitudeForProduct(int productId, int accountId, string userNameConnected);
+        ICollection<Product> GetProductsSolicitatedByUser(int userId);
+        void RateProductSolicitated(int productId, int rate, string userNameConnected
+            );
     }
 }

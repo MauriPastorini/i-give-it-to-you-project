@@ -245,10 +245,11 @@ C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\bin\es\System.Web.Http.resources.dll
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\bin\es\System.Web.Http.WebHost.resources.dll
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.csprojResolveAssemblyReference.cache
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.pdb
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.Migrations.InitialCreate.resources
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.csproj.GenerateResource.Cache
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.Migrations.InitialCreate2.resources
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.Migrations.InitialCreate3.resources
 C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.Migrations.InitialCreate4.resources
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.csproj.GenerateResource.Cache
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.pdb
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\VeniPorEl\obj\Debug\VeniPorEl.Migrations.Review.resources
