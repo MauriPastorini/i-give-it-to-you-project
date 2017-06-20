@@ -254,7 +254,7 @@ namespace Api.Services
             {
                 throw new InvalidOperationException("User connected from token doesnt exists");
             }
-            if (userSolicitude.UserId != userSolicitude.UserId)
+            if (userSolicitude.UserId != userConnected.UserId)
             {
                 throw new UnauthorizedAccessException("The solicitude is from a different user");
             }
@@ -279,6 +279,48 @@ namespace Api.Services
         {
             ICollection<Product> productsSolicitatedByUser = unitOfWork.ProductRepository.Find(p => p.UserSolicitudeProductId == userId && p.Moderated).ToList();
             return productsSolicitatedByUser;
+        }
+
+        public void RateProductSolicitated(int productId, int rate, string userNameConnected)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Product doesnt exists");
+            }
+            if (product.UserSolicitudeProductId == null || product.UserSolicitudeProductId == 0)
+            {
+                throw new InvalidOperationException("Product was not solicitated");
+            }
+            int idUserThatSolicitatedProduct = (int)product.UserSolicitudeProductId;
+            User userSolicitude = new UserService().GetById(idUserThatSolicitatedProduct);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User that made the solicitude doesnt exists");
+            }
+            User userConnected = new UserService().GetByUserName(userNameConnected);
+            if (userConnected == null)
+            {
+                throw new InvalidOperationException("User connected from token doesnt exists");
+            }
+            if (userSolicitude.UserId != userConnected.UserId)
+            {
+                throw new UnauthorizedAccessException("The solicitude is from a different user");
+            }
+
+            User userOwnerOfProduct = new UserService().GetById(product.UserOwnProductId);
+            if (userOwnerOfProduct == null)
+            {
+                throw new KeyNotFoundException("User owner doesnt exists");
+            }
+
+            product.Review = rate;
+            unitOfWork.Save();
+
+            String emailUserWhoWantIt = userSolicitude.Email;
+            String emailUserProductOwner = userOwnerOfProduct.Email;
+            SendEmail(product, emailUserProductOwner, "Felicitaciones te calificaron por un producto!", "Te calificaron con: " + rate + ". Producto: " + product.ToString() + userSolicitude.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu calificación", "Calificaste con: " + rate + ". Al usuario y producto " + product.ToString() + userSolicitude.ToString());
         }
     }
 }

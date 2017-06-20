@@ -274,5 +274,42 @@ namespace VeniPorEl.Controllers
                 return Ok("Solicitude registered");
             }
         }
+        [HttpPost]
+        [Authorize(Roles = "Admin, Normal")]
+        [Route("{productId}/review/{rate}")]
+        public IHttpActionResult RateProduct(int productId, int rate)
+        {
+            if (productId == 0 || rate == 0)
+            {
+                return BadRequest("No data sent.");
+            }
+            else
+            {
+                var us = User;
+                var userIdentity = us.Identity;
+                string userNameConnected = userIdentity.Name;
+                try
+                {
+                    productService.RateProductSolicitated(productId, rate, userNameConnected);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return Content(HttpStatusCode.NotFound, ex.Message);
+                }
+                catch (SmtpException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                return Ok("Solicitude registered");
+            }
+        }
     }
 }

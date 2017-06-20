@@ -1,13 +1,50 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="layout.ReviewFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <Button
+        android:id="@+id/btn_rate_1"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/star_big_on"
+        android:elevation="10dp" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/btn_rate_2"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/star_big_on"
+        android:layout_toRightOf="@id/btn_rate_1"
+        android:elevation="10dp" />
+
+    <Button
+        android:id="@+id/btn_rate_3"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/star_big_on"
+        android:layout_toRightOf="@id/btn_rate_2"
+        android:elevation="10dp" />
+
+    <Button
+        android:id="@+id/btn_rate_4"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/star_big_on"
+        android:layout_toRightOf="@id/btn_rate_3"
+        android:elevation="10dp" />
+
+    <Button
+        android:id="@+id/btn_rate_5"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/star_big_on"
+        android:layout_toRightOf="@id/btn_rate_4"
+        android:elevation="10dp" />
+</RelativeLayout>

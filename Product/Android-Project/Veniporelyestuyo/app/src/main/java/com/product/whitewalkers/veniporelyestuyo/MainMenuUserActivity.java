@@ -1,6 +1,7 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +18,14 @@ import ApiCommunicationManager.ConnectionHandler;
 import layout.ProductFragment;
 import layout.ProfileFragment;
 import layout.PublishProductFragment;
+import layout.ReviewFragment;
+
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class MainMenuUserActivity extends AppCompatActivity implements ProfileFragment.IProfileFragment, ProductFragment.IProductFragment{
+public class MainMenuUserActivity extends AppCompatActivity implements ProfileFragment.IProfileFragment, ProductFragment.IProductFragment, ReviewFragment.IReviewFragment{
 
     private void checkConnection() {
         new ConnectionHandler().controlConnectionsAvaiable(this);
@@ -40,7 +43,7 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         loadInfoProductFragment();
         setNavigationView();
         findViewById(R.id.progressBarMainMenuUser).setVisibility(View.INVISIBLE);
-
+        findViewById(R.id.reviewFragment).setVisibility(View.INVISIBLE);
     }
 
     private void setNavigationView() {
@@ -146,5 +149,25 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         FragmentTransaction transactionProfile = managerProfile.beginTransaction();
         transactionProfile.replace(R.id.fragment, fragment);
         transactionProfile.commit();
+    }
+
+    @Override
+    public void changeOpacityFragment(boolean normal){
+        if(normal){
+            float intensity = 0f;
+            findViewById(R.id.fragment).getRootView().setBackgroundColor(Color.TRANSPARENT);
+            findViewById(R.id.fragment).setAlpha(intensity);
+        }
+        else {
+            float intensity = 0.7f;
+            //findViewById(R.id.fragment).setAlpha(intensity);
+            //findViewById(R.id.fragment).setBackgroundColor(Color.GRAY);
+        }
+    }
+
+    @Override
+    public void openReviewFragment(int id){
+        ReviewFragment.newInstance(id);
+        findViewById(R.id.reviewFragment).setVisibility(View.VISIBLE);
     }
 }

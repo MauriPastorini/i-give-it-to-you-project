@@ -39,11 +39,12 @@ public class ProfileFragment extends Fragment {
     public interface IProfileFragment{
         void openLoginActivity();
         void openProductInfoActivity(int productId);
+        void openReviewFragment(int id);
     }
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
+       super.onAttach(context);
         try {
             iProfileFragment = (IProfileFragment) context;
         }catch (ClassCastException ex){
@@ -160,7 +161,7 @@ public class ProfileFragment extends Fragment {
             rateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View lstView) {
-                    //Rate Task
+                    iProfileFragment.openReviewFragment(currentProduct.id);
                 }
             });
 

@@ -25,7 +25,23 @@ namespace Data
         public virtual User UserSolicitudeProduct { get; set; }
         public int? UserSolicitudeProductId { get; set; }
 
+        private int ReviewAux;
 
+        public int? Review
+        {
+            get { return ReviewAux; }
+            set
+            {
+                if (value <0 || value>5)
+                {
+                    throw new InvalidOperationException("Not a valid rate");
+                }
+                if (value != null)
+                {
+                    ReviewAux = (int)value;
+                }
+            }
+        }
         private Product()
         {
             ProductImages = new List<ProductImage>();
@@ -71,7 +87,8 @@ namespace Data
             return location != null;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return "Name: " + this.Name + ". " + this.Category;
         }
 

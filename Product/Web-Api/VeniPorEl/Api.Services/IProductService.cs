@@ -21,5 +21,7 @@ namespace Api.Services
         void CreateSolicitudeForProduct(int productId, int accountId);
         void DeleteSolicitudeForProduct(int productId, int accountId, string userNameConnected);
         ICollection<Product> GetProductsSolicitatedByUser(int userId);
+        void RateProductSolicitated(int productId, int rate, string userNameConnected
+            );
     }
 }

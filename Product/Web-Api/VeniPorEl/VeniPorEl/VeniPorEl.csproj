@@ -167,6 +167,10 @@
     <Compile Include="Migrations\201706191628045_InitialCreate4.Designer.cs">
       <DependentUpon>201706191628045_InitialCreate4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706201725309_Review.cs" />
+    <Compile Include="Migrations\201706201725309_Review.Designer.cs">
+      <DependentUpon>201706201725309_Review.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
@@ -209,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706191628045_InitialCreate4.resx">
       <DependentUpon>201706191628045_InitialCreate4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706201725309_Review.resx">
+      <DependentUpon>201706201725309_Review.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

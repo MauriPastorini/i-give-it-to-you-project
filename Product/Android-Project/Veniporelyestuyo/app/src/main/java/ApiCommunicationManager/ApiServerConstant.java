@@ -78,4 +78,8 @@ public class ApiServerConstant {
     }
 
     public static String accountGetIdUri = ApiServerConstant.apiUrl + "account/identifier";
+
+    public static String rateProduct(int productId, int rate){
+        return ApiServerConstant.apiUrl + "product/" + productId + "/review/" + rate;
+    }
 }
