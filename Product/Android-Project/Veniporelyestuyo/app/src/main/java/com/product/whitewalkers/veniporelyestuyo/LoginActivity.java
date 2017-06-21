@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(ResponseAsyncTask result) {
             findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en login: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en login, intenta denuevo!",Toast.LENGTH_LONG).show();
                 Log.i(TAG, result.getDataResponse().toString());
                 return;
             }

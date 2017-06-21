@@ -1,9 +1,11 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
+import android.*;
+
 import android.content.Context;
+
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ForwardingListener;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import ApiCommunicationManager.ConnectionHandler;
 import ApiCommunicationManager.ProductApiCommunication;
+
 import Domain.Product;
 import Domain.ResponseAsyncTask;
 import Domain.ResponseHttp;
@@ -38,7 +41,6 @@ public class ModerateProductsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moderate_products);
-
     }
 
     @Override
@@ -130,7 +132,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en cargar los productos: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en cargar los productos, intenta denuevo! ",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -140,7 +142,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
                     Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
                     updateProductList();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;
@@ -176,7 +178,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en cargar los productos: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en cargar los productos, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -186,7 +188,7 @@ public class ModerateProductsActivity extends AppCompatActivity {
                     Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
                     updateProductList();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

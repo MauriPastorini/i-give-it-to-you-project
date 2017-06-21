@@ -6,26 +6,31 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import android.view.Menu;
 
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import ApiCommunicationManager.ConnectionHandler;
 import layout.ProductFragment;
 import layout.ProfileFragment;
 import layout.PublishProductFragment;
-import layout.ReviewFragment;
 
 import android.support.v4.app.Fragment;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class MainMenuUserActivity extends AppCompatActivity implements ProfileFragment.IProfileFragment, ProductFragment.IProductFragment, ReviewFragment.IReviewFragment{
+public class MainMenuUserActivity extends AppCompatActivity implements ProfileFragment.IProfileFragment, ProductFragment.IProductFragment{
+
+    public static View view = null;
 
     private void checkConnection() {
         new ConnectionHandler().controlConnectionsAvaiable(this);
@@ -40,10 +45,8 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu_user);
-        loadInfoProductFragment();
         setNavigationView();
         findViewById(R.id.progressBarMainMenuUser).setVisibility(View.INVISIBLE);
-        findViewById(R.id.reviewFragment).setVisibility(View.INVISIBLE);
     }
 
     private void setNavigationView() {
@@ -81,10 +84,6 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
                 });
     }
 
-    private void loadInfoProductFragment(){
-        PublishProductFragment bottomPictureFragment = (PublishProductFragment) getSupportFragmentManager().findFragmentById(R.id.productInfoFragment);
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -107,7 +106,6 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         switch (item.getItemId()) {
             case R.id.navigation_product:
                 Toast.makeText(this,"Debe tener al menos 3 fotos",Toast.LENGTH_LONG).show();
-                System.out.println("NAVIGATION ENTROOO");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -149,25 +147,5 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         FragmentTransaction transactionProfile = managerProfile.beginTransaction();
         transactionProfile.replace(R.id.fragment, fragment);
         transactionProfile.commit();
-    }
-
-    @Override
-    public void changeOpacityFragment(boolean normal){
-        if(normal){
-            float intensity = 0f;
-            findViewById(R.id.fragment).getRootView().setBackgroundColor(Color.TRANSPARENT);
-            findViewById(R.id.fragment).setAlpha(intensity);
-        }
-        else {
-            float intensity = 0.7f;
-            //findViewById(R.id.fragment).setAlpha(intensity);
-            //findViewById(R.id.fragment).setBackgroundColor(Color.GRAY);
-        }
-    }
-
-    @Override
-    public void openReviewFragment(int id){
-        ReviewFragment.newInstance(id);
-        findViewById(R.id.reviewFragment).setVisibility(View.VISIBLE);
     }
 }

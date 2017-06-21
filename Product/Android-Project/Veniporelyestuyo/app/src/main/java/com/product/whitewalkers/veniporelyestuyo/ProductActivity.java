@@ -1,34 +1,45 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
+import android.*;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import ApiCommunicationManager.AccountApiCommunication;
 import ApiCommunicationManager.ConnectionHandler;
 import Domain.Account;
+import Domain.Locator;
 import MyStaticElements.LogRegistration;
 import layout.ProductFragment;
 
 public class ProductActivity extends AppCompatActivity implements ProductFragment.IProductFragment{
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         loadInfoProductFragment();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         checkConnection();
+
     }
+
 
     private void checkConnection() {
         new ConnectionHandler().controlConnectionsAvaiable(this);

@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +26,7 @@ import java.util.IllegalFormatCodePointException;
 
 import ApiCommunicationManager.ConnectionHandler;
 import Domain.Product;
+import Domain.Locator;
 import MyStaticElements.LogRegistration;
 import layout.ProductFilters;
 import layout.ProductFragment;
@@ -37,46 +39,79 @@ public class ProductsMapActivity extends FragmentActivity implements OnMapReadyC
     private GoogleMap mMap;
     private ArrayList<Product> productsToShow = new ArrayList<>();
 
+    private MyLocation myLocation = new MyLocation(-34.903891, -56.190729);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_map);
      // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         checkConnection();
+
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+                Locator locator = new Locator(this);
+                if(locator.getLocation()!=null) {
+                    myLocation.setLatitude(locator.getLatitude());
+                    myLocation.setLongitude(locator.getLongitude());
+                }
+            } else {
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},10);
+            }
+        } else {
+            Locator locator = new Locator(this);
+            if(locator.getLocation()!=null) {
+                myLocation.setLatitude(locator.getLatitude());
+                myLocation.setLongitude(locator.getLongitude());
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 10: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Locator locator = new Locator(this);
+                    if (locator.getLocation() != null) {
+                        myLocation.setLatitude(locator.getLatitude());
+                        myLocation.setLongitude(locator.getLongitude());
+                    }
+                } else {
+                    Toast.makeText(this, "No se pudo obtener la ubicacion dado que no se dieron permisos.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
     }
 
 @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        //MyLocation myLocation = getActualLocation();
-        MyLocation myLocation = new MyLocation(-34.903891, -56.190729);
-
-        LatLng productLatLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+        LatLng userLatLang = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.zoomTo(20));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(productLatLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userLatLang));
         loadProductsMarkers();
-        mMap.addMarker(new MarkerOptions().position(productLatLng).title("Usted esta aqui."));
+        mMap.addMarker(new MarkerOptions().position(userLatLang).title("Usted esta aqui."));
         ProductFilters bottomPictureFragment = (ProductFilters) getSupportFragmentManager().findFragmentById(R.id.productFilter);
-
-
     }
 
     private void loadProductsMarkers() {
         if (mMap!= null){
         mMap.clear();
         for(Product product: productsToShow){
-
-
                 LatLng productLatLng = new LatLng(product.latitude, product.longitude);
                 LogRegistration.log(LogRegistration.TypeLog.STEP,product.name);
                 mMap.addMarker(new MarkerOptions().position(productLatLng).title(product.name));

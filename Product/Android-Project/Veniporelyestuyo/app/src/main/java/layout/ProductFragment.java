@@ -56,6 +56,9 @@ public class ProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product, container, false);
+        if (container != null) {
+            container.removeAllViews();
+        }
         changeVisibility(View.INVISIBLE, view);
         String typeProductInfo = getArguments().getString("typeProductInfo");
         this.typeProductInfo = TypeInfo.valueOf(typeProductInfo);
@@ -119,7 +122,7 @@ public class ProductFragment extends Fragment {
         protected void onPostExecute(ResponseAsyncTask result) {
             view.findViewById(R.id.btnWantIt).setEnabled(true);
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en cargar producto: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en cargar producto, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -131,7 +134,7 @@ public class ProductFragment extends Fragment {
                     iProductFragment.loadingVisible(false);
                     loadProductValues(view, (Product)responseHttp.getMessageObject());
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;
@@ -213,7 +216,7 @@ public class ProductFragment extends Fragment {
             iProductFragment.loadingVisible(false);
             view.findViewById(R.id.btnWantIt).setEnabled(true);
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en realizar la solicitud: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en realizar la solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -224,7 +227,7 @@ public class ProductFragment extends Fragment {
                     changeVisibility(View.VISIBLE, getView());
                     iProductFragment.returnToPreviousActivityOrFragment();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

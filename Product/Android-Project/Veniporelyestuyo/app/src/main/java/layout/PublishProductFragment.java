@@ -2,15 +2,19 @@ package layout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,6 +40,7 @@ import ApiCommunicationManager.ProductApiCommunication;
 import ApiCommunicationManager.ProductStateApiCommunication;
 import Domain.Account;
 import Domain.Category;
+import Domain.Locator;
 import Domain.Product;
 import Domain.ProductState;
 import Domain.ResponseAsyncTask;
@@ -58,6 +63,8 @@ public class PublishProductFragment extends Fragment {
     private ArrayList<ProductState> productStates;
     View view;
 
+    private Location myLocation;
+
     Context context;
 
     @Override
@@ -70,6 +77,9 @@ public class PublishProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (container != null) {
+            container.removeAllViews();
+        }
         view = inflater.inflate(R.layout.fragment_publish_product, container, false);
 
         actualProduct = new Product();
@@ -136,7 +146,7 @@ public class PublishProductFragment extends Fragment {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en cargar categorías: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en cargar categorías, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -147,7 +157,7 @@ public class PublishProductFragment extends Fragment {
                     categories = (ArrayList<Category>) responseHttp.getMessageObject();
                     loadCategories();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;
@@ -206,8 +216,30 @@ public class PublishProductFragment extends Fragment {
                 String spinStateText = spinState.getSelectedItem().toString();
                 actualProduct.name = textNombre;
 
-                actualProduct.latitude = 1; //HARDCODE, change for getMapLatitude()
-                actualProduct.longitude = 1;//HARDCODE, change for getMapLongitude()
+                if (android.os.Build.VERSION.SDK_INT >= 23) {
+                    if (ContextCompat.checkSelfPermission(context,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+                        Locator locator = new Locator(context);
+                        if(locator.getLocation()!=null) {
+                            myLocation = locator.getLocation();
+                            actualProduct.latitude = myLocation.getLatitude();
+                            actualProduct.longitude = myLocation.getLongitude();
+                            //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},10);
+                    }
+                } else {
+                    Locator locator = new Locator(context);
+                    if(locator.getLocation()!=null) {
+                        myLocation = locator.getLocation();
+                        actualProduct.latitude = myLocation.getLatitude();
+                        actualProduct.longitude = myLocation.getLongitude();
+                        //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
                 CategoryApiCommunication categoryApiCommunication = new CategoryApiCommunication();
                 ProductStateApiCommunication productStateApiCommunication = new ProductStateApiCommunication();
 
@@ -230,6 +262,34 @@ public class PublishProductFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 10: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Locator locator = new Locator(context);
+                    if (locator.getLocation() != null) {
+                        myLocation = locator.getLocation();
+                        actualProduct.latitude = myLocation.getLatitude();
+                        actualProduct.longitude = myLocation.getLongitude();
+                        //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+
+                    actualProduct.latitude = -34.903891;
+                    actualProduct.longitude = -56.190729;
+                    Toast.makeText(context, "No se pudo obtener la ubicacion dado que no se dieron permisos.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
+
 
     private class ProductTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
 
@@ -259,7 +319,7 @@ public class PublishProductFragment extends Fragment {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en publicar producto: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en publicar producto, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -268,7 +328,7 @@ public class PublishProductFragment extends Fragment {
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"Publicacion realizada",Toast.LENGTH_LONG).show();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

@@ -39,15 +39,18 @@ namespace VeniPorEl.Controllers
             }
             else
             {
+                int productId = 0;
                 try
                 {
-                    int productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude);
-                    return Ok(productId);
+                    productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude, productModel.UserId);
                 }
                 catch (ArgumentException ex)
                 {
                     return BadRequest(ex.Message);
                 }
+                if (productId == 0)
+                    return NotFound();
+                return Ok(productId);
             }
         }
 
@@ -158,7 +161,7 @@ namespace VeniPorEl.Controllers
         [HttpGet]
         [Route("{productId}")]
         [Authorize(Roles = "Admin, Normal")]
-        [ResponseType(typeof(ICollection<ImageModel>))]
+        [ResponseType(typeof(ProductModel))]
         public IHttpActionResult GetCompleteProductImage(int productId)
         {
             if (productId == 0)
@@ -170,7 +173,17 @@ namespace VeniPorEl.Controllers
             {
                 return NotFound();
             }
-            return Ok(product);
+            ProductModel productModel = new ProductModel();
+            productModel.ProductId = product.ProductId;
+            productModel.Name = product.Name;
+            productModel.CategoryId = product.CategoryId;
+            productModel.CategoryName = product.Category.Name;
+            productModel.StateId = product.StateId;
+            productModel.StateName = product.State.Name;
+            productModel.Latitude = product.Location.Latitude;
+            productModel.Longitude = product.Location.Longitude;
+            productModel.UserId = product.UserOwnProductId;
+            return Ok(productModel);
 
         }
 
@@ -267,7 +280,7 @@ namespace VeniPorEl.Controllers
                 {
                     return InternalServerError(ex);
                 }
-                catch(UnauthorizedAccessException ex)
+                catch (UnauthorizedAccessException ex)
                 {
                     return BadRequest(ex.Message);
                 }

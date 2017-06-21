@@ -10,7 +10,7 @@ namespace Api.Services
 {
     public interface IProductService : IDisposable
     {
-        int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, int productLatitude, int productLongitude);
+        int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, double productLatitude, double productLongitude,int userId);
         bool AddImageToProduct(int productId, string imageName, byte[] imageByteArray);
         ICollection<Product> GetUnmoderatedProducts();
         int AcceptProduct(int productId);

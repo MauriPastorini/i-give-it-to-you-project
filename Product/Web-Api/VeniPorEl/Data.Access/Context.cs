@@ -33,7 +33,11 @@ namespace Data.Access
                    .WithMany(t => t.ProductsSolicitude)
                    .HasForeignKey(m => m.UserSolicitudeProductId)
                    .WillCascadeOnDelete(false);
-
+            modelBuilder.Entity<Product>()
+                 .HasRequired(m => m.State)
+                 .WithMany(t => t.Products)
+                 .HasForeignKey(m => m.StateId)
+                 .WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder);
         }
 

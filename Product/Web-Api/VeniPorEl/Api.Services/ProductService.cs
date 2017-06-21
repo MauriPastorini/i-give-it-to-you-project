@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Api.Services
@@ -28,7 +29,7 @@ namespace Api.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, int productLatitude, int productLongitude)
+        public int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, double productLatitude, double productLongitude, int userId)
         {
             try
             {
@@ -36,10 +37,15 @@ namespace Api.Services
                 Category productCategory = LoadProductCategory(productCategoryId);
                 ProductState productState = LoadProductState(productStateId);
                 Product productToCreate = Product.CreateWithNameCategoryStateLocation(name, productCategory, productState, productLocation);
+                User userOwner = new UserService().GetById(userId);
+                if (userOwner == null)
+                    return 0;
 
                 productToCreate.Category = unitOfWork.CategoryRepository.Get(productCategoryId);
                 productToCreate.State = unitOfWork.ProductStateRepository.Get(productStateId);
+                productToCreate.UserOwnProduct = userOwner;
 
+                unitOfWork.UsersRepository.Atach(userOwner);
                 unitOfWork.ProductRepository.Add(productToCreate);
                 unitOfWork.Save();
                 return productToCreate.ProductId;
@@ -217,25 +223,26 @@ namespace Api.Services
 
         private static void SendEmail(Product product, String email, String subject, String message)
         {
-
-            String emailVeni = "venisyestuyo@gmail.com";
-            String emailPass = "venis1234";
-            using (MailMessage mail = new MailMessage())
+            new Thread(() =>
             {
-                mail.From = new MailAddress(emailVeni);
-                mail.To.Add(email);
-                mail.Subject = subject;
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                Thread.CurrentThread.IsBackground = true;
+                String emailVeni = "venisyestuyo@gmail.com";
+                String emailPass = "venis1234";
+                using (MailMessage mail = new MailMessage())
                 {
-                    smtp.Credentials = new NetworkCredential(emailVeni, emailPass);
-                    smtp.EnableSsl = true;
-
-                    smtp.Send(mail);
-
+                    mail.From = new MailAddress(emailVeni);
+                    mail.To.Add(email);
+                    mail.Subject = subject;
+                    mail.Body = message;
+                    mail.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                    {
+                        smtp.Credentials = new NetworkCredential(emailVeni, emailPass);
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+                    }
                 }
-            }
+            }).Start();
         }
         public void DeleteSolicitudeForProduct(int productId, int accountId, string userMakingSolicitudeId)
         {
@@ -277,7 +284,18 @@ namespace Api.Services
 
         public ICollection<Product> GetProductsSolicitatedByUser(int userId)
         {
-            ICollection<Product> productsSolicitatedByUser = unitOfWork.ProductRepository.Find(p => p.UserSolicitudeProductId == userId && p.Moderated).ToList();
+            ICollection<Product> productsSolicitatedByUser = unitOfWork.ProductRepository.Find(p => p.UserSolicitudeProductId == userId && p.Moderated && p.Review == 0).ToList();
+            foreach (var item in productsSolicitatedByUser)
+            {
+                if (item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if (item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
             return productsSolicitatedByUser;
         }
 
@@ -319,6 +337,7 @@ namespace Api.Services
 
             String emailUserWhoWantIt = userSolicitude.Email;
             String emailUserProductOwner = userOwnerOfProduct.Email;
+
             SendEmail(product, emailUserProductOwner, "Felicitaciones te calificaron por un producto!", "Te calificaron con: " + rate + ". Producto: " + product.ToString() + userSolicitude.ToString());
             SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu calificación", "Calificaste con: " + rate + ". Al usuario y producto " + product.ToString() + userSolicitude.ToString());
         }

@@ -63,7 +63,7 @@ public class ManageUsersActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error, lo sentimos, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
                 return;
             }
