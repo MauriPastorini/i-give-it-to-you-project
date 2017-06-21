@@ -1,9 +1,11 @@
 package com.product.whitewalkers.veniporelyestuyo;
 
+import android.*;
+
 import android.content.Context;
+
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ForwardingListener;
@@ -25,6 +27,7 @@ import java.util.List;
 
 import ApiCommunicationManager.ConnectionHandler;
 import ApiCommunicationManager.ProductApiCommunication;
+
 import Domain.Product;
 import Domain.ResponseAsyncTask;
 import Domain.ResponseHttp;
@@ -38,7 +41,6 @@ public class ModerateProductsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moderate_products);
-
     }
 
     @Override
