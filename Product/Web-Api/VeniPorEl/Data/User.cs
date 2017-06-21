@@ -45,24 +45,22 @@ namespace Data
             }
         }
 
-        public bool IsModerated { get; set; }
         public virtual ICollection<Product> ProductsOwner { get; set; }
         public virtual ICollection<Product> ProductsSolicitude { get; set; }
 
 
         private User() { }
 
-        private User(string name, string email, string pass, IRole role, bool isModerated)
+        private User(string name, string email, string pass, IRole role)
         {
             UserName = name;
             Email = email;
             Pass = pass;
             Role = role;
             RoleId = role.RoleId;
-            IsModerated = isModerated;
         }
 
-        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role, bool isModerated)
+        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role)
         {
             if(!IsNameCorrect(name))
             {
@@ -78,7 +76,7 @@ namespace Data
             }
             else
             {
-                return new User(name, email, pass, role, isModerated);
+                return new User(name, email, pass, role);
             }
         }
 

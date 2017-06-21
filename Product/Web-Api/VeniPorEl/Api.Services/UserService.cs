@@ -39,9 +39,9 @@ namespace Api.Services
             return UnitOfWork.UsersRepository.SingleOrDefault(u => (u.UserName == userName));
         }
 
-        public ICollection<User> GetUnmoderatedUsers()
+        public ICollection<User> GetAll()
         {
-            return UnitOfWork.UsersRepository.Find(u => (u.IsModerated == false)).ToList();
+            return UnitOfWork.UsersRepository.GetAll().ToList();
         }
 
         public void Register(User user)

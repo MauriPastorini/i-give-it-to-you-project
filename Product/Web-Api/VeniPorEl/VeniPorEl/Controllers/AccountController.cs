@@ -11,6 +11,7 @@ using VeniPorEl.Models;
 using System.Web.Http.Results;
 using Api.Services;
 using System.Web.Http.Description;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace VeniPorEl.Controllers
 {
@@ -33,15 +34,19 @@ namespace VeniPorEl.Controllers
         {
             try
             {
-                List<User> users = userService.GetUnmoderatedUsers().ToList();
+                List<User> users = userService.GetAll().ToList();
                 var results = new List<UserModel>();
                 for(int i = 0; i < users.Count; i++)
                 {
-                    var model = new UserModel();
-                    model.UserId = users[i].UserId.ToString();
-                    model.UserName = users[i].UserName;
-                    model.Email = users[i].Email;
-                    results.Add(model);
+                    if(users[i].UserName != User.Identity.Name && !_repo.IsAdmin(users[i].UserName))
+                    {
+                        var model = new UserModel();
+                        model.UserId = users[i].UserId.ToString();
+                        model.UserName = users[i].UserName;
+                        model.Email = users[i].Email;
+                        results.Add(model);
+                    }
+                    
                 }
                 return Ok(results);   
             }
@@ -62,7 +67,7 @@ namespace VeniPorEl.Controllers
             User user;
             try
             {
-                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole(), false);
+                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole());
             }
             catch(ArgumentException ex)
             {
@@ -109,7 +114,7 @@ namespace VeniPorEl.Controllers
         [HttpPost]
         [Route("Admin/{id}")]
         [Authorize(Roles ="Admin")]
-        public IHttpActionResult SetAsAdmin(string id, UserModel userModel)
+        public IHttpActionResult SetAsAdmin(int id, UserModel userModel)
         {
             IHttpActionResult dbResult = SetAsAdmin_Owin(userModel.UserName);
             if(dbResult is OkResult)
@@ -140,11 +145,11 @@ namespace VeniPorEl.Controllers
             }
         }
 
-        private IHttpActionResult SetAsAdmin_VeniPorEl(string id)
+        private IHttpActionResult SetAsAdmin_VeniPorEl(int id)
         {
             string error = "This user is already an admin!";
             IHttpActionResult result = Ok();
-            User userToModify = userService.GetByUserName(id);
+            User userToModify = userService.GetById(id);
             if(userToModify == null)
             {
                 result = NotFound();
@@ -169,7 +174,7 @@ namespace VeniPorEl.Controllers
             if(!(result is OkResult))
             {
                 UserModel userToDel = new UserModel();
-                userToDel.UserName = id;
+                userToDel.UserId = id.ToString();
                 DeleteAdminRole_Owin(userToDel);
             }
             return result;
@@ -242,10 +247,6 @@ namespace VeniPorEl.Controllers
             {
                 passOld = userToModify.Pass;
                 userToModify.Pass = userModel.Password;
-                if(userModel.IsAdmin != null)
-                {
-                    userToModify.IsModerated = true;
-                }
                 try
                 {
                     userService.Update(userToModify);
