@@ -327,7 +327,22 @@ namespace VeniPorEl.Controllers
         public IHttpActionResult GetProductsOfAccount(int idAccount)
         {
             ICollection<Product> productsSolicitatedByUser = new ProductService().GetProductsSolicitatedByUser(idAccount);
-            return Ok(productsSolicitatedByUser);
+            ICollection<ProductModel> productsResu = new List<ProductModel>();
+            foreach (var item in productsSolicitatedByUser)
+            {
+                ProductModel productModel = new ProductModel();
+                productModel.ProductId = item.ProductId;
+                productModel.Name = item.Name;
+                productModel.CategoryId = item.CategoryId;
+                productModel.CategoryName = item.Category.Name;
+                productModel.StateId = item.StateId;
+                productModel.StateName = item.State.Name;
+                productModel.Latitude = item.Location.Latitude;
+                productModel.Longitude = item.Location.Longitude;
+                productModel.UserId = item.UserOwnProductId;
+                productsResu.Add(productModel);
+            }
+            return Ok(productsResu);
         }
 
         [HttpGet]

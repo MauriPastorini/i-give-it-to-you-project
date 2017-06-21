@@ -56,6 +56,9 @@ public class ProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product, container, false);
+        if (container != null) {
+            container.removeAllViews();
+        }
         changeVisibility(View.INVISIBLE, view);
         String typeProductInfo = getArguments().getString("typeProductInfo");
         this.typeProductInfo = TypeInfo.valueOf(typeProductInfo);

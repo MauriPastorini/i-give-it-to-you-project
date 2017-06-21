@@ -14,7 +14,8 @@ namespace Data
         public string Name { get; set; }
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
-        public ProductState State { get; set; }
+        public virtual ProductState State { get; set; }
+        public int StateId { get; set; }
         public Location Location { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public bool Moderated { get; set; }
