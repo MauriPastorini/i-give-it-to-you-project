@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Intent myIntent;
                     if(account.isAdmin()){
-                        myIntent = new Intent(LoginActivity.this, ModerateProductsActivity.class);
+                        myIntent = new Intent(LoginActivity.this, AdminMenuActivity.class);
                     } else{
                         myIntent = new Intent(LoginActivity.this, MainMenuUserActivity.class);
                     }
