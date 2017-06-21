@@ -50,6 +50,9 @@ public class ProductFilters extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_product_filters, container, false);
+        if (container != null) {
+            container.removeAllViews();
+        }
         new CategoriesTask().execute();
         loadProductsList(0);
         categorySpinner = (Spinner) view.findViewById(R.id.filter_categorySpinner);

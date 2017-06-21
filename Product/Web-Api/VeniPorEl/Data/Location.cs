@@ -19,13 +19,13 @@ namespace Data
 
         private Location() { }
 
-        private Location(int latitude, int longitude)
+        private Location(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
 
-        public static Location CreateWithLatLon(int latitude, int longitude)
+        public static Location CreateWithLatLon(double latitude, double longitude)
         {
             if(!IsLatitudeCorrect(latitude) || !IsLongitudeCorrect(longitude))
             {
@@ -34,12 +34,12 @@ namespace Data
             return new Location(latitude, longitude);
         }
 
-        private static bool IsLatitudeCorrect(int latitude)
+        private static bool IsLatitudeCorrect(double latitude)
         {
             return (latitude >= MIN_LATITUDE) && (latitude <= MAX_LATITUDE);
         }
 
-        private static bool IsLongitudeCorrect(int longitude)
+        private static bool IsLongitudeCorrect(double longitude)
         {
             return (longitude >= MIN_LONGITUDE) && (longitude <= MAX_LONGITUDE);
         }

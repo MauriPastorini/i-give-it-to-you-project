@@ -70,6 +70,9 @@ public class PublishProductFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (container != null) {
+            container.removeAllViews();
+        }
         view = inflater.inflate(R.layout.fragment_publish_product, container, false);
 
         actualProduct = new Product();

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Domain.Account;
 import Domain.Product;
 import Domain.ResponseHttp;
 
@@ -42,6 +43,7 @@ public class ProductApiCommunication{
 
     public ResponseHttp postProduct(Product productParm, Context context) throws JSONException, IOException{
         Log.i(TAG, "Comenzando post product");
+        Account account = new AccountApiCommunication().getAccountInformation(context);
         product = productParm;
         JSONObject productJson = new JSONObject();
         productJson.put("Name", product.name);
@@ -49,6 +51,7 @@ public class ProductApiCommunication{
         productJson.put("State", product.stateId);
         productJson.put("Latitude", product.latitude);
         productJson.put("Longitude", product.longitude);
+        productJson.put("UserId", account.getId());
         ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString(), token);
         if (responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
             responseHttp = postFunctionReturn(responseHttp, context);
@@ -229,11 +232,11 @@ public class ProductApiCommunication{
         product.id = productJson.getInt("productId");
         product.name = productJson.getString("name");
         product.categoryId = productJson.getInt("categoryId");
-        //product.categoryName = productJson.getJSONObject("category").getString("name");
-        product.stateId = productJson.getJSONObject("state").getInt("productStateId");
-        product.stateName = productJson.getJSONObject("state").getString("name");
-        product.latitude = productJson.getJSONObject("location").getDouble("latitude");
-        product.longitude = productJson.getJSONObject("location").getDouble("longitude");
+        product.categoryName = productJson.getString("categoryName");
+        product.stateId = productJson.getInt("stateId");
+        product.stateName = productJson.getString("stateName");
+        product.latitude = productJson.getDouble("latitude");
+        product.longitude = productJson.getDouble("longitude");
         return product;
     }
 
