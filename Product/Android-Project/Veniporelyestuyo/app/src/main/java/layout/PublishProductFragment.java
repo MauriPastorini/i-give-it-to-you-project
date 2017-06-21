@@ -143,7 +143,7 @@ public class PublishProductFragment extends Fragment {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en cargar categorías: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en cargar categorías, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -154,7 +154,7 @@ public class PublishProductFragment extends Fragment {
                     categories = (ArrayList<Category>) responseHttp.getMessageObject();
                     loadCategories();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;
@@ -221,7 +221,7 @@ public class PublishProductFragment extends Fragment {
                             myLocation = locator.getLocation();
                             actualProduct.latitude = myLocation.getLatitude();
                             actualProduct.longitude = myLocation.getLongitude();
-                            Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
                         }
                     } else {
                         ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},10);
@@ -232,7 +232,7 @@ public class PublishProductFragment extends Fragment {
                         myLocation = locator.getLocation();
                         actualProduct.latitude = myLocation.getLatitude();
                         actualProduct.longitude = myLocation.getLongitude();
-                        Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -274,7 +274,7 @@ public class PublishProductFragment extends Fragment {
                         myLocation = locator.getLocation();
                         actualProduct.latitude = myLocation.getLatitude();
                         actualProduct.longitude = myLocation.getLongitude();
-                        Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
                     }
                 } else {
 
@@ -316,7 +316,7 @@ public class PublishProductFragment extends Fragment {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en publicar producto: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en publicar producto, intenta denuevo!",Toast.LENGTH_LONG).show();
                 LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
                 return;
             }
@@ -325,7 +325,7 @@ public class PublishProductFragment extends Fragment {
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"Publicacion realizada",Toast.LENGTH_LONG).show();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud: " + responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

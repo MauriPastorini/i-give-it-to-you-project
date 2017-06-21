@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en registro: " + result.getDataResponse().toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en registro, lo sentimos, intenta denuevo!",Toast.LENGTH_LONG).show();
                 return;
             }
             else{

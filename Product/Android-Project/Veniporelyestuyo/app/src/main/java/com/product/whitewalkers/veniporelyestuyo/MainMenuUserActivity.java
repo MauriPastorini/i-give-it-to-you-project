@@ -107,7 +107,6 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         switch (item.getItemId()) {
             case R.id.navigation_product:
                 Toast.makeText(this,"Debe tener al menos 3 fotos",Toast.LENGTH_LONG).show();
-                System.out.println("NAVIGATION ENTROOO");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
