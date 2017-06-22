@@ -45,22 +45,25 @@ namespace Data
             }
         }
 
+        public string Country { get; set; }
+
         public virtual ICollection<Product> ProductsOwner { get; set; }
         public virtual ICollection<Product> ProductsSolicitude { get; set; }
 
 
         private User() { }
 
-        private User(string name, string email, string pass, IRole role)
+        private User(string name, string email, string pass, IRole role, string country)
         {
             UserName = name;
             Email = email;
             Pass = pass;
             Role = role;
             RoleId = role.RoleId;
+            Country = country;
         }
 
-        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role)
+        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role, string country)
         {
             if(!IsNameCorrect(name))
             {
@@ -74,9 +77,13 @@ namespace Data
             {
                 throw new ArgumentException("Wrong email format!");
             }
+            else if(!IsCountryCorrect(country))
+            {
+                throw new ArgumentException("Wrong country!");
+            }
             else
             {
-                return new User(name, email, pass, role);
+                return new User(name, email, pass, role, country);
             }
         }
 
@@ -107,6 +114,11 @@ namespace Data
             Regex regex = new Regex(@"((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20})");
             Match match = regex.Match(pass);
             return match.Success;
+        }
+
+        private static bool IsCountryCorrect(string country)
+        {
+            return (country == "Uruguay") || (country == "Argentina") || (country == "Brasil");
         }
 
         private static bool IsNameCorrect(string name)

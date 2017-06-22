@@ -36,5 +36,7 @@ namespace VeniPorEl.Models
         public int StateId { get; set; }
         [Display(Name = "StateName")]
         public string StateName { get; set; }
+        [Display(Name = "Description")]
+        public string Description { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace VeniPorEl.Controllers
                 int productId = 0;
                 try
                 {
-                    productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude, productModel.UserId);
+                    productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude, productModel.UserId, productModel.Description);
                 }
                 catch (ArgumentException ex)
                 {

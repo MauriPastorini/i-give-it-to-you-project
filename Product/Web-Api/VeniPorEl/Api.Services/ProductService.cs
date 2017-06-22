@@ -29,14 +29,14 @@ namespace Api.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, double productLatitude, double productLongitude, int userId)
+        public int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, double productLatitude, double productLongitude, int userId, string description)
         {
             try
             {
                 Location productLocation = Location.CreateWithLatLon(productLatitude, productLongitude);
                 Category productCategory = LoadProductCategory(productCategoryId);
                 ProductState productState = LoadProductState(productStateId);
-                Product productToCreate = Product.CreateWithNameCategoryStateLocation(name, productCategory, productState, productLocation);
+                Product productToCreate = Product.CreateWithNameCategoryStateLocation(name, productCategory, productState, productLocation, description);
                 User userOwner = new UserService().GetById(userId);
                 if (userOwner == null)
                     return 0;

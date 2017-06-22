@@ -32,6 +32,9 @@ namespace VeniPorEl.Models
         [Compare("Password", ErrorMessage ="The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
         [Display(Name = "Is user admin")]
         public bool IsAdmin { get; set; }
 

@@ -49,7 +49,7 @@ namespace VeniPorEl
             }
             if(userService.GetByUserName(superUserName) == null)
             {
-                User superUserDb = User.CreateWithNameEmailPasswordAndRole(superUserName, superUserEmail, superUserPass, new AdminRole());
+                User superUserDb = User.CreateWithNameEmailPasswordAndRole(superUserName, superUserEmail, superUserPass, new AdminRole(), "Uruguay");
                 userService.Register(superUserDb);
             }
             {

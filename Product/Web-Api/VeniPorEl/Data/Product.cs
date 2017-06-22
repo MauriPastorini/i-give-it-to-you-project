@@ -25,6 +25,7 @@ namespace Data
         [ForeignKey("UserSolicitudeProductId")]
         public virtual User UserSolicitudeProduct { get; set; }
         public int? UserSolicitudeProductId { get; set; }
+        public string Description { get; set; }
 
         private int ReviewAux;
 
@@ -49,7 +50,7 @@ namespace Data
             Moderated = false;
         }
 
-        private Product(string name, Category category, ProductState state, Location location)
+        private Product(string name, Category category, ProductState state, Location location, string description)
         {
             Name = name;
             Category = category;
@@ -57,15 +58,16 @@ namespace Data
             Location = location;
             ProductImages = new List<ProductImage>();
             Moderated = false;
+            Description = description;
         }
 
-        public static Product CreateWithNameCategoryStateLocation(string name, Category category, ProductState state, Location location)
+        public static Product CreateWithNameCategoryStateLocation(string name, Category category, ProductState state, Location location, string description)
         {
             if (!IsNameCorrect(name) || !IsCategoryCorrect(category) || !IsProductStateCorrect(state) || !IsLocationCorrect(location))
             {
                 throw new ArgumentException("Product creation argument error!");
             }
-            return new Product(name, category, state, location);
+            return new Product(name, category, state, location, description);
         }
 
         private static bool IsNameCorrect(string name)

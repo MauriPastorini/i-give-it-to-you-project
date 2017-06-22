@@ -67,7 +67,7 @@ namespace VeniPorEl.Controllers
             User user;
             try
             {
-                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole());
+                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole(), userModel.Country);
             }
             catch(ArgumentException ex)
             {
