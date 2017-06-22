@@ -141,6 +141,33 @@ namespace Api.Services
             return productsByCategory;
         }
 
+        public ICollection<Product> GetProductsByCountry(string countryId)
+        {
+            List<Product> productsByCountry = new List<Product>();
+            if(countryId != "")
+            {
+                productsByCountry = new List<Product>();
+                List<User> usersInCountry = unitOfWork.UsersRepository.Find(u => u.Country == countryId).ToList();
+                for(int i = 0; i < usersInCountry.Count; i++)
+                {
+                    ICollection<Product> actualProducts = unitOfWork.ProductRepository.Find(p => p.UserOwnProductId == usersInCountry[i].UserId && p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
+                    productsByCountry.AddRange(actualProducts);
+                }
+            }
+            foreach(var item in productsByCountry)
+            {
+                if(item != null && item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if(item != null && item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
+            return productsByCountry;
+        }
+
         public int AcceptProduct(int productId)
         {
             Product productToUpdate = unitOfWork.ProductRepository.Get(productId);

@@ -82,8 +82,8 @@ C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\De
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\Debug\System.Web.Http.Cors.xml
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\Debug\es\System.Net.Http.Formatting.resources.dll
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\bin\Debug\es\System.Web.Http.resources.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.Properties.Resources.resources
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csproj.GenerateResource.Cache
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.dll
 C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.pdb
-C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache

@@ -212,6 +212,17 @@ namespace VeniPorEl.Controllers
             return Ok(productsResu);
         }
 
+        [HttpGet]
+        [Route("Country/{countryId}")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetProductsByCountry(string countryId)
+        {
+            ICollection<Product> productsByCountry = productService.GetProductsByCountry(countryId);
+            ICollection<ProductModel> productsResu = CreateProductsModel(productsByCountry);
+            return Ok(productsResu);
+        }
+
         private static ICollection<ProductModel> CreateProductsModel(ICollection<Product> products)
         {
             ICollection<ProductModel> productsResu = new List<ProductModel>();

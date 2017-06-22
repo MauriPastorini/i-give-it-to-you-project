@@ -23,5 +23,6 @@ namespace Api.Services
         ICollection<Product> GetProductsSolicitatedByUser(int userId);
         void RateProductSolicitated(int productId, int rate, string userNameConnected
             );
+        ICollection<Product> GetProductsByCountry(string country);
     }
 }

@@ -81,6 +81,7 @@ public class Account {
         user.put("password", this.password);
         user.put("confirmPassword", this.password);
         user.put("isAdmin", this.isAdmin);
+        user.put("country", this.country);
         return user;
     }
 

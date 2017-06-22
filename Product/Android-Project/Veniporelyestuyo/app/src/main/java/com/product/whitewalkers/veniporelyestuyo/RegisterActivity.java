@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailTxt.getText().toString();
         String password = passTxt.getText().toString();
         String country = countryTxt.getSelectedItem().toString();
-        String[] data = new String[3];
+        String[] data = new String[4];
         data[0] = username;
         data[1] = email;
         data[2] = password;
