@@ -69,7 +69,7 @@ public class ProductsMapActivity extends FragmentActivity implements GoogleMap.O
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     && ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
-                Locator locator = new Locator(this);
+                Locator locator = new Locator(this,android.os.Build.VERSION.SDK_INT);
                 if(locator.getLocation()!=null) {
                     myLocation.setLatitude(locator.getLatitude());
                     myLocation.setLongitude(locator.getLongitude());
@@ -78,10 +78,11 @@ public class ProductsMapActivity extends FragmentActivity implements GoogleMap.O
                 ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},10);
             }
         } else {
-            Locator locator = new Locator(this);
+            Locator locator = new Locator(this,android.os.Build.VERSION.SDK_INT);
             if(locator.getLocation()!=null) {
                 myLocation.setLatitude(locator.getLatitude());
                 myLocation.setLongitude(locator.getLongitude());
+               // Toast.makeText(this, locator.getLatitude() + "  " +locator.getLongitude() , Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -95,7 +96,7 @@ public class ProductsMapActivity extends FragmentActivity implements GoogleMap.O
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    Locator locator = new Locator(this);
+                    Locator locator = new Locator(this,android.os.Build.VERSION.SDK_INT);
                     if (locator.getLocation() != null) {
                         myLocation.setLatitude(locator.getLatitude());
                         myLocation.setLongitude(locator.getLongitude());

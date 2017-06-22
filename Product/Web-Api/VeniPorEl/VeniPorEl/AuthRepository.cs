@@ -24,6 +24,11 @@ namespace VeniPorEl
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_ctx));
         }
 
+        public bool IsAdmin(string userName)
+        {
+            return _userManager.IsInRole(_userManager.FindByName(userName).Id, "Admin");
+        }
+
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             IdentityUser user = new IdentityUser

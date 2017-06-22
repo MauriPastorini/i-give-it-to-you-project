@@ -11,9 +11,10 @@ namespace Api.Services
     {
 
         void Register(User user);
+        User GetById(int id);
         User GetByUserName(string userName);
         void Update(User user);
-        ICollection<User> GetUnmoderatedUsers();
+        ICollection<User> GetAll();
         void Delete(int id);
         int GetUserIdByUserName(String username);
     }
