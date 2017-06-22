@@ -46,6 +46,10 @@ public class ApiServerConstant {
         return ApiServerConstant.apiUrl + "Product/Category/" + categoryId;
     }
 
+    public static String getProductsByCountry(String country){
+        return ApiServerConstant.apiUrl + "Product/Country/" + country;
+    }
+
     public static String deleteProductUri(int idProduct){
         return ApiServerConstant.apiUrl + "Product/" + idProduct;
     }

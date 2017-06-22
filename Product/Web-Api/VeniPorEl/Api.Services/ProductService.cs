@@ -150,7 +150,8 @@ namespace Api.Services
                 List<User> usersInCountry = unitOfWork.UsersRepository.Find(u => u.Country == countryId).ToList();
                 for(int i = 0; i < usersInCountry.Count; i++)
                 {
-                    ICollection<Product> actualProducts = unitOfWork.ProductRepository.Find(p => p.UserOwnProductId == usersInCountry[i].UserId && p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
+                    int id = usersInCountry[i].UserId;
+                    ICollection<Product> actualProducts = unitOfWork.ProductRepository.Find(p => p.UserOwnProductId == id && p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
                     productsByCountry.AddRange(actualProducts);
                 }
             }

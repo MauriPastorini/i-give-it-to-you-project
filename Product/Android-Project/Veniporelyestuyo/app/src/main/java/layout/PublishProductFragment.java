@@ -262,9 +262,9 @@ public class PublishProductFragment extends Fragment {
                 catch (Resources.NotFoundException ex){
                     Log.i(TAG, "Error en cargar id de Estado, no se encontro la categoria de nombre: " + spinCategoryText + " en la lista: " + categories.toString());
                 }
-                if(actualProduct.image1 == null || actualProduct.image2 == null || actualProduct.image3 == null )
-                    Toast.makeText(context,"Debe tener al menos 3 fotos",Toast.LENGTH_LONG).show();
-                else
+                //if(actualProduct.image1 == null || actualProduct.image2 == null || actualProduct.image3 == null )
+                    //Toast.makeText(context,"Debe tener al menos 3 fotos",Toast.LENGTH_LONG).show();
+                //else
                     new ProductTask(actualProduct,context).execute();
             }
         });

@@ -175,6 +175,17 @@ public class ProductApiCommunication{
         return finalResponse;
     }
 
+    public ResponseHttp getProductsByCountry(String country, Context context) throws IOException, JSONException{
+        ResponseHttp responseHttpProductsByCountry = new ConnectionHandler().getData(ApiServerConstant.getProductsByCountry(country), ConnectionHandler.Content_Type.JSON, token);
+        if (responseHttpProductsByCountry.getTypeCode() != ResponseHttp.CategoryCodeResponse.SUCCESS){
+            return responseHttpProductsByCountry;
+        }
+        List<Product> productsByCountry = decodeResponseProductList(responseHttpProductsByCountry.getMessage());
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        finalResponse.setMessageObject(productsByCountry);
+        return finalResponse;
+    }
+
     private List<Product> decodeResponseProductList(String message)throws JSONException{
         JSONArray productsToDecode = new JSONArray(message);
         List<Product> decodedProducts = new ArrayList<Product>();
@@ -238,6 +249,7 @@ public class ProductApiCommunication{
         product.stateName = productJson.getString("name");
         product.latitude = productJson.getJSONObject("location").getDouble("latitude");
         product.longitude = productJson.getJSONObject("location").getDouble("longitude");
+        product.description = productJson.getString("description");
         return product;
     }
 

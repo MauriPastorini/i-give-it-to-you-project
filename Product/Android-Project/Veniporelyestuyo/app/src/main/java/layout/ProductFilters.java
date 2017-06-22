@@ -34,9 +34,10 @@ import MyStaticElements.LogRegistration;
 public class ProductFilters extends Fragment {
 
     private IProductFilter iProductFilter;
-    ArrayList<Product> productsByCategory;
+    ArrayList<Product> actualProducts;
     private ArrayList<Category> categories;
     Spinner categorySpinner;
+    Spinner countrySpinner;
 
 
     public interface IProductFilter {
@@ -54,27 +55,39 @@ public class ProductFilters extends Fragment {
             container.removeAllViews();
         }
         new CategoriesTask().execute();
-        loadProductsList(0);
+        loadProductsListByCategory(0);
         categorySpinner = (Spinner) view.findViewById(R.id.filter_categorySpinner);
+        countrySpinner = (Spinner) view.findViewById(R.id.filter_countrySpinner);
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     if(parent!=null && categories!=null) {
                         int categoryId = new CategoryApiCommunication().getCategoryIdFromCategoriesCollection(parent.getItemAtPosition(position).toString(), categories);
-                        loadProductsList(categoryId);
+                        loadProductsListByCategory(categoryId);
                     }else{
-                        loadProductsList(0);
+                        loadProductsListByCategory(0);
                     }
 
                 }catch (Resources.NotFoundException ex){
-                    loadProductsList(0);
+                    loadProductsListByCategory(0);
                 }
 
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                loadProductsList(0);
+                loadProductsListByCategory(0);
+            }
+        });
+
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                loadProductsListByCountry(parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                loadProductsListByCategory(0);
             }
         });
         checkConnection();
@@ -95,13 +108,16 @@ public class ProductFilters extends Fragment {
         }
     }
 
-    private void loadProductsList(int categoryId){
+    private void loadProductsListByCategory(int categoryId){
+        new ProductByCategoryTask(categoryId).execute();
+    }
 
-          new ProductByCategoryTask(categoryId).execute();
+    private void loadProductsListByCountry(String country){
+        new ProductByCountryTask(country).execute();
     }
 
     private void updateActivityList(){
-        iProductFilter.updateProductList(productsByCategory);
+        iProductFilter.updateProductList(actualProducts);
     }
 
     private class ProductByCategoryTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
@@ -143,7 +159,57 @@ public class ProductFilters extends Fragment {
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                   //  Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
-                    productsByCategory = (ArrayList<Product>) responseHttp.getMessageObject();
+                    actualProducts = (ArrayList<Product>) responseHttp.getMessageObject();
+                    updateActivityList();
+                } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
+                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
+                }
+                return;
+            }
+        }
+    }
+
+    private class ProductByCountryTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
+
+        private Context mContext;
+        private String country;
+
+        public ProductByCountryTask (String country){
+            this.country = country;
+            mContext = getActivity();
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected ResponseAsyncTask doInBackground(Void... params) {
+
+            ResponseHttp response;
+            try{
+                response = new ProductApiCommunication(getActivity()).getProductsByCountry(country, mContext);
+            } catch (IOException ioEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
+            }
+            catch (JSONException jsonEx){
+                return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,jsonEx);
+            }
+            return new ResponseAsyncTask<ResponseHttp>(ResponseAsyncTask.TypeResponse.OK,response);
+        }
+
+        @Override
+        protected void onPostExecute(ResponseAsyncTask result) {
+            if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
+                Toast.makeText(mContext,"Error en cargar los productos, intenta denuevo!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.EXCEPTION,result.getDataResponse().toString());
+                return;
+            }
+            else{
+                ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
+                if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
+                    //  Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    actualProducts = (ArrayList<Product>) responseHttp.getMessageObject();
                     updateActivityList();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
                     Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
@@ -209,7 +275,7 @@ public class ProductFilters extends Fragment {
     }
 
     private void loadCategorySpinner(ArrayList<String> categoriesOptions) {
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, categoriesOptions); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoriesOptions); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fillSpinner(categorySpinner,spinnerArrayAdapter);
     }
