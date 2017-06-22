@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -16,6 +18,9 @@ namespace Data
             Admin = 1,
             NormalUser = 2
         }
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(200)]
+        [Index]
         public string UserName { get; set; }
         public string Email { get; set; }
         public int RoleId { get; set; }
@@ -66,15 +71,15 @@ namespace Data
         {
             if(!IsNameCorrect(name))
             {
-                throw new ArgumentException("Wrong name format!");
+                throw new ArgumentException("Error en formato de nombre");
             }
             else if(!IsPasswordCorrect(pass))
             {
-                throw new ArgumentException("Wrong password format!");
+                throw new ArgumentException("Error en formato de contraseña, debe tener algun caracter y mayúscula");
             }
             else if(!IsEmailCorrect(email))
             {
-                throw new ArgumentException("Wrong email format!");
+                throw new ArgumentException("Error en formato de email");
             }
             else
             {

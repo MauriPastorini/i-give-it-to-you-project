@@ -1,7 +1,9 @@
 ﻿using Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,12 +40,13 @@ namespace Data.Access
                  .WithMany(t => t.Products)
                  .HasForeignKey(m => m.StateId)
                  .WillCascadeOnDelete(false);
+           
             base.OnModelCreating(modelBuilder);
         }
 
         private void addDefault()
         {
-            if (Categories.Find(1) == null )
+            if (Categories.Find(1) == null)
             {
                 CreateDefaultCategories();
             }
@@ -74,11 +77,12 @@ namespace Data.Access
                     Category defaultCategory = Category.CreateWithName(line);
                     Categories.Add(defaultCategory);
                 }
-            }catch (DirectoryNotFoundException)
+            }
+            catch (DirectoryNotFoundException)
             {
                 Category defaultCategory = Category.CreateWithName("Tecnologia");
                 Categories.Add(defaultCategory);
-            }   
+            }
         }
     }
 }

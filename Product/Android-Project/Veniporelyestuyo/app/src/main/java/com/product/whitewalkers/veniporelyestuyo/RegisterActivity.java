@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent i = new Intent(mContext, LoginActivity.class);
                     startActivity(i);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Usuario o contraseña incorrecta ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                 }
                 return;
             }

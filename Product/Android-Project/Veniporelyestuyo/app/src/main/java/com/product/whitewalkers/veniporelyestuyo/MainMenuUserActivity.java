@@ -47,6 +47,14 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         setContentView(R.layout.activity_main_menu_user);
         setNavigationView();
         findViewById(R.id.progressBarMainMenuUser).setVisibility(View.INVISIBLE);
+        manageIncomingParameters();
+    }
+
+    private void manageIncomingParameters() {
+        int productId = getIntent().getIntExtra("VIEW_PRODUCT_ID", 0);
+        if( productId != 0){
+            this.openProductInfoActivity(productId);
+        }
     }
 
     private void setNavigationView() {
@@ -65,11 +73,7 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
                                 break;
                             case R.id.navigation_map:
                                 //FRAGMENT MAPA
-                                //Fragment publishProductFragment = new PublishProductFragment();
-                                //FragmentManager managerPublish = getSupportFragmentManager();
-                                //FragmentTransaction transactionPublish = managerPublish.beginTransaction();
-                                //transactionPublish.replace(R.id.fragment, publishProductFragment);
-                                //transactionPublish.commit();
+                                startActivity(new Intent(MainMenuUserActivity.this,ProductsMapActivity.class));
                                 break;
                             case R.id.navigation_profile:
                                 Fragment fragment = new ProfileFragment();
@@ -147,5 +151,6 @@ public class MainMenuUserActivity extends AppCompatActivity implements ProfileFr
         FragmentTransaction transactionProfile = managerProfile.beginTransaction();
         transactionProfile.replace(R.id.fragment, fragment);
         transactionProfile.commit();
+        loadingVisible(false);
     }
 }

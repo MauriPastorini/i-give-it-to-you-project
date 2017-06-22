@@ -1,5 +1,8 @@
 package Domain;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static android.os.Build.VERSION_CODES.M;
 
 /**
@@ -42,6 +45,15 @@ public class ResponseHttp {
     public String getMessage() {
         if(codeResponse==404)
             return "Not Found";
+        if (this.getTypeCode()==CategoryCodeResponse.CLIENT_ERROR){
+            try{
+                JSONObject jsonObject = new JSONObject(message);
+                String msg = jsonObject.getString("message");
+                return msg;
+            }catch (JSONException ex){
+                return message;
+            }
+        }
         return message;
     }
 

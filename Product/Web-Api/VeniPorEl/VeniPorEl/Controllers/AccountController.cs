@@ -59,6 +59,11 @@ namespace VeniPorEl.Controllers
             {
                 return BadRequest(ModelState);
             }
+            User userName = userService.GetByUserName(userModel.UserName);
+            if (userName != null)
+            {
+                return BadRequest("Ya existe un usuario con este nombre");
+            }
             User user;
             try
             {

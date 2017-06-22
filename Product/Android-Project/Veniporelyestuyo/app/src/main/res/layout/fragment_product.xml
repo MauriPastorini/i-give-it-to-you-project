@@ -88,6 +88,13 @@
             android:gravity="center"
             android:textSize="20sp"
             android:text="Lo quiero!" />
-
+        <Button
+            android:id="@+id/btn_goBack"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="300"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Volver" />
     </LinearLayout>
 </ScrollView>

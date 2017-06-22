@@ -32,21 +32,3 @@ D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Serv
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
 D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.Properties.Resources.resources
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
-C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
