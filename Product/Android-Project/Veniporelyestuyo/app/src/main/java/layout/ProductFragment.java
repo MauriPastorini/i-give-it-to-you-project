@@ -180,6 +180,14 @@ public class ProductFragment extends Fragment {
                 }
             });
         }
+        Button btnGoBack = (Button)view.findViewById(R.id.btn_goBack);
+        btnGoBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                iProductFragment.loadingVisible(true);
+                iProductFragment.returnToPreviousActivityOrFragment();
+            }
+        });
     }
 
     private class SolicitudeTask extends AsyncTask<Void, Void, ResponseAsyncTask> {
@@ -223,7 +231,10 @@ public class ProductFragment extends Fragment {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"Producto eliminado de tus solicitudes",Toast.LENGTH_LONG).show();
+                    if (typeProductInfo == TypeInfo.MAKE_SOLICITUDE)
+                        Toast.makeText(mContext,"Producto solicitado, puede verlo en sus solicitudes",Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(mContext,"Producto eliminado de tus solicitudes",Toast.LENGTH_LONG).show();
                     changeVisibility(View.VISIBLE, getView());
                     iProductFragment.returnToPreviousActivityOrFragment();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
