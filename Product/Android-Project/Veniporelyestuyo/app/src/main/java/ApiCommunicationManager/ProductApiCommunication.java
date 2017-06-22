@@ -52,6 +52,7 @@ public class ProductApiCommunication{
         productJson.put("Latitude", product.latitude);
         productJson.put("Longitude", product.longitude);
         productJson.put("UserId", account.getId());
+        productJson.put("Description", product.description);
         ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString(), token);
         if (responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
             responseHttp = postFunctionReturn(responseHttp, context);
@@ -232,11 +233,11 @@ public class ProductApiCommunication{
         product.id = productJson.getInt("productId");
         product.name = productJson.getString("name");
         product.categoryId = productJson.getInt("categoryId");
-        product.categoryName = productJson.getString("categoryName");
+        product.categoryName = productJson.getString("name");
         product.stateId = productJson.getInt("stateId");
-        product.stateName = productJson.getString("stateName");
-        product.latitude = productJson.getDouble("latitude");
-        product.longitude = productJson.getDouble("longitude");
+        product.stateName = productJson.getString("name");
+        product.latitude = productJson.getJSONObject("location").getDouble("latitude");
+        product.longitude = productJson.getJSONObject("location").getDouble("longitude");
         return product;
     }
 

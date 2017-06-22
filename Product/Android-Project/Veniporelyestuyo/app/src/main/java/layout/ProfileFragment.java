@@ -56,10 +56,8 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-        if (container != null) {
-            container.removeAllViews();
-        }
         account = new AccountApiCommunication().getAccountInformation(getActivity());
         loadAccountInformation();
         loadButtonListener();
@@ -126,9 +124,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadAccountInformation() {
         TextView nameView = (TextView) view.findViewById(R.id.txtName);
-        TextView emailView = (TextView) view.findViewById(R.id.txtEmail);
         nameView.setText(account.getUserName());
-        emailView.setText(account.getEmail());
     }
 
     //List products
@@ -194,6 +190,8 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View lstView) {
                     new ReviewTask(getContext(), 1, productId).execute();
                     changeAllBtnsEnabled(btnRate1, btnRate2, btnRate3, btnRate4, btnRate5,false);
+                    viewInfoBtn.setEnabled(false);
+                    viewInfoBtn.setAlpha(0.3f);
                     btnRate2.setAlpha(0.3f);
                     btnRate3.setAlpha(0.3f);
                     btnRate4.setAlpha(0.3f);
@@ -206,6 +204,8 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View lstView) {
                     new ReviewTask(getContext(), 2, productId).execute();
                     changeAllBtnsEnabled(btnRate1, btnRate2, btnRate3, btnRate4, btnRate5,false);
+                    viewInfoBtn.setEnabled(false);
+                    viewInfoBtn.setAlpha(0.3f);
                     btnRate3.setAlpha(0.3f);
                     btnRate4.setAlpha(0.3f);
                     btnRate5.setAlpha(0.3f);
@@ -216,6 +216,8 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View lstView) {
                     new ReviewTask(getContext(), 3, productId).execute();
                     changeAllBtnsEnabled(btnRate1, btnRate2, btnRate3, btnRate4, btnRate5,false);
+                    viewInfoBtn.setEnabled(false);
+                    viewInfoBtn.setAlpha(0.3f);
                     btnRate4.setAlpha(0.3f);
                     btnRate5.setAlpha(0.3f);
                 }
@@ -225,6 +227,8 @@ public class ProfileFragment extends Fragment {
                 public void onClick(View lstView) {
                     new ReviewTask(getContext(), 4, productId).execute();
                     changeAllBtnsEnabled(btnRate1, btnRate2, btnRate3, btnRate4, btnRate5,false);
+                    viewInfoBtn.setEnabled(false);
+                    viewInfoBtn.setAlpha(0.3f);
                     btnRate5.setAlpha(0.3f);
                 }
             });

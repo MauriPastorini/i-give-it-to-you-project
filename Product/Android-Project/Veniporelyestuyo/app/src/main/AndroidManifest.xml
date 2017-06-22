@@ -48,7 +48,8 @@
 
         <activity
             android:name=".ProductsMapActivity"
-            android:label="@string/title_activity_products_map"></activity>
+            android:label="@string/title_activity_products_map">
+           </activity>
 
         <activity android:name=".AdminMenuActivity"></activity>
     </application>

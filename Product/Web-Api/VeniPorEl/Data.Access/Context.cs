@@ -34,11 +34,8 @@ namespace Data.Access
                    .HasForeignKey(m => m.UserSolicitudeProductId)
                    .WillCascadeOnDelete(false);
             modelBuilder.Entity<Product>()
-                 .HasRequired(m => m.State)
-                 .WithMany(t => t.Products)
-                 .HasForeignKey(m => m.StateId)
-                 .WillCascadeOnDelete(false);
-            base.OnModelCreating(modelBuilder);
+                 .HasRequired(m => m.State);
+           base.OnModelCreating(modelBuilder);
         }
 
         private void addDefault()

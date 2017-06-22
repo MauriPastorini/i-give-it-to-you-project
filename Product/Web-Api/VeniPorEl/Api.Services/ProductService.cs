@@ -121,13 +121,23 @@ namespace Api.Services
             ICollection<Product> productsByCategory = null;
             if (categoryId != 0)
             {
-                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId && p.Moderated == true).ToList();
+                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId && p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
             }
             else
             {
-                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Moderated == true).ToList();
+                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
             }
-
+            foreach (var item in productsByCategory)
+            {
+                if (item != null && item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if (item != null && item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
             return productsByCategory;
         }
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText usernameTxt;
     private EditText emailTxt;
     private EditText passTxt;
+    private Spinner countryTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +36,19 @@ public class RegisterActivity extends AppCompatActivity {
         usernameTxt = (EditText)findViewById(R.id.username);
         emailTxt = (EditText)findViewById(R.id.email);
         passTxt = (EditText)findViewById(R.id.password);
+        countryTxt = (Spinner)findViewById(R.id.countrySpinner);
     }
 
     public void registerClick(View v) {
         String username = usernameTxt.getText().toString();
         String email = emailTxt.getText().toString();
         String password = passTxt.getText().toString();
+        String country = countryTxt.getSelectedItem().toString();
         String[] data = new String[3];
         data[0] = username;
         data[1] = email;
         data[2] = password;
+        data[3] = country;
         new RegisterTask(this).execute(data);
     }
 
@@ -63,9 +68,10 @@ public class RegisterActivity extends AppCompatActivity {
             String username = params[0];
             String email = params[1];
             String password = params[2];
+            String country = params[3];
             ResponseHttp response;
             try{
-                response = new AccountApiCommunication().postAccount(new Account(0, username, email, password));
+                response = new AccountApiCommunication().postAccount(new Account(0, username, email, password, country));
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
             }
@@ -88,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent i = new Intent(mContext, LoginActivity.class);
                     startActivity(i);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Usuario o contraseña incorrecta ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                 }
                 return;
             }

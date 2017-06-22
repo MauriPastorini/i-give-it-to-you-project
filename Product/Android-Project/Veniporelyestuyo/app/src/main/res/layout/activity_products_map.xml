@@ -44,6 +44,24 @@
     android:layout_marginTop="7dp"
     map:layout_constraintTop_toBottomOf="@+id/productFilter"
     tools:layout_constraintLeft_creator="1"
-    android:layout_marginBottom="8dp" />
+    android:layout_marginBottom="8dp"
+        map:layout_constraintHorizontal_bias="0.0"
+        map:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/map_progress_bar_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2.85"
+        android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/progressBarMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

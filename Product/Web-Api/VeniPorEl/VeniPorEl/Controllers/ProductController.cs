@@ -208,11 +208,28 @@ namespace VeniPorEl.Controllers
         public IHttpActionResult GetProductsByCategory(int categoryId)
         {
             ICollection<Product> productsByCategory = productService.GetProductsByCategory(categoryId);
-            if (productsByCategory == null)
+            ICollection<ProductModel> productsResu = CreateProductsModel(productsByCategory);
+            return Ok(productsResu);
+        }
+
+        private static ICollection<ProductModel> CreateProductsModel(ICollection<Product> products)
+        {
+            ICollection<ProductModel> productsResu = new List<ProductModel>();
+            foreach (var item in products)
             {
-                return NotFound();
+                ProductModel productModel = new ProductModel();
+                productModel.ProductId = item.ProductId;
+                productModel.Name = item.Name;
+                productModel.CategoryId = item.CategoryId;
+                productModel.CategoryName = item.Category.Name;
+                productModel.StateId = item.StateId;
+                productModel.StateName = item.State.Name;
+                productModel.Latitude = item.Location.Latitude;
+                productModel.Longitude = item.Location.Longitude;
+                productModel.UserId = item.UserOwnProductId;
+                productsResu.Add(productModel);
             }
-            return Ok(productsByCategory);
+            return productsResu;
         }
 
         [HttpPost]

@@ -146,6 +146,28 @@
                 android:text="@string/takePhoto3Text"
                 tools:text="@string/takePhoto3Text" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/productDescriptionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textSize="@dimen/activity_normal_text_size"
+            android:visibility="visible" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="10dp" />
+
+        <EditText
+            android:id="@+id/productDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/name" />
+
         <Button
             android:id="@+id/btnContinuar"
             android:layout_width="match_parent"

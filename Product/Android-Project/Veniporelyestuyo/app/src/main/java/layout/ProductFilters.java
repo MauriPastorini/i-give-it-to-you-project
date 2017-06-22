@@ -142,7 +142,7 @@ public class ProductFilters extends Fragment {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
                     productsByCategory = (ArrayList<Product>) responseHttp.getMessageObject();
                     updateActivityList();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
@@ -187,7 +187,7 @@ public class ProductFilters extends Fragment {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"Categorías obtenidas",Toast.LENGTH_LONG).show();
+                 //   Toast.makeText(mContext,"Categorías obtenidas",Toast.LENGTH_LONG).show();
                     categories = (ArrayList<Category>) responseHttp.getMessageObject();
                     loadCategories();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
