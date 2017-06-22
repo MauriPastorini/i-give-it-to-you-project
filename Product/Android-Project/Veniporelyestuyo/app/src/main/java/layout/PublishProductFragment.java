@@ -208,13 +208,16 @@ public class PublishProductFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(TAG, "OnClick");
                 EditText txtNombre = (EditText)view.findViewById(R.id.productName);
+                EditText txtDescription = (EditText)view.findViewById(R.id.productDescription);
                 Spinner spinCategory = (Spinner)view.findViewById(R.id.productCategory);
                 Spinner spinState = (Spinner)view.findViewById(R.id.productState);
 
                 String textNombre = txtNombre.getText().toString();
                 String spinCategoryText = spinCategory.getSelectedItem().toString();
                 String spinStateText = spinState.getSelectedItem().toString();
+                String description = txtDescription.getText().toString();
                 actualProduct.name = textNombre;
+                actualProduct.description = description;
 
                 if (android.os.Build.VERSION.SDK_INT >= 23) {
                     if (ContextCompat.checkSelfPermission(context,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED

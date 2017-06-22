@@ -108,7 +108,7 @@ public class UsersManageListAdapter extends BaseAdapter {
             String username = params[1];
             String email = params[2];
             String password = params[3];
-            Account account = new Account(id, username, email, password, false);
+            Account account = new Account(id, username, email, password, false, "");
             ResponseHttp response;
             try{
                 response = new AccountApiCommunication().setAsAdminAccount(account, mContext);
@@ -155,7 +155,7 @@ public class UsersManageListAdapter extends BaseAdapter {
             String username = params[1];
             String email = params[2];
             String password = params[3];
-            Account account = new Account(id, username, email, password, false);
+            Account account = new Account(id, username, email, password, false, "");
             ResponseHttp response;
             try{
                 response = new AccountApiCommunication().deleteAccount(account, mContext);

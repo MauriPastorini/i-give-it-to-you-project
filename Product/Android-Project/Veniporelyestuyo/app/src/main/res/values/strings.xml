@@ -38,6 +38,12 @@
         <item>Malo</item>
     </string-array>
 
+    <string-array name="country_array">
+        <item>Uruguay</item>
+        <item>Argentina</item>
+        <item>Brasil</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_user_menu">MainUserMenuActivity</string>
@@ -49,4 +55,5 @@
     <string name="adminUsers">Administrar Usuarios</string>
     <string name="adminPosts">Administrar publicaciones</string>
     <string name="continueApp">Continuar con la app</string>
+    <string name="description">Descripcion</string>
 </resources>

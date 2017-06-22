@@ -148,7 +148,8 @@ public class AccountApiCommunication {
                 int userId = jsonObject.getInt("userId");
                 String userName = jsonObject.getString("userName");
                 String email = jsonObject.getString("email");
-                Account a = new Account(userId, userName, email, "");
+                String country = jsonObject.getString("country");
+                Account a = new Account(userId, userName, email, "", country);
                 result.add(a);
             }
         } catch (JSONException e) {

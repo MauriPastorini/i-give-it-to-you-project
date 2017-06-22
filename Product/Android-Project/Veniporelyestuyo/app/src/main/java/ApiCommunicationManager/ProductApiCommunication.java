@@ -52,6 +52,7 @@ public class ProductApiCommunication{
         productJson.put("Latitude", product.latitude);
         productJson.put("Longitude", product.longitude);
         productJson.put("UserId", account.getId());
+        productJson.put("Description", product.description);
         ResponseHttp responseHttp = new ConnectionHandler().postData(ApiServerConstant.productPostUri, ConnectionHandler.Content_Type.JSON, productJson.toString(), token);
         if (responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS)
             responseHttp = postFunctionReturn(responseHttp, context);

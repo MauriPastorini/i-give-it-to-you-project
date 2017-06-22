@@ -15,20 +15,23 @@ public class Account {
     private String email;
     private String password;
     private boolean isAdmin;
+    private String country;
 
-    public Account(int id, String userName, String email, String password) {
+    public Account(int id, String userName, String email, String password, String country) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.isAdmin = false;
+        this.country = country;
     }
-    public Account(int id, String userName, String email, String password, boolean isAdmin) {
+    public Account(int id, String userName, String email, String password, boolean isAdmin, String country) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.isAdmin = isAdmin;
+        this.country = country;
     }
     public int getId() {
         return id;

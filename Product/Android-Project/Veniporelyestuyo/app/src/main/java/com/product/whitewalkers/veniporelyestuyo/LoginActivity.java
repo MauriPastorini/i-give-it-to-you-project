@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
             ResponseHttp response;
             try{
-                account = new Account(0,username,"",password);
+                account = new Account(0,username,"",password,"");
                 response = new AccountApiCommunication().postToken(account, mContext);
             } catch (IOException ioEx){
                 return new ResponseAsyncTask<Exception>(ResponseAsyncTask.TypeResponse.EXCEPTION,ioEx);
