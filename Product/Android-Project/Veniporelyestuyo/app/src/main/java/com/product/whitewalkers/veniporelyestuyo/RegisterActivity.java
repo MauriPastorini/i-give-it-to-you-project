@@ -34,8 +34,42 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         usernameTxt = (EditText)findViewById(R.id.username);
+        usernameTxt.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus == true)
+                {
+                    usernameTxt.setText(" ");
+                }
+            }
+        });
         emailTxt = (EditText)findViewById(R.id.email);
+        emailTxt.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus == true)
+                {
+                    emailTxt.setText("@gmail.com");
+                }
+            }
+        });
+
         passTxt = (EditText)findViewById(R.id.password);
+        passTxt.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus == true)
+                {
+                    passTxt.setText("");
+                }
+            }
+        });
         countryTxt = (Spinner)findViewById(R.id.countrySpinner);
     }
 
@@ -84,13 +118,13 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error en registro, lo sentimos, intenta denuevo!",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"Error en registro intenta denuevo!",Toast.LENGTH_LONG).show();
                 return;
             }
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"Registro OK",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,"Se ha registrado correctamente.",Toast.LENGTH_LONG).show();
                     Intent i = new Intent(mContext, LoginActivity.class);
                     startActivity(i);
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){

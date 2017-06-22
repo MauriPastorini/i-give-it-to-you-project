@@ -18,8 +18,7 @@ import Domain.Account;
 import Domain.ResponseAsyncTask;
 import Domain.ResponseHttp;
 
-import static android.R.attr.data;
-import static com.product.whitewalkers.veniporelyestuyo.R.id.textView;
+
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "myLogMessageTag";
@@ -41,8 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.loadingPanel).setVisibility(View.INVISIBLE);
         TextView txtAdmin = (TextView)findViewById(R.id.txtEditUsername);
         TextView txtPassAdmin = (TextView)findViewById(R.id.txtEditContraseña);
-        txtAdmin.setText("superUser");
-        txtPassAdmin.setText("Super123");
+
     }
 
     public void login(View view){
@@ -51,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         String username = txtEditUsername.getText().toString();
         String pass = txtEditContraseña.getText().toString();
         if(username.equals("")||pass.equals("")){
-            Toast.makeText(this,"Usuario ni contraseña pueden ser vacios." ,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Usuario y contraseña no pueden ser vacios." ,Toast.LENGTH_LONG).show();
         } else{
             String[] data = new String[2];
             data[0] = username;

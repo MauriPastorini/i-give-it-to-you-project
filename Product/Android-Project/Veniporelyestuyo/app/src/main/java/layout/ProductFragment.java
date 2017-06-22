@@ -129,12 +129,12 @@ public class ProductFragment extends Fragment {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+
                     changeVisibility(View.VISIBLE, getView());
                     iProductFragment.loadingVisible(false);
                     loadProductValues(view, (Product)responseHttp.getMessageObject());
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;
@@ -232,13 +232,13 @@ public class ProductFragment extends Fragment {
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     if (typeProductInfo == TypeInfo.MAKE_SOLICITUDE)
-                        Toast.makeText(mContext,"Producto solicitado, puede verlo en sus solicitudes",Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext,"Lo quieres! Puedes verlo en tus solicitudes",Toast.LENGTH_LONG).show();
                     else
-                        Toast.makeText(mContext,"Producto eliminado de tus solicitudes",Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext,"Producto eliminado de tus solicitudes.",Toast.LENGTH_LONG).show();
                     changeVisibility(View.VISIBLE, getView());
                     iProductFragment.returnToPreviousActivityOrFragment();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

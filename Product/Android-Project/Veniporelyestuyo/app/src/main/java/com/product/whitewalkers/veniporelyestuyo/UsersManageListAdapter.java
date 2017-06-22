@@ -124,17 +124,17 @@ public class UsersManageListAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
-                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                Toast.makeText(mContext,"Error al aprobar el usuario!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprobar el usuario");
                 return;
             }
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    ((ManageUsersActivity)mContext).getInactiveUsers();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
-                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprobar el usuario");
                 }
                 return;
             }
@@ -171,17 +171,17 @@ public class UsersManageListAdapter extends BaseAdapter {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
-                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                Toast.makeText(mContext,"Error al eliminar el usuario!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al borrar usuario");
                 return;
             }
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    ((ManageUsersActivity)mContext).getInactiveUsers();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
-                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al borrar usuario");
                 }
                 return;
             }

@@ -113,6 +113,17 @@ namespace Api.Services
         public ICollection<Product> GetUnmoderatedProducts()
         {
             ICollection<Product> unmoderatedProducts = unitOfWork.ProductRepository.Find(p => p.Moderated == false).ToList();
+            foreach (var item in unmoderatedProducts)
+            {
+                if (item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if (item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
             return unmoderatedProducts;
         }
 
@@ -224,6 +235,14 @@ namespace Api.Services
         public Product GetProduct(int productId)
         {
             Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product != null && product.State == null)
+            {
+                product.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == product.StateId).FirstOrDefault();
+            }
+            if (product != null && product.Category == null)
+            {
+                product.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == product.CategoryId).FirstOrDefault();
+            }
             return product;
         }
 

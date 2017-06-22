@@ -37,6 +37,7 @@ import Domain.Product;
 import Domain.Locator;
 import Domain.ProductMarker;
 import MyStaticElements.LogRegistration;
+import MyStaticElements.MyLocation;
 import layout.ProductFilters;
 import layout.ProductFragment;
 import layout.PublishProductFragment;
@@ -82,7 +83,7 @@ public class ProductsMapActivity extends FragmentActivity implements GoogleMap.O
             if(locator.getLocation()!=null) {
                 myLocation.setLatitude(locator.getLatitude());
                 myLocation.setLongitude(locator.getLongitude());
-               // Toast.makeText(this, locator.getLatitude() + "  " +locator.getLongitude() , Toast.LENGTH_LONG).show();
+
             }
         }
     }
@@ -186,39 +187,4 @@ public class ProductsMapActivity extends FragmentActivity implements GoogleMap.O
     }
 }
 
-class MyLocation{
-    private double latitude;
-    private double longitude;
-    private String title;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public MyLocation(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-}
 

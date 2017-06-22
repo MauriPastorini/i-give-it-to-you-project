@@ -183,6 +183,7 @@ namespace VeniPorEl.Controllers
             productModel.Latitude = product.Location.Latitude;
             productModel.Longitude = product.Location.Longitude;
             productModel.UserId = product.UserOwnProductId;
+            productModel.Description = product.Description;
             return Ok(productModel);
 
         }
@@ -198,7 +199,8 @@ namespace VeniPorEl.Controllers
             {
                 return NotFound();
             }
-            return Ok(unmoderatedProducts);
+            ICollection<ProductModel> productsResu = ProductModel.CreateProductsModel(unmoderatedProducts);
+            return Ok(productsResu);
         }
 
         [HttpGet]
@@ -208,7 +210,7 @@ namespace VeniPorEl.Controllers
         public IHttpActionResult GetProductsByCategory(int categoryId)
         {
             ICollection<Product> productsByCategory = productService.GetProductsByCategory(categoryId);
-            ICollection<ProductModel> productsResu = CreateProductsModel(productsByCategory);
+            ICollection<ProductModel> productsResu = ProductModel.CreateProductsModel(productsByCategory);
             return Ok(productsResu);
         }
 
@@ -219,28 +221,8 @@ namespace VeniPorEl.Controllers
         public IHttpActionResult GetProductsByCountry(string countryId)
         {
             ICollection<Product> productsByCountry = productService.GetProductsByCountry(countryId);
-            ICollection<ProductModel> productsResu = CreateProductsModel(productsByCountry);
+            ICollection<ProductModel> productsResu = ProductModel.CreateProductsModel(productsByCountry);
             return Ok(productsResu);
-        }
-
-        private static ICollection<ProductModel> CreateProductsModel(ICollection<Product> products)
-        {
-            ICollection<ProductModel> productsResu = new List<ProductModel>();
-            foreach (var item in products)
-            {
-                ProductModel productModel = new ProductModel();
-                productModel.ProductId = item.ProductId;
-                productModel.Name = item.Name;
-                productModel.CategoryId = item.CategoryId;
-                productModel.CategoryName = item.Category.Name;
-                productModel.StateId = item.StateId;
-                productModel.StateName = item.State.Name;
-                productModel.Latitude = item.Location.Latitude;
-                productModel.Longitude = item.Location.Longitude;
-                productModel.UserId = item.UserOwnProductId;
-                productsResu.Add(productModel);
-            }
-            return productsResu;
         }
 
         [HttpPost]

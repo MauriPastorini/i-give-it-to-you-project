@@ -56,4 +56,6 @@
     <string name="adminPosts">Administrar publicaciones</string>
     <string name="continueApp">Continuar con la app</string>
     <string name="description">Descripcion</string>
+    <string name="userEmail">Email</string>
+    <string name="countryTitle">Seleccione el pais</string>
 </resources>

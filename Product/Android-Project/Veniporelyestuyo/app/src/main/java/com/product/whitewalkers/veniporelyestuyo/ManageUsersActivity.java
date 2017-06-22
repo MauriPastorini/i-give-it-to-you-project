@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Response;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -34,7 +36,7 @@ public class ManageUsersActivity extends AppCompatActivity {
         getInactiveUsers();
     }
 
-    private void getInactiveUsers() {
+    public void getInactiveUsers() {
         new UnmoderatedUsersTask(this).execute();
     }
 
@@ -63,21 +65,22 @@ public class ManageUsersActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ResponseAsyncTask result) {
             if (result.getTypeResponse() == ResponseAsyncTask.TypeResponse.EXCEPTION){
-                Toast.makeText(mContext,"Error, lo sentimos, intenta denuevo!",Toast.LENGTH_LONG).show();
-                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                Toast.makeText(mContext,"Lo sentimos se produjo un error, intenta denuevo!",Toast.LENGTH_LONG).show();
+                LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprobar o denegar el usuario.");
                 return;
             }
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 List<Account> inactiveUsers = (List<Account>)responseHttp.getMessageObject();
-                if (inactiveUsers != null) {
-                    listview.setAdapter(new UsersManageListAdapter(mContext, inactiveUsers));
-                }
+
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"OK",Toast.LENGTH_LONG).show();
+                    if (inactiveUsers != null) {
+                        listview.setAdapter(null);
+                        listview.setAdapter(new UsersManageListAdapter(mContext, inactiveUsers));
+                    }
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error!",Toast.LENGTH_LONG).show();
-                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprovar o denegar usuario");
+                    Toast.makeText(mContext, responseHttp.getMessage(),Toast.LENGTH_LONG).show();
+                    LogRegistration.log(LogRegistration.TypeLog.ERROR, "Error al aprobar o denegar usuario");
                 }
                 return;
             }

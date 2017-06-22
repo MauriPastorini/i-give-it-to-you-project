@@ -38,5 +38,26 @@ namespace VeniPorEl.Models
         public string StateName { get; set; }
         [Display(Name = "Description")]
         public string Description { get; set; }
+
+        public static ICollection<ProductModel> CreateProductsModel(ICollection<Product> products)
+        {
+            ICollection<ProductModel> productsResu = new List<ProductModel>();
+            foreach (var item in products)
+            {
+                ProductModel productModel = new ProductModel();
+                productModel.ProductId = item.ProductId;
+                productModel.Name = item.Name;
+                productModel.CategoryId = item.CategoryId;
+                productModel.CategoryName = item.Category.Name;
+                productModel.StateId = item.StateId;
+                productModel.StateName = item.State.Name;
+                productModel.Latitude = item.Location.Latitude;
+                productModel.Longitude = item.Location.Longitude;
+                productModel.UserId = item.UserOwnProductId;
+                productModel.Description = item.Description;
+                productsResu.Add(productModel);
+            }
+            return productsResu;
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace Data
         public string Name { get; set; }
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
+        [ForeignKey("StateId")]
         public virtual ProductState State { get; set; }
         public int StateId { get; set; }
         public Location Location { get; set; }

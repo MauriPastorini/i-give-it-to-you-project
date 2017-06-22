@@ -58,6 +58,10 @@ public class PublishProductFragment extends Fragment {
     private ImageView imgPhoto2;
     private ImageView imgPhoto3;
 
+    private EditText txtNombre;
+    private EditText txtDescription;
+
+
     private Product actualProduct;
     private ArrayList<Category> categories;
     private ArrayList<ProductState> productStates;
@@ -82,6 +86,30 @@ public class PublishProductFragment extends Fragment {
         }
         view = inflater.inflate(R.layout.fragment_publish_product, container, false);
 
+        txtNombre = (EditText)view.findViewById(R.id.productName);
+        txtNombre.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus == true)
+                {
+                    txtNombre.setText("");
+                }
+            }
+        });
+        txtDescription = (EditText)view.findViewById(R.id.productDescription);
+        txtDescription.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus == true)
+                {
+                    txtDescription.setText("");
+                }
+            }
+        });
         actualProduct = new Product();
 
         SetButtonConfirm();
@@ -153,11 +181,11 @@ public class PublishProductFragment extends Fragment {
             else{
                 ResponseHttp responseHttp = (ResponseHttp) result.getDataResponse();
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
-                    Toast.makeText(mContext,"Categorías obtenidas",Toast.LENGTH_LONG).show();
+
                     categories = (ArrayList<Category>) responseHttp.getMessageObject();
                     loadCategories();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;
@@ -207,8 +235,7 @@ public class PublishProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "OnClick");
-                EditText txtNombre = (EditText)view.findViewById(R.id.productName);
-                EditText txtDescription = (EditText)view.findViewById(R.id.productDescription);
+
                 Spinner spinCategory = (Spinner)view.findViewById(R.id.productCategory);
                 Spinner spinState = (Spinner)view.findViewById(R.id.productState);
 
@@ -227,7 +254,6 @@ public class PublishProductFragment extends Fragment {
                             myLocation = locator.getLocation();
                             actualProduct.latitude = myLocation.getLatitude();
                             actualProduct.longitude = myLocation.getLongitude();
-                            //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
                         }
                     } else {
                         ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},10);
@@ -238,7 +264,6 @@ public class PublishProductFragment extends Fragment {
                         myLocation = locator.getLocation();
                         actualProduct.latitude = myLocation.getLatitude();
                         actualProduct.longitude = myLocation.getLongitude();
-                        //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
                     }else{
                         actualProduct.latitude = -34.903891;
                         actualProduct.longitude = -56.190729;
@@ -284,7 +309,6 @@ public class PublishProductFragment extends Fragment {
                         myLocation = locator.getLocation();
                         actualProduct.latitude = myLocation.getLatitude();
                         actualProduct.longitude = myLocation.getLongitude();
-                        //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
                     }
                 } else {
 
@@ -335,7 +359,7 @@ public class PublishProductFragment extends Fragment {
                 if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.SUCCESS){
                     Toast.makeText(mContext,"Publicacion realizada",Toast.LENGTH_LONG).show();
                 } else if(responseHttp.getTypeCode() == ResponseHttp.CategoryCodeResponse.CLIENT_ERROR){
-                    Toast.makeText(mContext,"Error en solicitud, intenta denuevo!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext,responseHttp.getMessage(),Toast.LENGTH_LONG).show();
                     LogRegistration.log(LogRegistration.TypeLog.ERROR, responseHttp.getMessage());
                 }
                 return;

@@ -247,8 +247,8 @@ public class ProductApiCommunication{
         product.categoryName = productJson.getString("name");
         product.stateId = productJson.getInt("stateId");
         product.stateName = productJson.getString("name");
-        product.latitude = productJson.getJSONObject("location").getDouble("latitude");
-        product.longitude = productJson.getJSONObject("location").getDouble("longitude");
+        product.latitude = productJson.getDouble("latitude");
+        product.longitude = productJson.getDouble("longitude");
         product.description = productJson.getString("description");
         return product;
     }
