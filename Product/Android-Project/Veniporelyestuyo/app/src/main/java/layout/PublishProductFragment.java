@@ -219,7 +219,7 @@ public class PublishProductFragment extends Fragment {
                 if (android.os.Build.VERSION.SDK_INT >= 23) {
                     if (ContextCompat.checkSelfPermission(context,android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
-                        Locator locator = new Locator(context);
+                        Locator locator = new Locator(context,android.os.Build.VERSION.SDK_INT);
                         if(locator.getLocation()!=null) {
                             myLocation = locator.getLocation();
                             actualProduct.latitude = myLocation.getLatitude();
@@ -230,13 +230,17 @@ public class PublishProductFragment extends Fragment {
                         ActivityCompat.requestPermissions(getActivity(),new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},10);
                     }
                 } else {
-                    Locator locator = new Locator(context);
+                    Locator locator = new Locator(context,android.os.Build.VERSION.SDK_INT);
                     if(locator.getLocation()!=null) {
                         myLocation = locator.getLocation();
                         actualProduct.latitude = myLocation.getLatitude();
                         actualProduct.longitude = myLocation.getLongitude();
                         //Toast.makeText(context,"Lat: " + myLocation.getLatitude() + " long: "+myLocation.getLongitude()+ ".", Toast.LENGTH_LONG).show();
+                    }else{
+                        actualProduct.latitude = -34.903891;
+                        actualProduct.longitude = -56.190729;
                     }
+
                 }
 
 
@@ -272,7 +276,7 @@ public class PublishProductFragment extends Fragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    Locator locator = new Locator(context);
+                    Locator locator = new Locator(context,android.os.Build.VERSION.SDK_INT);
                     if (locator.getLocation() != null) {
                         myLocation = locator.getLocation();
                         actualProduct.latitude = myLocation.getLatitude();

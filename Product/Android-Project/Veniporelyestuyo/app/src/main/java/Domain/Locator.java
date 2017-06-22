@@ -20,16 +20,26 @@ public class Locator implements LocationListener {
     private Location location;
     private String provider;
 
-    public Locator(Context context) {
+    public Locator(Context context, int SDKVersion) {
         locationManager = (LocationManager) context
                 .getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
-        //criteria.setPowerRequirement(Criteria.POWER_LOW);
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+
+        if(SDKVersion >=23) {
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        }else {
+            criteria.setPowerRequirement(Criteria.POWER_LOW);
+            criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        }
         provider = locationManager.getBestProvider(criteria, true);
 
         try{
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this);
+            if(SDKVersion >=23) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, this);
+            }else {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 0, this);
+            }
+
             //setMostRecentLocation(locationManager.getLastKnownLocation(provider));
             location = locationManager.getLastKnownLocation(provider);
             latitude = location.getLatitude();

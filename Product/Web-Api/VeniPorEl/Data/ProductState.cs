@@ -10,7 +10,7 @@ namespace Data
     {
         public int ProductStateId { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+     
 
 
         private ProductState() { }

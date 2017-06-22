@@ -45,7 +45,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_products_maps">Map</string>
     <string name="title_activity_products_map">Map</string>
-    <string name="adminMenuTitle">Admin Menu</string>
+    <string name="adminMenuTitle">Menu Administrador</string>
     <string name="adminUsers">Administrar Usuarios</string>
     <string name="adminPosts">Administrar publicaciones</string>
     <string name="continueApp">Continuar con la app</string>
