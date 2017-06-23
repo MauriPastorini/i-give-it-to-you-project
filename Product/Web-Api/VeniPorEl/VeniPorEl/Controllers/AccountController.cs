@@ -10,6 +10,8 @@ using System.Web.Http;
 using VeniPorEl.Models;
 using System.Web.Http.Results;
 using Api.Services;
+using System.Web.Http.Description;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace VeniPorEl.Controllers
 {
@@ -26,6 +28,34 @@ namespace VeniPorEl.Controllers
             _repo = new AuthRepository();
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult GetUnmoderatedUsers()
+        {
+            try
+            {
+                List<User> users = userService.GetAll().ToList();
+                var results = new List<UserModel>();
+                for(int i = 0; i < users.Count; i++)
+                {
+                    if(users[i].UserName != User.Identity.Name && !_repo.IsAdmin(users[i].UserName))
+                    {
+                        var model = new UserModel();
+                        model.UserId = users[i].UserId.ToString();
+                        model.UserName = users[i].UserName;
+                        model.Email = users[i].Email;
+                        results.Add(model);
+                    }
+                    
+                }
+                return Ok(results);   
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IHttpActionResult> Register(UserModel userModel)
@@ -34,10 +64,15 @@ namespace VeniPorEl.Controllers
             {
                 return BadRequest(ModelState);
             }
+            User userName = userService.GetByUserName(userModel.UserName);
+            if (userName != null)
+            {
+                return BadRequest("Ya existe un usuario con este nombre");
+            }
             User user;
             try
             {
-                user = Data.User.CreateWithNamePasswordAndRole(userModel.UserName, userModel.Password, new NormalUserRole());
+                user = Data.User.CreateWithNameEmailPasswordAndRole(userModel.UserName, userModel.Email, userModel.Password, new NormalUserRole(), userModel.Country);
             }
             catch(ArgumentException ex)
             {
@@ -64,14 +99,10 @@ namespace VeniPorEl.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles ="Admin, Normal")]
+        [Authorize(Roles ="Admin")]
         public IHttpActionResult UpdateUser(string id, UserModel userModel)
         {
             if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            if(id != userModel.UserName)
             {
                 return BadRequest(ModelState);
             }
@@ -88,9 +119,9 @@ namespace VeniPorEl.Controllers
         [HttpPost]
         [Route("Admin/{id}")]
         [Authorize(Roles ="Admin")]
-        public IHttpActionResult SetAsAdmin(string id)
+        public IHttpActionResult SetAsAdmin(int id, UserModel userModel)
         {
-            IHttpActionResult dbResult = SetAsAdmin_Owin(id);
+            IHttpActionResult dbResult = SetAsAdmin_Owin(userModel.UserName);
             if(dbResult is OkResult)
             {
                 return SetAsAdmin_VeniPorEl(id);
@@ -101,11 +132,29 @@ namespace VeniPorEl.Controllers
             }
         }
 
-        private IHttpActionResult SetAsAdmin_VeniPorEl(string id)
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult Delete(string id, UserModel user)
+        {
+            int idd = Int32.Parse(id);
+            IHttpActionResult dbResult = DeleteUser_Owin(user);
+            if(dbResult is OkResult)
+            {
+                Delete_VeniPorEl(idd);
+                return Ok();
+            }
+            else
+            {
+                return dbResult;
+            }
+        }
+
+        private IHttpActionResult SetAsAdmin_VeniPorEl(int id)
         {
             string error = "This user is already an admin!";
             IHttpActionResult result = Ok();
-            User userToModify = userService.GetByUserName(id);
+            User userToModify = userService.GetById(id);
             if(userToModify == null)
             {
                 result = NotFound();
@@ -130,7 +179,7 @@ namespace VeniPorEl.Controllers
             if(!(result is OkResult))
             {
                 UserModel userToDel = new UserModel();
-                userToDel.UserName = id;
+                userToDel.UserId = id.ToString();
                 DeleteAdminRole_Owin(userToDel);
             }
             return result;
@@ -172,6 +221,11 @@ namespace VeniPorEl.Controllers
         private void Register_VeniPorEl(User user)
         {
             userService.Register(user);
+        }
+
+        private void Delete_VeniPorEl(int id)
+        {
+            userService.Delete(id);
         }
 
         private async Task<IHttpActionResult> Register_Owin(UserModel userModel)
@@ -262,6 +316,51 @@ namespace VeniPorEl.Controllers
                 return BadRequest(ModelState);
             }
             return null;
+        }
+
+        [HttpGet]
+        [Route("admin")]
+        [Authorize(Roles = "Admin")]
+        public IHttpActionResult IsAdmin()
+        {
+            return Ok(Data.User.Roles.Admin);
+        }
+
+        [HttpGet]
+        [Route("{idAccount}/product")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetProductsOfAccount(int idAccount)
+        {
+            ICollection<Product> productsSolicitatedByUser = new ProductService().GetProductsSolicitatedByUser(idAccount);
+            ICollection<ProductModel> productsResu = new List<ProductModel>();
+            foreach (var item in productsSolicitatedByUser)
+            {
+                ProductModel productModel = new ProductModel();
+                productModel.ProductId = item.ProductId;
+                productModel.Name = item.Name;
+                productModel.CategoryId = item.CategoryId;
+                productModel.CategoryName = item.Category.Name;
+                productModel.StateId = item.StateId;
+                productModel.StateName = item.State.Name;
+                productModel.Latitude = item.Location.Latitude;
+                productModel.Longitude = item.Location.Longitude;
+                productModel.UserId = item.UserOwnProductId;
+                productsResu.Add(productModel);
+            }
+            return Ok(productsResu);
+        }
+
+        [HttpGet]
+        [Route("identifier")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetIdOfTokenAccount()
+        {
+            var us = User;
+            var userIdentity = us.Identity;
+            int idAccount = userService.GetUserIdByUserName(userIdentity.Name);
+            return Ok(idAccount);
         }
     }
 }

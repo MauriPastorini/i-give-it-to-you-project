@@ -10,6 +10,8 @@ namespace Data
     {
         public int ProductStateId { get; set; }
         public string Name { get; set; }
+     
+
 
         private ProductState() { }
 

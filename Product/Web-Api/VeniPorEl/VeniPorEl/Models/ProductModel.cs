@@ -13,23 +13,51 @@ namespace VeniPorEl.Models
         [Required]
         [Display(Name = "ProductName")]
         public string Name { get; set; }
-
         [Required]
         [Display(Name = "CategoryId")]
         public int CategoryId { get; set; }
-
         [Required]
         [Display(Name = "ProductStateId")]
         public int State { get; set; }
-
         [Required]
         [Display(Name = "LocationLatitude")]
-        public int Latitude { get; set; }
-
+        public double Latitude { get; set; }
         [Required]
         [Display(Name = "LocationLongitude")]
-        public int Longitude { get; set; }
+        public double Longitude { get; set; }
+        [Required]
+        [Display(Name = "UserId")]
+        public int UserId { get; set; }
+        [Display(Name = "ProductId")]
+        public int ProductId { get; set; }
+        [Display(Name = "CategoryName")]
+        public string CategoryName { get; set; }
+        [Display(Name = "StateId")]
+        public int StateId { get; set; }
+        [Display(Name = "StateName")]
+        public string StateName { get; set; }
+        [Display(Name = "Description")]
+        public string Description { get; set; }
 
-
+        public static ICollection<ProductModel> CreateProductsModel(ICollection<Product> products)
+        {
+            ICollection<ProductModel> productsResu = new List<ProductModel>();
+            foreach (var item in products)
+            {
+                ProductModel productModel = new ProductModel();
+                productModel.ProductId = item.ProductId;
+                productModel.Name = item.Name;
+                productModel.CategoryId = item.CategoryId;
+                productModel.CategoryName = item.Category.Name;
+                productModel.StateId = item.StateId;
+                productModel.StateName = item.State.Name;
+                productModel.Latitude = item.Location.Latitude;
+                productModel.Longitude = item.Location.Longitude;
+                productModel.UserId = item.UserOwnProductId;
+                productModel.Description = item.Description;
+                productsResu.Add(productModel);
+            }
+            return productsResu;
+        }
     }
 }

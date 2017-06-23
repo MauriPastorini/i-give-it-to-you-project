@@ -70,5 +70,10 @@ namespace Data.Repository.GenericRepository
         {
             dbSet.Attach(entity);
         }
+
+        public Product GetProductWithUserSolicitated(int productId)
+        {
+            return ContextRepo.Products.Include(product => product.UserSolicitudeProduct).FirstOrDefault(x => x.ProductId == productId);
+        }
     }
 }

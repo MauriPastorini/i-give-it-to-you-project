@@ -32,5 +32,10 @@ namespace Data
         {
             return name != null && name.Trim() != "";
         }
+
+        public override string ToString()
+        {
+            return "Categoria: " + this.Name;
+        }
     }
 }

@@ -8,6 +8,8 @@ using VeniPorEl.Models;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 
 namespace VeniPorEl.Controllers
 {
@@ -23,6 +25,7 @@ namespace VeniPorEl.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ProductModel))]
         public IHttpActionResult RegisterProduct(ProductModel productModel)
         {
@@ -36,21 +39,25 @@ namespace VeniPorEl.Controllers
             }
             else
             {
+                int productId = 0;
                 try
                 {
-                    int productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude);
-                    return Ok(productId);
+                    productId = productService.CreateWithNameCategoryStateLocation(productModel.Name, productModel.CategoryId, productModel.State, productModel.Latitude, productModel.Longitude, productModel.UserId, productModel.Description);
                 }
                 catch (ArgumentException ex)
                 {
                     return BadRequest(ex.Message);
                 }
+                if (productId == 0)
+                    return NotFound();
+                return Ok(productId);
             }
         }
 
 
         [HttpPost]
-        [Route("{productId}")]
+        [Route("{productId}/Image")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ImageModel))]
         public IHttpActionResult UploadProductImage(int productId, ImageModel imageModel)
         {
@@ -74,10 +81,58 @@ namespace VeniPorEl.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("{productId}/Accept")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ProductModel))]
+        public IHttpActionResult AcceptProduct(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                productService.AcceptProduct(productId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("{productId}")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ProductModel))]
+        public IHttpActionResult DeleteProduct(int productId)
+        {
+            if (productId == 0)
+            {
+                return BadRequest("Error in data format.");
+            }
+            try
+            {
+                productService.DeleteProduct(productId);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
         [HttpGet]
         [Route("{productId}/photo")]
+        [Authorize(Roles = "Admin, Normal")]
         [ResponseType(typeof(ICollection<ImageModel>))]
         public IHttpActionResult GetProductImage(int productId)
+
         {
             if (productId == 0)
             {
@@ -105,7 +160,8 @@ namespace VeniPorEl.Controllers
 
         [HttpGet]
         [Route("{productId}")]
-        [ResponseType(typeof(ICollection<ImageModel>))]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ProductModel))]
         public IHttpActionResult GetCompleteProductImage(int productId)
         {
             if (productId == 0)
@@ -117,7 +173,166 @@ namespace VeniPorEl.Controllers
             {
                 return NotFound();
             }
-            return Ok(product);
+            ProductModel productModel = new ProductModel();
+            productModel.ProductId = product.ProductId;
+            productModel.Name = product.Name;
+            productModel.CategoryId = product.CategoryId;
+            productModel.CategoryName = product.Category.Name;
+            productModel.StateId = product.StateId;
+            productModel.StateName = product.State.Name;
+            productModel.Latitude = product.Location.Latitude;
+            productModel.Longitude = product.Location.Longitude;
+            productModel.UserId = product.UserOwnProductId;
+            productModel.Description = product.Description;
+            return Ok(productModel);
+
+        }
+
+        [HttpGet]
+        [Route("Unmoderated")]
+        [Authorize(Roles = "Admin")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetUnmoderatedProducts()
+        {
+            ICollection<Product> unmoderatedProducts = productService.GetUnmoderatedProducts();
+            if (unmoderatedProducts == null)
+            {
+                return NotFound();
+            }
+            ICollection<ProductModel> productsResu = ProductModel.CreateProductsModel(unmoderatedProducts);
+            return Ok(productsResu);
+        }
+
+        [HttpGet]
+        [Route("Category/{categoryId}")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetProductsByCategory(int categoryId)
+        {
+            ICollection<Product> productsByCategory = productService.GetProductsByCategory(categoryId);
+            ICollection<ProductModel> productsResu = ProductModel.CreateProductsModel(productsByCategory);
+            return Ok(productsResu);
+        }
+
+        [HttpGet]
+        [Route("Country/{countryId}")]
+        [Authorize(Roles = "Admin, Normal")]
+        [ResponseType(typeof(ICollection<Product>))]
+        public IHttpActionResult GetProductsByCountry(string countryId)
+        {
+            ICollection<Product> productsByCountry = productService.GetProductsByCountry(countryId);
+            ICollection<ProductModel> productsResu = ProductModel.CreateProductsModel(productsByCountry);
+            return Ok(productsResu);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Normal")]
+        [Route("{productId}/solicitude/{accountId}")]
+        public IHttpActionResult RegisterProductSolicitude(int productId, int accountId)
+        {
+            if (productId == 0 || accountId == 0)
+            {
+                return BadRequest("No data sent.");
+            }
+            else
+            {
+                try
+                {
+                    productService.CreateSolicitudeForProduct(productId, accountId);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return Content(HttpStatusCode.NotFound, ex.Message);
+                }
+                catch (ProductAlreadySolicitatedException ex)
+                {
+                    return BadRequest("Product has been already solicitated");
+                }
+                catch (SmtpException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                return Ok("Solicitude registered");
+            }
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin, Normal")]
+        [Route("{productId}/solicitude/{accountId}")]
+        public IHttpActionResult DeleteProductSolicitude(int productId, int accountId)
+        {
+            if (productId == 0 || accountId == 0)
+            {
+                return BadRequest("No data sent.");
+            }
+            else
+            {
+                var us = User;
+                var userIdentity = us.Identity;
+                string userNameConnected = userIdentity.Name;
+                try
+                {
+                    productService.DeleteSolicitudeForProduct(productId, accountId, userNameConnected);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return Content(HttpStatusCode.NotFound, ex.Message);
+                }
+                catch (ProductAlreadySolicitatedException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                catch (SmtpException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                return Ok("Solicitude registered");
+            }
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin, Normal")]
+        [Route("{productId}/review/{rate}")]
+        public IHttpActionResult RateProduct(int productId, int rate)
+        {
+            if (productId == 0 || rate == 0)
+            {
+                return BadRequest("No data sent.");
+            }
+            else
+            {
+                var us = User;
+                var userIdentity = us.Identity;
+                string userNameConnected = userIdentity.Name;
+                try
+                {
+                    productService.RateProductSolicitated(productId, rate, userNameConnected);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    return Content(HttpStatusCode.NotFound, ex.Message);
+                }
+                catch (SmtpException ex)
+                {
+                    return InternalServerError(ex);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                return Ok("Solicitude registered");
+            }
         }
     }
 }

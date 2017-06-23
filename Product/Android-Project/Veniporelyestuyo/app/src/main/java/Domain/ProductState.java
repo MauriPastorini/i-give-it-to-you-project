@@ -6,7 +6,12 @@ package Domain;
 
 public class ProductState {
     public String name;
-    public int Id;
+    public int id;
+
+    public ProductState(String name, int idd) {
+        this.name = name;
+        this.id = idd;
+    }
 
     public String getName() {
         return name;
@@ -17,10 +22,10 @@ public class ProductState {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 }

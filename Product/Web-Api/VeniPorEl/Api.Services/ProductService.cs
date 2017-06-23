@@ -7,7 +7,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Api.Services
@@ -27,18 +29,23 @@ namespace Api.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, int productLatitude, int productLongitude)
+        public int CreateWithNameCategoryStateLocation(string name, int productCategoryId, int productStateId, double productLatitude, double productLongitude, int userId, string description)
         {
             try
             {
                 Location productLocation = Location.CreateWithLatLon(productLatitude, productLongitude);
                 Category productCategory = LoadProductCategory(productCategoryId);
                 ProductState productState = LoadProductState(productStateId);
-                Product productToCreate = Product.CreateWithNameCategoryStateLocation(name, productCategory, productState, productLocation);
+                Product productToCreate = Product.CreateWithNameCategoryStateLocation(name, productCategory, productState, productLocation, description);
+                User userOwner = new UserService().GetById(userId);
+                if (userOwner == null)
+                    return 0;
 
                 productToCreate.Category = unitOfWork.CategoryRepository.Get(productCategoryId);
                 productToCreate.State = unitOfWork.ProductStateRepository.Get(productStateId);
+                productToCreate.UserOwnProduct = userOwner;
 
+                unitOfWork.UsersRepository.Atach(userOwner);
                 unitOfWork.ProductRepository.Add(productToCreate);
                 unitOfWork.Save();
                 return productToCreate.ProductId;
@@ -69,7 +76,7 @@ namespace Api.Services
             {
                 throw new ArgumentException("Given Product State doesn't exists.");
             }
-          
+
             return productStateToReturn;
         }
 
@@ -103,6 +110,101 @@ namespace Api.Services
             return true;
         }
 
+        public ICollection<Product> GetUnmoderatedProducts()
+        {
+            ICollection<Product> unmoderatedProducts = unitOfWork.ProductRepository.Find(p => p.Moderated == false).ToList();
+            foreach (var item in unmoderatedProducts)
+            {
+                if (item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if (item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
+            return unmoderatedProducts;
+        }
+
+        public ICollection<Product> GetProductsByCategory(int categoryId)
+        {
+            ICollection<Product> productsByCategory = null;
+            if (categoryId != 0)
+            {
+                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Category.CategoryId == categoryId && p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
+            }
+            else
+            {
+                productsByCategory = unitOfWork.ProductRepository.Find(p => p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
+            }
+            foreach (var item in productsByCategory)
+            {
+                if (item != null && item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if (item != null && item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
+            return productsByCategory;
+        }
+
+        public ICollection<Product> GetProductsByCountry(string countryId)
+        {
+            List<Product> productsByCountry = new List<Product>();
+            if(countryId != "")
+            {
+                productsByCountry = new List<Product>();
+                List<User> usersInCountry = unitOfWork.UsersRepository.Find(u => u.Country == countryId).ToList();
+                for(int i = 0; i < usersInCountry.Count; i++)
+                {
+                    int id = usersInCountry[i].UserId;
+                    ICollection<Product> actualProducts = unitOfWork.ProductRepository.Find(p => p.UserOwnProductId == id && p.Moderated == true && (p.UserSolicitudeProductId == 0 || p.UserSolicitudeProductId == null)).ToList();
+                    productsByCountry.AddRange(actualProducts);
+                }
+            }
+            foreach(var item in productsByCountry)
+            {
+                if(item != null && item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if(item != null && item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
+            return productsByCountry;
+        }
+
+        public int AcceptProduct(int productId)
+        {
+            Product productToUpdate = unitOfWork.ProductRepository.Get(productId);
+            if (productToUpdate == null)
+                throw new ArgumentException("Product Not Found");
+            productToUpdate.Moderated = true;
+            unitOfWork.Save();
+            return productToUpdate.ProductId;
+        }
+
+
+        public void DeleteProduct(int productId)
+        {
+            Product productToUpdate = unitOfWork.ProductRepository.Get(productId);
+            if (productToUpdate == null)
+                throw new ArgumentException("Product Not Found");
+            ICollection<ProductImage> productImages = unitOfWork.ProductImagesRepository.Find(image => image.Product.ProductId == productId).ToList();
+            foreach (var productImage in productImages)
+            {
+                unitOfWork.ProductImagesRepository.Remove(productImage);
+            }
+            unitOfWork.ProductRepository.Remove(productToUpdate);
+            unitOfWork.Save();
+        }
+
         public ICollection<ProductImage> GetImagesFromProductId(int productId)
         {
             Product product = unitOfWork.ProductRepository.Find(c => c.ProductId == productId).FirstOrDefault();
@@ -132,8 +234,169 @@ namespace Api.Services
 
         public Product GetProduct(int productId)
         {
-            Product product = unitOfWork.ProductRepository.Find(p=>p.ProductId == productId).FirstOrDefault();
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product != null && product.State == null)
+            {
+                product.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == product.StateId).FirstOrDefault();
+            }
+            if (product != null && product.Category == null)
+            {
+                product.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == product.CategoryId).FirstOrDefault();
+            }
             return product;
+        }
+
+        public void CreateSolicitudeForProduct(int productId, int accountId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Product doesnt exists");
+            }
+            if (product.UserSolicitudeProductId != null || product.UserSolicitudeProductId == 0)
+            {
+                throw new ProductAlreadySolicitatedException();
+            }
+            User userSolicitude = new UserService().GetById(accountId);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User that made the solicitude doesnt exists");
+            }
+            String emailUserWhoWantIt = userSolicitude.Email;
+            User userOwnerOfProduct = new UserService().GetById(product.UserOwnProductId);
+            if (userOwnerOfProduct == null)
+            {
+                throw new KeyNotFoundException("User owner doesnt exists");
+            }
+            String emailUserProductOwner = userOwnerOfProduct.Email;
+            product.UserSolicitudeProduct = userSolicitude;
+            unitOfWork.UsersRepository.Atach(userSolicitude);
+            unitOfWork.ProductRepository.Update(product);
+            unitOfWork.Save();
+
+            SendEmail(product, emailUserProductOwner, "Quieren tu producto!", "Felicitaciones! Quieren tu producto: " + product.ToString() + userSolicitude.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu solicitud", "Felicitaciones! A la brevedad la persona se pondra en contacto contigo. Contacto: " + userOwnerOfProduct.ToString());
+        }
+
+        private static void SendEmail(Product product, String email, String subject, String message)
+        {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                String emailVeni = "venisyestuyo@gmail.com";
+                String emailPass = "venis1234";
+                using (MailMessage mail = new MailMessage())
+                {
+                    mail.From = new MailAddress(emailVeni);
+                    mail.To.Add(email);
+                    mail.Subject = subject;
+                    mail.Body = message;
+                    mail.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                    {
+                        smtp.Credentials = new NetworkCredential(emailVeni, emailPass);
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+                    }
+                }
+            }).Start();
+        }
+        public void DeleteSolicitudeForProduct(int productId, int accountId, string userMakingSolicitudeId)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Product doesnt exists");
+            }
+            User userSolicitude = new UserService().GetById(accountId);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User that made the solicitude doesnt exists");
+            }
+            User userConnected = new UserService().GetByUserName(userMakingSolicitudeId);
+            if (userConnected == null)
+            {
+                throw new InvalidOperationException("User connected from token doesnt exists");
+            }
+            if (userSolicitude.UserId != userConnected.UserId)
+            {
+                throw new UnauthorizedAccessException("The solicitude is from a different user");
+            }
+
+            User userOwnerOfProduct = new UserService().GetById(product.UserOwnProductId);
+            if (userOwnerOfProduct == null)
+            {
+                throw new KeyNotFoundException("User owner doesnt exists");
+            }
+            Product productWithUser = unitOfWork.ProductRepository.GetProductWithUserSolicitated(productId);
+
+            productWithUser.UserSolicitudeProduct = null;
+            unitOfWork.Save();
+
+            String emailUserWhoWantIt = userSolicitude.Email;
+            String emailUserProductOwner = userOwnerOfProduct.Email;
+            SendEmail(product, emailUserProductOwner, "Ya no quieren tu producto", "Lamentamos informarle que ya no quieren su producto: " + product.ToString() + userSolicitude.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado la cancelación de su solicitud", "Lamentamos que ya no lo quiera mas! Contacto del propietario: " + userOwnerOfProduct.ToString());
+        }
+
+        public ICollection<Product> GetProductsSolicitatedByUser(int userId)
+        {
+            ICollection<Product> productsSolicitatedByUser = unitOfWork.ProductRepository.Find(p => p.UserSolicitudeProductId == userId && p.Moderated && p.Review == 0).ToList();
+            foreach (var item in productsSolicitatedByUser)
+            {
+                if (item.State == null)
+                {
+                    item.State = unitOfWork.ProductStateRepository.Find(s => s.ProductStateId == item.StateId).FirstOrDefault();
+                }
+                if (item.Category == null)
+                {
+                    item.Category = unitOfWork.CategoryRepository.Find(s => s.CategoryId == item.CategoryId).FirstOrDefault();
+                }
+            }
+            return productsSolicitatedByUser;
+        }
+
+        public void RateProductSolicitated(int productId, int rate, string userNameConnected)
+        {
+            Product product = unitOfWork.ProductRepository.Find(p => p.ProductId == productId).FirstOrDefault();
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Product doesnt exists");
+            }
+            if (product.UserSolicitudeProductId == null || product.UserSolicitudeProductId == 0)
+            {
+                throw new InvalidOperationException("Product was not solicitated");
+            }
+            int idUserThatSolicitatedProduct = (int)product.UserSolicitudeProductId;
+            User userSolicitude = new UserService().GetById(idUserThatSolicitatedProduct);
+            if (userSolicitude == null)
+            {
+                throw new KeyNotFoundException("User that made the solicitude doesnt exists");
+            }
+            User userConnected = new UserService().GetByUserName(userNameConnected);
+            if (userConnected == null)
+            {
+                throw new InvalidOperationException("User connected from token doesnt exists");
+            }
+            if (userSolicitude.UserId != userConnected.UserId)
+            {
+                throw new UnauthorizedAccessException("The solicitude is from a different user");
+            }
+
+            User userOwnerOfProduct = new UserService().GetById(product.UserOwnProductId);
+            if (userOwnerOfProduct == null)
+            {
+                throw new KeyNotFoundException("User owner doesnt exists");
+            }
+
+            product.Review = rate;
+            unitOfWork.Save();
+
+            String emailUserWhoWantIt = userSolicitude.Email;
+            String emailUserProductOwner = userOwnerOfProduct.Email;
+
+            SendEmail(product, emailUserProductOwner, "Felicitaciones te calificaron por un producto!", "Te calificaron con: " + rate + ". Producto: " + product.ToString() + userSolicitude.ToString());
+            SendEmail(product, emailUserWhoWantIt, "Se ha enviado tu calificación", "Calificaste con: " + rate + ". Al usuario y producto " + product.ToString() + userSolicitude.ToString());
         }
     }
 }

@@ -54,6 +54,7 @@
     <Compile Include="ICategoryService.cs" />
     <Compile Include="IProductStateService.cs" />
     <Compile Include="IUserService.cs" />
+    <Compile Include="ProductAlreadyOwnedException.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="ProductStateService.cs" />

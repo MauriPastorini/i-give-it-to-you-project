@@ -1,7 +1,7 @@
 package ApiCommunicationManager;
 
+import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Domain.Category;
+import Domain.ResponseHttp;
 
 
 /**
@@ -20,18 +21,22 @@ import Domain.Category;
 public class CategoryApiCommunication {
     private static final String TAG = "myLogMessageTag";
 
-    public ArrayList<Category> getCategories() throws JSONException, IOException {
-        ArrayList<Category> categoriesResult = new ArrayList<Category>();
-        String catergoriesGetResult = new ConnectionHandler().getDataInJson(ApiServerConstant.categoryGetUri).getMessage();
-        return getCategoriesFromJsonString(categoriesResult, catergoriesGetResult);
+    public ResponseHttp getCategories(Context context) throws JSONException, IOException {
+        String token = (new AccountApiCommunication()).getToken(context);
+        ResponseHttp response = new ConnectionHandler().getData(ApiServerConstant.categoryGetUri, ConnectionHandler.Content_Type.JSON, token);
+        ArrayList<Category> categories = getCategoriesFromJsonString(response.getMessage());
+        ResponseHttp finalResponse = new ResponseHttp(200);
+        finalResponse.setMessageObject(categories);
+        return finalResponse;
     }
 
-    ArrayList<Category> getCategoriesFromJsonString(ArrayList<Category> categoriesResult, String catergoriesGetResult) throws JSONException {
+    ArrayList<Category> getCategoriesFromJsonString(String catergoriesGetResult) throws JSONException {
+        ArrayList<Category> categoriesResult = new ArrayList<>();
         JSONArray categoriesArray = new JSONArray(catergoriesGetResult);
         for(int i = 0; i<categoriesArray.length() ; i++){
             JSONObject cateJson = categoriesArray.getJSONObject(i);
-            String name = cateJson.getString("Name");
-            int id = Integer.parseInt(cateJson.getString("CategoryId"));
+            String name = cateJson.getString("name");
+            int id = Integer.parseInt(cateJson.getString("categoryId"));
             Category category = new Category();
             category.setId(id);
             category.setName(name);

@@ -18,14 +18,24 @@ namespace Data.Access
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<User> Users { get; set; }
 
-
         public Context() : base("VeniPorEl") { addDefault(); }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer<Context>(null);
-            //modelBuilder.Configurations.Add(new UserConfigurations());
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Product>()
+                   .HasRequired(m => m.UserOwnProduct)
+                   .WithMany(t => t.ProductsOwner)
+                   .HasForeignKey(m => m.UserOwnProductId)
+                   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Product>()
+                   .HasOptional(m => m.UserSolicitudeProduct)
+                   .WithMany(t => t.ProductsSolicitude)
+                   .HasForeignKey(m => m.UserSolicitudeProductId)
+                   .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Product>()
+                 .HasRequired(m => m.State);
+           base.OnModelCreating(modelBuilder);
         }
 
         private void addDefault()
@@ -52,14 +62,20 @@ namespace Data.Access
 
         private void CreateDefaultCategories()
         {
-            var path = Properties.Resources.CategoryTextDefault;
-            string[] lines = System.IO.File.ReadAllLines(path);
-            foreach (string line in lines)
+            try
             {
-                Category defaultCategory = Category.CreateWithName(line);
+                var path = Properties.Resources.CategoryTextDefault;
+                string[] lines = System.IO.File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    Category defaultCategory = Category.CreateWithName(line);
+                    Categories.Add(defaultCategory);
+                }
+            }catch (DirectoryNotFoundException)
+            {
+                Category defaultCategory = Category.CreateWithName("Tecnologia");
                 Categories.Add(defaultCategory);
-            }        
-            
+            }   
         }
     }
 }

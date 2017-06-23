@@ -9,16 +9,12 @@
     tools:context="com.product.whitewalkers.veniporelyestuyo.RegisterActivity"
     android:weightSum="1">
 
-    <Space
-        android:layout_width="1dp"
-        android:layout_height="10dp" />
-
     <LinearLayout
         android:id="@+id/content"
-        android:layout_width="match_parent"
+        android:layout_width="392dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <TextView
@@ -30,9 +26,15 @@
             android:textSize="@dimen/activity_title_text_size"
             android:visibility="visible" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            app:layout_constraintRight_toLeftOf="@+id/loadingPanel"
+            app:layout_constraintTop_toTopOf="@+id/loadingPanel"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <EditText
             android:id="@+id/username"
@@ -42,9 +44,15 @@
             android:inputType="textPersonName"
             android:text="@string/username" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/userEmail"
+            app:layout_constraintRight_toLeftOf="@+id/loadingPanel"
+            app:layout_constraintTop_toTopOf="@+id/loadingPanel"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <EditText
             android:id="@+id/email"
@@ -54,9 +62,15 @@
             android:inputType="textEmailAddress"
             android:text="@string/email" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            app:layout_constraintRight_toLeftOf="@+id/loadingPanel"
+            app:layout_constraintTop_toTopOf="@+id/loadingPanel"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <EditText
             android:id="@+id/password"
@@ -66,9 +80,21 @@
             android:inputType="textPassword"
             android:text="@string/password" />
 
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/countryTitle"
+            app:layout_constraintRight_toLeftOf="@+id/loadingPanel"
+            app:layout_constraintTop_toTopOf="@+id/loadingPanel"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <Spinner
+            android:id="@+id/countrySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/country_array" />
 
         <Button
             android:id="@+id/btnContinuar"

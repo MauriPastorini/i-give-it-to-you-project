@@ -20,7 +20,8 @@ namespace VeniPorEl.Controllers
             categoryService = new CategoryService();
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin, Normal")]
+
         public IHttpActionResult GetAll()
         {
             try

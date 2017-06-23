@@ -34,6 +34,7 @@ namespace VeniPorEl
         {
             AuthRepository _repo = new AuthRepository();
             string superUserName = "superUser";
+            string superUserEmail = "super@super.com";
             string superUserPass = "Super123";
             IUserService userService = new UserService();
             if(_repo.FindUser(superUserName, superUserPass).Result == null)
@@ -41,13 +42,14 @@ namespace VeniPorEl
                 UserModel superUser = new UserModel();
                 superUser.UserName = superUserName;
                 superUser.Password = superUserPass;
+                superUser.Email = superUserEmail;
                 superUser.ConfirmPassword = superUserPass;
                 await _repo.RegisterUser(superUser);
                 await _repo.SetAsAdmin(superUser);
             }
             if(userService.GetByUserName(superUserName) == null)
             {
-                User superUserDb = User.CreateWithNamePasswordAndRole(superUserName, superUserPass, new AdminRole());
+                User superUserDb = User.CreateWithNameEmailPasswordAndRole(superUserName, superUserEmail, superUserPass, new AdminRole(), "Uruguay");
                 userService.Register(superUserDb);
             }
             {

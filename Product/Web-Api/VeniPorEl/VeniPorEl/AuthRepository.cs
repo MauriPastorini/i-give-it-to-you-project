@@ -24,6 +24,11 @@ namespace VeniPorEl
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_ctx));
         }
 
+        public bool IsAdmin(string userName)
+        {
+            return _userManager.IsInRole(_userManager.FindByName(userName).Id, "Admin");
+        }
+
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             IdentityUser user = new IdentityUser
@@ -97,6 +102,10 @@ namespace VeniPorEl
             IdentityResult result = IdentityResult.Failed();
             if(user != null)
             {
+                if(userModel.IsAdmin)
+                {
+                    SetAsAdmin(userModel);
+                }
                 _userManager.RemovePassword(user.Id);
                 _userManager.AddPassword(user.Id, userModel.Password);
                 result = _userManager.Update(user);
