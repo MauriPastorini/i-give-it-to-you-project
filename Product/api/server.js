@@ -46,5 +46,5 @@ app.use(function(err,req,res,next){
 
 // listen for request
 app.listen(process.env.port || config.port, function(){
-  console.log('Now listening for request');
+  console.log('Now listening for request in ' + process.env.port + " OR " + config.port);
 });

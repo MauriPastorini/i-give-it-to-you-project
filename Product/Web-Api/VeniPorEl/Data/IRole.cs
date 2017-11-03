@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public interface IRole
+    public interface IInterface
     {
 
         int RoleId { get; }

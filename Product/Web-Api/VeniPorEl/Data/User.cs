@@ -39,8 +39,8 @@ namespace Data
                     throw new ArgumentException("Wrong password format!");
             }
         }
-        private IRole RoleAux;
-        public IRole Role
+        private IInterface RoleAux;
+        public IInterface Role
         {
             get { return RoleAux; }
             set
@@ -58,7 +58,7 @@ namespace Data
 
         private User() { }
 
-        private User(string name, string email, string pass, IRole role, string country)
+        private User(string name, string email, string pass, IInterface role, string country)
         {
             UserName = name;
             Email = email;
@@ -68,7 +68,7 @@ namespace Data
             Country = country;
         }
 
-        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IRole role, string country)
+        public static User CreateWithNameEmailPasswordAndRole(string name, string email, string pass, IInterface role, string country)
         {
             if(!IsNameCorrect(name))
             {
