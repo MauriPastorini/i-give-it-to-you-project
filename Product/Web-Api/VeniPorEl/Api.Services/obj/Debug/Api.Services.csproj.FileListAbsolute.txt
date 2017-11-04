@@ -1,0 +1,70 @@
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
+C:\Users\Mauri\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.Properties.Resources.resources
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
+D:\Facultad\Ingenieria Software Practica\Repo\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.Properties.Resources.resources
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
+C:\Users\Mauri\Documents\Facultad\Obligatorios semestre 7\Ing. de software en la practica\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll.config
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Api.Services.pdb
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Repository.pdb
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.pdb
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.xml
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\bin\Debug\Data.Access.pdb
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csprojResolveAssemblyReference.cache
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.Properties.Resources.resources
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.csproj.GenerateResource.Cache
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.dll
+C:\Users\faust\Documents\obligatorio-1-isp\Product\Web-Api\VeniPorEl\Api.Services\obj\Debug\Api.Services.pdb
