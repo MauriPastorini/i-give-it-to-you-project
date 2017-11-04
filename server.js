@@ -13,7 +13,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 var connectionString = 'mongodb://mauri_admin:mauri123@ds249325.mlab.com:49325/venisdb';
 // mongoose.connect(config.DBHost, { useMongoClient: true });
-mongoose.connect(connectionString);
+mongoose.connect(connectionString);v
 mongoose.connection.once('open',function(){
   console.log('Connection with mongoose and mongoDB has been made!');
 }).on('error',function(error){
@@ -46,6 +46,6 @@ app.use(function(err,req,res,next){
 });
 
 // listen for request
-app.listen(process.env.port || config.port, function(){
-  console.log('Now listening for request in ' + process.env.port + " OR " + config.port);
+app.listen(process.env.PORT || config.port, function(){
+  console.log('Now listening for request in ' + process.env.PORT + " OR " + config.port);
 });
