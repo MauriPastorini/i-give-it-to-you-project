@@ -13,7 +13,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 var connectionString = 'mongodb://mauri_admin:mauri123@ds249325.mlab.com:49325/venisdb';
 // mongoose.connect(config.DBHost, { useMongoClient: true });
-mongoose.connect(connectionString);v
+mongoose.connect(connectionString);
 mongoose.connection.once('open',function(){
   console.log('Connection with mongoose and mongoDB has been made!');
 }).on('error',function(error){
