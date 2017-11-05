@@ -15,12 +15,6 @@ exports.getAllProducts = function(req,res){
 exports.postNewProduct = function(req,res,next){
   Product.create(req.body).then(function(product){
     Product.findOne({_id: product._id}).populate('category').exec(function(err, productPop) {
-      // console.log("ENTRE");
-      // console.log(productPop);
-      // console.log(productPop.category);
-      // console.log("CREANDO")
-      // console.log(productPop.category);
-      // console.log(productPop.category.name);
       res.send(productPop);
       });
   }).catch(next);

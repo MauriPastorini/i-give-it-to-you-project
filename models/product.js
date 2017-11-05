@@ -19,9 +19,25 @@ const ProductSchema = new Schema({
   moderated:{
     type: Boolean,
     default: false
+  },
+  condition:{
+    type: String,
+    required:[true, 'State field is required'],
+    enum:["New","Like New", "Very Good", "Good", "Acceptable"]
+  },
+  location:{
+    type: [Number],
+    index: '2d',
+    required: [true, 'Location field is required']
+  },
+  image_path:{
+    type: String,
+    required: [true, 'image_path is required']
   }
-  //add in geo location
 });
 ProductSchema.plugin(idValidator);
-
+ProductSchema.pre('save', function(next){
+  this.moderated = false;
+  next();
+});
 const Product = mongoose.model('Product', ProductSchema);
