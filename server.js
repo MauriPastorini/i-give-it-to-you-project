@@ -22,7 +22,7 @@ app.use(express.static('public'));
 //BodyParser: Middleware for parsing de request data
 app.use(bodyParser.json());
 //Habilitar los siguientes middle ware cuando los necesite
-// app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 // app.use(bodyParser.text());
 // app.use(bodyParser.json({ type: 'application/json'}));
 

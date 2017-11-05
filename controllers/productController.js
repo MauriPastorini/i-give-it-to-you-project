@@ -6,8 +6,7 @@ exports.getAllProducts = function(req,res){
     if (err) {
       res.status(500).send({success: false, message: "Internal error on getAllProducts"});
     }else {
-
-      res.status(200).jsonp(products)
+      res.status(200).jsonp(products);
     }
   });
 };
