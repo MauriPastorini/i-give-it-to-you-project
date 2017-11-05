@@ -35,6 +35,7 @@ function isAdmin (req, res, next){
       console.log(req.user);
       User.findOne({_id: req.user.userId}, function(err, userDb){
         if(err) return res.status(500).send({message: err});
+        if(!userDb) return res.status(203).send({message: "Token correct, but user doesnt exists"});
         console.log(userDb);
         if (userDb.role == 'admin') {
           next();
