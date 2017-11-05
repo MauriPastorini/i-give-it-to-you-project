@@ -9,5 +9,4 @@ exports.injectRoutes = function(router){
     });
   router.post('/user/signin', userController.signIn);
   router.post('/user/signup', userController.signUp);
-
 }

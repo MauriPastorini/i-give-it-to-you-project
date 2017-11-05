@@ -31,6 +31,8 @@ function isAdmin (req, res, next){
   services.decodeToken(token)
     .then(function(response){
       req.user = response;
+      console.log("VALID TOKEN");
+      console.log(req.user);
       User.findOne({_id: req.user.userId}, function(err, userDb){
         if(err) return res.status(500).send({message: err});
         console.log(userDb);
@@ -46,6 +48,7 @@ function isAdmin (req, res, next){
 
     })
     .catch(function(reject){
+      console.log("INVALID TOKEN");
       return res.status(reject.status).send({
         success: false,
         message: reject.message
