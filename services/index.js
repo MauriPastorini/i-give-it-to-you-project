@@ -24,6 +24,7 @@ function decodeToken(token){
           message: 'El token ha expirado'
         })
       }
+      console.log("PAYLOAD: ", payload);
       resolve(payload);
     } catch(err){
       reject({
