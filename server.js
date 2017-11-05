@@ -1,25 +1,14 @@
+const db = require('./connection_database');
+
 const express = require('express');
 const routes = require('./routes/api')
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 
 const config = require('config');
 const morgan = require('morgan');
+
 //set up express app
 const app = express();
-
-//Mongoose: connect to mongodb
-//ES6 Promises
-mongoose.Promise = global.Promise;
-// var connectionString = 'mongodb://mauri_admin:mauri123@ds249325.mlab.com:49325/venisdb';
-// mongoose.connect(config.DBHost, { useMongoClient: true });
-var connectionString = process.env.MONGODB_URI || config.DBHost;
-mongoose.connect(connectionString);
-mongoose.connection.once('open',function(){
-  console.log('Connection with mongoose and mongoDB has been made!' + process.env.MONGODB_URI + " OR " + config.DBHost);
-}).on('error',function(error){
-  console.log('Error opening mongoose connection: ', error);
-});
 
 //Morgan: don't show the log when it is test
 if(config.util.getEnv('NODE_ENV') !== 'test') {

@@ -1,6 +1,0 @@
-1. Desde consola en ruta del servidor(./api) - npm install para instalar todas las dependencias.
-2. Para que la base de datos mongodb pueda funcionar hay que crear el directorio "C:data/db" o "G:data/db" en mi caso.
-3. Prender mongo "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe"
-
-Notas
-Para debugear: Instalar nodemon sin agregarlo como dependencia: "npm install nodemon --save-dev

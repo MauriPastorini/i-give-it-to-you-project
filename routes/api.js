@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
+
+const static_routes = require('./static_routes');
+const category_routes = require('./category_routes');
+
+static_routes.injectRoutes(router);
+category_routes.injectRoutes(router);
+
+// BORRAR LUEGO
 const Ninja = require('../models/ninja');
-//get a list of ninjas from the db
-
-router.get('/', function(req,res,next){
-  res.send('OK');
-});
-
 router.get('/ninjas',function(req,res,next){
     Ninja.geoNear({
       type:'Point', coordinates:[parseFloat(req.query.lng), parseFloat(req.query.lat)]
