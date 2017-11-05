@@ -37,7 +37,9 @@ const ProductSchema = new Schema({
 });
 ProductSchema.plugin(idValidator);
 ProductSchema.pre('save', function(next){
-  this.moderated = false;
+  if (this.isNew) {
+    this.moderated = false;
+  }
   next();
 });
 const Product = mongoose.model('Product', ProductSchema);

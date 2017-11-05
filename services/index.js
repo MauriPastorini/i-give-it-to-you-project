@@ -6,7 +6,7 @@ const config = require('../config/config');
 
 function createToken(user){
   const payload = {
-    sub: user._id,
+    userId: user._id,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix(), //Caduque en 14 dias
   }
@@ -23,7 +23,7 @@ function decodeToken(token){
           message: 'El token ha expirado'
         })
       }
-      resolve(payload.sug);
+      resolve(payload);
     } catch(err){
       reject({
         status: 403,

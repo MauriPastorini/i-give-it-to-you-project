@@ -32,10 +32,19 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now()
   },
-  lastLogin: Date
+  lastLogin: Date,
+  role: {
+    type: String,
+    default: 'user',
+    required: true,
+    enum: ["user","admin"]
+  }
 });
 
 UserSchema.pre('save', function(next){
+  if (this.isNew) {
+    this.role = 'user';
+  }
   let user = this
   if (!user.isModified('password')) return next();
   bcrypt.genSalt(10, function(err, salt){
