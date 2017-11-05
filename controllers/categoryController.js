@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-
-
 var Category = mongoose.model('Category');
 
 exports.getAllCategories = function(req,res){

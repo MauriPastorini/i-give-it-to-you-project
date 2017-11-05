@@ -3,9 +3,11 @@ const router = express.Router();
 
 const static_routes = require('./static_routes');
 const category_routes = require('./category_routes');
+const product_routes = require('./product_routes')
 
 static_routes.injectRoutes(router);
 category_routes.injectRoutes(router);
+product_routes.injectRoutes(router);
 
 // BORRAR LUEGO
 const Ninja = require('../models/ninja');

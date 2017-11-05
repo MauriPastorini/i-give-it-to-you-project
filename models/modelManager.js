@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 exports.importModels = function(){
-  var controller = require('./category');
+  var category = require('./category');
+  var product = require('./product');
 
   initServer();
 }

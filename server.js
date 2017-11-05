@@ -31,8 +31,10 @@ app.use('/api', routes);
 
 //error handling middleware
 app.use(function(err,req,res,next){
-  console.log(err);
-  res.status(422).send({error:err._message});
+  // console.log(err);
+  console.log("Middleware error handling validation")
+  // res.status(422).send({error:err._message});
+  res.status(422).send(err);
 });
 
 // listen for request

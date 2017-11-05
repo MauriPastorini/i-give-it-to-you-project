@@ -1,14 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const idValidator = require('mongoose-id-validator')
 
 const ProductSchema = new Schema({
   name:{
     type:String,
     required:[true,'Name field is required']
   },
+  description:{
+    type:String,
+    required:[true,'Description field is required']
+  },
   category:{
-    type: String,
-    required:[true,'Name field is required']
+    type: Schema.Types.ObjectId,
+    required:[true,'Category field is required'],
+    ref: 'Category'
   },
   moderated:{
     type: Boolean,
@@ -16,6 +22,6 @@ const ProductSchema = new Schema({
   }
   //add in geo location
 });
+ProductSchema.plugin(idValidator);
 
-const Ninja = mongoose.model('ninja', NinjaSchema);
-module.exports = Ninja;
+const Product = mongoose.model('Product', ProductSchema);

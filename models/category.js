@@ -5,8 +5,13 @@ const Schema = mongoose.Schema;
 const CategorySchema = new Schema({
   name:{
     type:String,
-    required:[true,'Name field for category is required']
-  }
+    required:[true,'Name field for category is required'],
+    unique:true
+  },
+  products:[{
+    type: Schema.Types.ObjectId,
+    ref: 'Product'
+  }]
 });
 
 const Category = mongoose.model('Category', CategorySchema);
