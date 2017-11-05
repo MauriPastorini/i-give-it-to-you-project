@@ -4,9 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
-const countries = require('country-data').countries
-console.log("VOY");
-console.log(countries.all);
+// const countries = require('country-data').countries
 
 const UserSchema = new Schema({
   email:{
@@ -28,7 +26,6 @@ const UserSchema = new Schema({
   avatar: String,
   password: {
     type: String,
-    select: false,
     required: [true, "The password is required"]
   },
   signupDate: {
@@ -50,6 +47,18 @@ UserSchema.pre('save', function(next){
     });
   });
 });
+
+UserSchema.statics.comparePassword = function(candidatePassword, dbPassword, cb) {
+    bcrypt.compare(candidatePassword, dbPassword, function(err, isMatch) {
+      if (err) {
+        return cb(err);
+      }else {
+        return cb(null,isMatch);
+      }
+    });
+};
+
+UserSchema.statics.test = function(){console.log("OK")};
 
 UserSchema.methods.gravatar = function(){
   if(!this.email) return 'https://gravatar.com/avatar/?s=200&d=retro';

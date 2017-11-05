@@ -4,6 +4,7 @@ var auth = require('../middlewares/auth');
 exports.injectRoutes = function(router){
   router.route('/user')
     .get(auth, function(req, res){
+      console.log("TIENE ACCESO");
       res.status(200).send({ message: 'Tienes acceso'})
     });
   router.post('/user/signin', userController.signIn);

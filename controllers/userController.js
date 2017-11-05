@@ -20,15 +20,21 @@ function signUp(req, res, next){
   // });
 }
 
-function signIn(req , res){
-  User.find({email: req.body.email}, function(err,user){
+function signIn(req , res, next){
+  User.findOne({email: req.body.email}, function(err,user){
     if(err) return res.status(500).send({message: err});
     if (!user) return res.status(404).send({message: "No existe el usuario"});
-
-    req.user = user
-    res.status(200).send({
-      message: "Te has logueado correctamente",
-      token: service.createToken(user)
+    User.comparePassword(req.body.password, user.password, function(err, isMatch){
+       if (err) return next(err);
+       if (isMatch) {
+         req.user = user
+         res.status(200).send({
+           message: "Te has logueado correctamente",
+           token: service.createToken(user)
+         });
+       } else {
+         res.status(403).send({message: "User and/or password incorrect"})
+       }
     });
   });
 }

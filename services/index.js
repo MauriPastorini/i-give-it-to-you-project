@@ -26,7 +26,7 @@ function decodeToken(token){
       resolve(payload.sug);
     } catch(err){
       reject({
-        status: 500,
+        status: 403,
         message: "Invalid Token"
       })
     }
