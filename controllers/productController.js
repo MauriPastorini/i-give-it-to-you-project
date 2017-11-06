@@ -13,8 +13,8 @@ const Product = mongoose.model('Product');
 
 exports.getAllProducts = function(req,res){
   var query = {};
-  console.log("req.query", req.query)
-  if (req.query.category) {
+  console.log("req.query", req.query);
+  if (req.query.category){
     console.log("ENTRE a get al MAL");
     query["category"] = req.query.category;
   }

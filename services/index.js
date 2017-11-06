@@ -36,7 +36,21 @@ function decodeToken(token){
   return decode;
 }
 
+// function getUserIdFromToken(req){
+//   // if (!req.headers.authorization) {
+//   //   return res.status(403).send({message: 'Token missing'});
+//   // }
+//   //
+//   // const token = req.headers.authorization.split(" ")[1];
+//   // decodeToken(token)
+//   //   .then(function(response){
+//   //     req.user = response;
+//   //
+//   //   })
+// }
+
 module.exports = {
   createToken,
   decodeToken
+  // getUserIdFromToken
 }

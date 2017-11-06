@@ -53,8 +53,28 @@ function getAllUsers(req, res, next){
   });
 }
 
+function updateUser(req, res, next){
+  var objForUpdate = {}
+  console.log("VAMOS", req);
+  var userId = req.user.sub;
+
+  if (req.body.country) objForUpdate.country = req.body.contry;
+  if (req.body.avatar) objForUpdate.avatar = req.body.avatar;
+
+  var setObj = { $set: objForUpdate};
+
+  User.findOneAndUpdate(userId, setObj, {new: true}, function(err,user){
+    if (err) {
+      res.status(500).send({success: false, message: "Internal error on getAllUsers"});
+    } else {
+      res.status(200).jsonp(user);
+    }
+  });
+}
+
 module.exports = {
   signIn,
   signUp,
-  getAllUsers
+  getAllUsers,
+  updateUser
 }
