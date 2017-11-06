@@ -33,6 +33,15 @@ const ProductSchema = new Schema({
   image_path:{
     type: String,
     required: [true, 'image_path is required']
+  },
+  ownerUser:{
+    type: Schema.Types.ObjectId,
+    required: [true, 'User owner is required'],
+    ref: 'User'
+  },
+  solicitatedUser:{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 });
 ProductSchema.plugin(idValidator);
