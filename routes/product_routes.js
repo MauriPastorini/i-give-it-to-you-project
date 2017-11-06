@@ -4,4 +4,5 @@ exports.injectRoutes = function(routes){
   routes.route('/product')
     .get(productController.getAllProducts)
     .post(productController.postNewProduct);
+  routes.get('/product/:id', productController.getProductById);
 }

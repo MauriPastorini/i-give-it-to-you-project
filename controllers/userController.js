@@ -39,7 +39,22 @@ function signIn(req , res, next){
   });
 }
 
+function getAllUsers(req, res, next){
+  var query = {};
+  if (req.query.role) {
+    query["role"] = req.query.role;
+  }
+  User.find(query,function(err, users){
+    if (err) {
+      res.status(500).send({success: false, message: "Internal error on getAllUsers"});
+    }else {
+      res.status(200).jsonp(users);
+    }
+  });
+}
+
 module.exports = {
   signIn,
-  signUp
+  signUp,
+  getAllUsers
 }
