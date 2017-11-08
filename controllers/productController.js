@@ -11,23 +11,24 @@ const Product = mongoose.model('Product');
 //   });
 // };
 
-exports.getAllProducts = function(req,res){
+function getAllProducts(req,res,next,userIdSolicitude = ""){
   var query = {};
   console.log("req.query", req.query);
-  if (req.query.category){
-    console.log("ENTRE a get al MAL");
-    query["category"] = req.query.category;
-  }
+  if (req.query.category) query["category"] = req.query.category;
+  if (userIdSolicitude != "") query["solicitatedUser"] = userIdSolicitude;
+
   Product.find(query).populate('category').exec(function(err,products){
-    if (err) {
-      res.status(500).send({success: false, message: "Internal error on getAllProducts"});
-    }else {
-      res.status(200).jsonp(products);
-    }
+    if (err) return next(err);
+    res.status(200).jsonp(products);
   });
 };
 
-exports.getProductById = function(req,res){
+function getAllProductsOfUser(req, res, next){
+  var userId = req.user.sub;
+  getAllProducts(req,res,next,userId+"")
+}
+
+function getProductById(req,res){
   Product.find(req.query.id).populate('category').exec(function(err,products){
     if (err) {
       res.status(500).send({success: false, message: "Internal error on getAllProducts"});
@@ -37,10 +38,17 @@ exports.getProductById = function(req,res){
   });
 };
 
-exports.postNewProduct = function(req,res,next){
+function postNewProduct(req,res,next){
   Product.create(req.body).then(function(product){
     Product.findOne({_id: product._id}).populate('category').exec(function(err, productPop) {
       res.send(productPop);
       });
   }).catch(next);
+}
+
+module.exports = {
+  getAllProducts,
+  getAllProductsOfUser,
+  getProductById,
+  postNewProduct
 }

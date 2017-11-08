@@ -1,8 +1,25 @@
 var productController = require('../controllers/productController');
+var auth = require('../middlewares/auth');
+var permissions = require('../middlewares/permissions');
+const User = require('../models/user');
 
 exports.injectRoutes = function(routes){
   routes.route('/product')
-    .get(productController.getAllProducts)
-    .post(productController.postNewProduct);
+    // .get(auth.isAdmin, productController.getAllProducts)
+    // .get(auth.isAuth, productController.getAllProductsOfUser)
+    .get(auth.isAuth, function(req,res,next){
+                      console.log("req.user.sub",req.user.sub);
+                      var userId = req.user.sub;
+                      User.findById(userId, function(err,user){
+                        console.log(user);
+                        if (User.isAdmin(user)) {
+                          console.log("ENTREE BIEN");
+                          productController.getAllProducts(req,res,next);
+                        }else{
+                          productController.getAllProductsOfUser(req,res,next);
+                        }
+                      });
+                    })
+    .post(auth.isAuth, productController.postNewProduct);
   routes.get('/product/:id', productController.getProductById);
 }

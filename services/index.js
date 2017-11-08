@@ -6,7 +6,7 @@ const config = require('../config/config');
 
 function createToken(user){
   const payload = {
-    userId: user._id,
+    sub: user._id,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix(), //Caduque en 14 dias
   }
@@ -15,7 +15,6 @@ function createToken(user){
 
 function decodeToken(token){
   const decode = new Promise(function(resolve, reject){
-    console.log("ENTER PROMISE");
     try{
       const payload = jwt.decode(token, config.SECRET_TOKEN);
       if (payload.exp <= moment().unix()) {
@@ -24,7 +23,6 @@ function decodeToken(token){
           message: 'El token ha expirado'
         })
       }
-      console.log("PAYLOAD: ", payload);
       resolve(payload);
     } catch(err){
       reject({

@@ -53,22 +53,40 @@ function getAllUsers(req, res, next){
   });
 }
 
-function updateUser(req, res, next){
+function updateUser(req, res, next, role = ""){
   var objForUpdate = {}
-  console.log("VAMOS", req);
-  var userId = req.user.sub;
-
-  if (req.body.country) objForUpdate.country = req.body.contry;
+  if (req.body.country)objForUpdate.country = req.body.country;
   if (req.body.avatar) objForUpdate.avatar = req.body.avatar;
+  if (req.body.password) objForUpdate.password = req.body.password;
+  if (role != "") objForUpdate.role = role;
 
   var setObj = { $set: objForUpdate};
-
-  User.findOneAndUpdate(userId, setObj, {new: true}, function(err,user){
+  var userId = req.params.id;
+  console.log("userId", userId);
+  User.findById(userId, function(err,user){
     if (err) {
-      res.status(500).send({success: false, message: "Internal error on getAllUsers"});
+      console.log("EEEROR", err);
+      next(err);
     } else {
-      res.status(200).jsonp(user);
+      user.set(objForUpdate);
+      user.save(function(err,updatedUser){
+        if (err) return next(err);
+        res.status(200).jsonp(user);
+      });
     }
+  });
+}
+
+function setUserToAdmin(req,res,next){
+  console.log("SET USER TO ADMIN");
+  updateUser(req, res, next,"admin");
+}
+
+function deleteUser(req,res,next){
+  var userId = req.params.id;
+  User.findByIdAndRemove(userId, function(err,data){
+    if (err) return next(err);
+    res.status(200).send({message: "success deleting user"});
   });
 }
 
@@ -76,5 +94,7 @@ module.exports = {
   signIn,
   signUp,
   getAllUsers,
-  updateUser
+  updateUser,
+  setUserToAdmin,
+  deleteUser
 }

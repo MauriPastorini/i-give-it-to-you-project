@@ -39,13 +39,23 @@ const UserSchema = new Schema({
     required: true,
     enum: ["user","admin"]
   }
-});
+},{strict: "throw"});
 
 UserSchema.pre('save', function(next){
-  if (this.isNew) {
-    this.role = 'user';
-  }
-  let user = this
+  var isNew = this.isNew;
+  let user = this;
+  validateSaveOrUpdate(user, isNew, next);
+});
+
+// UserSchema.pre('update', function(next){
+//   var isNew = this.isNew;
+//   let user = this;
+//   validateSaveOrUpdate(user, isNew, next);
+// });
+
+function validateSaveOrUpdate(user, isNew, next){
+  if (isNew) user.role = 'user';
+
   if (!user.isModified('password')) return next();
   bcrypt.genSalt(10, function(err, salt){
     if(err) return next(err);
@@ -55,7 +65,7 @@ UserSchema.pre('save', function(next){
         next();
     });
   });
-});
+}
 
 UserSchema.statics.comparePassword = function(candidatePassword, dbPassword, cb) {
     bcrypt.compare(candidatePassword, dbPassword, function(err, isMatch) {
@@ -73,6 +83,14 @@ UserSchema.methods.gravatar = function(){
   if(!this.email) return 'https://gravatar.com/avatar/?s=200&d=retro';
   const md5 = crypto.createHash('md5').update(this.email).digest('hex');
   return 'https://gravatar.com/avatar/${md5}?s=200&d=retro';
+}
+
+UserSchema.statics.isAdmin = function(user){
+  return user.role == 'admin';
+}
+
+UserSchema.statics.isUser = function(user){
+  return user.role == 'user';
 }
 
 module.exports = mongoose.model('User', UserSchema);

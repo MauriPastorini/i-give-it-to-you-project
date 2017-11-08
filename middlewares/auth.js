@@ -31,12 +31,10 @@ function isAdmin (req, res, next){
   services.decodeToken(token)
     .then(function(response){
       req.user = response;
-      console.log("VALID TOKEN");
-      console.log(req.user);
-      User.findOne({_id: req.user.userId}, function(err, userDb){
+      console.log("req.user.userId",req.user.sub);
+      User.findOne({_id: req.user.sub}, function(err, userDb){
         if(err) return res.status(500).send({message: err});
         if(!userDb) return res.status(203).send({message: "Token correct, but user doesnt exists"});
-        console.log(userDb);
         if (userDb.role == 'admin') {
           next();
         } else{
@@ -49,7 +47,6 @@ function isAdmin (req, res, next){
 
     })
     .catch(function(reject){
-      console.log("INVALID TOKEN");
       return res.status(reject.status).send({
         success: false,
         message: reject.message
@@ -66,9 +63,8 @@ function isUser (req, res, next){
   services.decodeToken(token)
     .then(function(response){
       req.user = response;
-      User.findOne({_id: req.user.userId}, function(err, userDb){
+      User.findOne({_id: req.user.sub}, function(err, userDb){
         if(err) return res.status(500).send({message: err});
-        console.log(userDb);
         if (userDb.role == 'user') {
           next();
         } else{
