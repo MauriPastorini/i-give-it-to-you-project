@@ -5,8 +5,6 @@ const User = require('../models/user');
 
 exports.injectRoutes = function(routes){
   routes.route('/product')
-    // .get(auth.isAdmin, productController.getAllProducts)
-    // .get(auth.isAuth, productController.getAllProductsOfUser)
     .get(auth.isAuth, function(req,res,next){
                       console.log("req.user.sub",req.user.sub);
                       var userId = req.user.sub;

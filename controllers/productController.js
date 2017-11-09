@@ -1,16 +1,6 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 
-// exports.getAllProducts = function(req,res){
-//   Product.find({}, function(err,products){
-//     if (err) {
-//       res.status(500).send({success: false, message: "Internal error on getAllProducts"});
-//     }else {
-//       res.status(200).jsonp(products);
-//     }
-//   });
-// };
-
 function getAllProducts(req,res,next,userIdSolicitude = ""){
   var query = {};
   console.log("req.query", req.query);
@@ -28,13 +18,11 @@ function getAllProductsOfUser(req, res, next){
   getAllProducts(req,res,next,userId+"")
 }
 
-function getProductById(req,res){
-  Product.find(req.query.id).populate('category').exec(function(err,products){
-    if (err) {
-      res.status(500).send({success: false, message: "Internal error on getAllProducts"});
-    }else {
-      res.status(200).jsonp(products);
-    }
+function getProductById(req,res, next){
+  Product.findById(req.params.id).populate('category').exec(function(err,products){
+    if (err) return next(err);
+    if(!products) return res.status(204).jsonp({});
+    res.status(200).jsonp(products);
   });
 };
 
