@@ -61,17 +61,16 @@ function updateUser(req, res, next, role = ""){
   if (role != "") objForUpdate.role = role;
 
   var setObj = { $set: objForUpdate};
-  var userId = req.params.id;
+  var userId = req.params.userId;
   console.log("userId", userId);
   User.findById(userId, function(err,user){
     if (err) {
-      console.log("EEEROR", err);
-      next(err);
+      return next(err);
     } else {
       user.set(objForUpdate);
-      user.save(function(err,updatedUser){
-        if (err) return next(err);
-        res.status(200).jsonp(user);
+      user.save(function(err2,updatedUser){
+        if (err2) return next(err2);
+        res.status(200).jsonp(updatedUser);
       });
     }
   });
@@ -86,7 +85,7 @@ function deleteUser(req,res,next){
   var userId = req.params.id;
   User.findByIdAndRemove(userId, function(err,data){
     if (err) return next(err);
-    res.status(200).send({message: "success deleting user"});
+    res.status(200).send({message: "Success deleting user"});
   });
 }
 

@@ -19,5 +19,11 @@ exports.injectRoutes = function(routes){
                       });
                     })
     .post(auth.isAuth, productController.postNewProduct);
-  routes.get('/product/:id', productController.getProductById);
+  routes.route('/product/:id')
+    .get(productController.getProductById)
+    .delete(auth.isAdmin, productController.deleteProductById);
+  routes.post('/product/:id/accept', auth.isAdmin, productController.acceptModeratedProduct);
+  routes.post('/product/:id/reject', auth.isAdmin, productController.rejectModeratedProduct);
+  routes.post('/product/:productId/image', auth.isAuth, permissions.productIsOwnerOfUser, productController.addNewImagePathOfProduct);
+
 }

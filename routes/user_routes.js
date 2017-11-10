@@ -5,7 +5,7 @@ var permissions = require('../middlewares/permissions');
 exports.injectRoutes = function(router){
   router.route('/user')
     .get(auth.isAdmin, userController.getAllUsers);
-  router.route('/user/:id')
+  router.route('/user/:userId')
     .put(auth.isAuth, permissions.canAccessUserInfo, userController.updateUser)
     .delete(auth.isAdmin, userController.deleteUser);
   router.route('/user/:id/admin')
