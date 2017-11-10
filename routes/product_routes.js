@@ -11,7 +11,6 @@ exports.injectRoutes = function(routes){
                       User.findById(userId, function(err,user){
                         console.log(user);
                         if (User.isAdmin(user)) {
-                          console.log("ENTREE BIEN");
                           productController.getAllProducts(req,res,next);
                         }else{
                           productController.getAllProductsOfUser(req,res,next);

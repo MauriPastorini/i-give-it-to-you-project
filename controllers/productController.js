@@ -4,6 +4,9 @@ const Product = mongoose.model('Product');
 function getAllProducts(req,res,next,userIdSolicitude = ""){
   var query = {};
   console.log("req.query", req.query);
+  if (userIdSolicitude == "") {
+    if (req.query.moderated) query["moderated"] = req.query.moderated;
+  }
   if (req.query.category) query["category"] = req.query.category;
   if (userIdSolicitude != "") query["solicitatedUser"] = userIdSolicitude;
 
@@ -21,7 +24,6 @@ function getAllProductsOfUser(req, res, next){
 function getProductById(req,res, next){
   var select = [];
   var populate = {path:''};
-  console.log(req.query.image_path);
   var isInclusion = null;
   if(req.query.image_path ){
     if (req.query.image_path == "true" && (isInclusion == null ||  isInclusion == true)){
@@ -36,9 +38,7 @@ function getProductById(req,res, next){
     }
   }
   if(req.query.category ){
-    console.log("CATEGO", req.query.category);
     if (req.query.category == "true" && (isInclusion == null ||  isInclusion == true)){
-      console.log("METO CATEGO");
       select.push('category');
       isInclusion = true;
     } else if (req.query.category == "false"&& (isInclusion == null ||  isInclusion == false)){
@@ -49,14 +49,10 @@ function getProductById(req,res, next){
       return res.status(400).send("Bad format in query param category");
     }
   }
-  console.log("IS INTRUSION", isInclusion);
   if (select.length == 0 || (select.length != 0 && select.indexOf('category') != -1) || (isInclusion == false && select.indexOf('-category') == -1)) {
-    console.log("ENTRE");
     populate = {path: 'category'};
   }
 
-  console.log(select);
-  console.log(populate);
   Product.findById(req.params.id, select)
   .populate(populate)
   .exec(function(err,products){
