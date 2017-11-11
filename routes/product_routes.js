@@ -5,18 +5,7 @@ const User = require('../models/user');
 
 exports.injectRoutes = function(routes){
   routes.route('/product')
-    .get(auth.isAuth, function(req,res,next){
-                      console.log("req.user.sub",req.user.sub);
-                      var userId = req.user.sub;
-                      User.findById(userId, function(err,user){
-                        console.log(user);
-                        if (User.isAdmin(user)) {
-                          productController.getAllProducts(req,res,next);
-                        }else{
-                          productController.getAllProductsOfUser(req,res,next);
-                        }
-                      });
-                    })
+    .get(auth.isAuth,auth.injectUser, productController.getAllProducts)
     .post(auth.isAuth, productController.postNewProduct);
   routes.route('/product/:id')
     .get(productController.getProductById)
@@ -24,5 +13,7 @@ exports.injectRoutes = function(routes){
   routes.post('/product/:id/accept', auth.isAdmin, productController.acceptModeratedProduct);
   routes.post('/product/:id/reject', auth.isAdmin, productController.rejectModeratedProduct);
   routes.post('/product/:productId/image', auth.isAuth, permissions.productIsOwnerOfUser, productController.addNewImagePathOfProduct);
-
+  routes.route('/product/:productId/solicitude')
+    .post(auth.isAuth, productController.addNewSolicitationOfProduct)
+    .delete(auth.isAuth, productController.deleteSolicitationOfProduct);
 }

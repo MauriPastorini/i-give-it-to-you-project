@@ -39,7 +39,11 @@ const ProductSchema = new Schema({
     required: [true, 'User owner is required'],
     ref: 'User'
   },
-  solicitatedUser:{
+  solicitatedUsers:[{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  userDelivered:{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
@@ -51,4 +55,11 @@ ProductSchema.pre('save', function(next){
   }
   next();
 });
+ProductSchema.statics.getSelect = function(role){
+  if (role == "admin") {
+    return [];
+  } else if(role == "user"){
+    return ['-moderated'];
+  }
+}
 module.exports = mongoose.model('Product', ProductSchema);

@@ -1,25 +1,31 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 
-function getAllProducts(req,res,next,userIdSolicitude = ""){
+function getAllProducts(req,res,next){
   var query = {};
-  console.log("req.query", req.query);
-  if (userIdSolicitude == "") {
+  var select = [];
+  if (req.user.user.role == "admin") {
+    select = Product.getSelect("admin");
+    console.log("ADMIN");
     if (req.query.moderated) query["moderated"] = req.query.moderated;
+  } else{
+    select = Product.getSelect("user");
+    query["moderated"] = true;
   }
   if (req.query.category) query["category"] = req.query.category;
-  if (userIdSolicitude != "") query["solicitatedUser"] = userIdSolicitude;
-
-  Product.find(query).populate('category').exec(function(err,products){
+  if (req.query.my == "true")query["ownerUser"] = req.user.sub;
+  if (req.query.solicitatedByMe == "true")query["solicitatedUser"] = req.user.sub;
+  Product.find(query, select)
+  .populate('category').exec(function(err,products){
     if (err) return next(err);
     res.status(200).jsonp(products);
   });
 };
 
-function getAllProductsOfUser(req, res, next){
-  var userId = req.user.sub;
-  getAllProducts(req,res,next,userId+"")
-}
+// function getAllProductsOfUser(req, res, next){
+//   var userId = req.user.sub;
+//   getAllProducts(req,res,next,userId+"")
+// }
 
 function getProductById(req,res, next){
   var select = [];
@@ -120,13 +126,46 @@ function deleteProductById(req, res, next){
   });
 }
 
+function addNewSolicitationOfProduct(req,res,next){
+  var productId = req.params.productId;
+  Product.findById(productId, function (err, product){
+    if(err) return next(err);
+    if(!product) return res.status(404).send({success: false, message: "Product doesnt exists"});
+    product.solicitatedUsers.push(req.user.sub);
+    product.save(function(err2, updateProduct){
+      if(err2) return next(err2);
+      res.status(200).jsonp(updateProduct);
+    })
+  });
+}
+
+function deleteSolicitationOfProduct(req,res,next){
+  var productId = req.params.productId;
+  Product.findById(productId, function(err,product){
+    if(err) return next(err);
+    if(!product) return res.status(404).send({success: false, message: "Product doesnt exists"});
+
+    var indexOf = product.solicitatedUsers.indexOf(req.user.sub);
+    if (indexOf > -1) {
+      product.solicitatedUsers.splice(indexOf,1);
+      product.save(function(err2, updatedProduct){
+        if(err2) return next(err2);
+        return res.status(200).jsonp(updatedProduct);
+      });
+    } else{
+      return res.status(422).send({success: false, message: "User was not in products solicitation"});
+    }
+  });
+}
+
 module.exports = {
   getAllProducts,
-  getAllProductsOfUser,
   getProductById,
   postNewProduct,
   acceptModeratedProduct,
   rejectModeratedProduct,
   addNewImagePathOfProduct,
-  deleteProductById
+  deleteProductById,
+  addNewSolicitationOfProduct,
+  deleteSolicitationOfProduct
 }

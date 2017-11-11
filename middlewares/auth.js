@@ -84,8 +84,18 @@ function isUser (req, res, next){
     })
 };
 
+function injectUser(req,res,next){
+  User.findById(req.user.sub, function(err, user){
+      if(err) return next(err);
+      req.user.user = user;
+      next();
+  });
+
+}
+
 module.exports = {
   isAuth,
   isAdmin,
-  isUser
+  isUser,
+  injectUser
 }

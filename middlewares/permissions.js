@@ -37,7 +37,21 @@ function productIsOwnerOfUser(req,res,next){
   });
 };
 
+function userExists(req,res,next){
+  var userIdToCheck = req.params.userId;
+  console.log(userIdToCheck);
+  User.findById(userIdToCheck, function(err,user){
+    if(err) return next(err);
+    if (user) {
+      next();
+    } else{
+      return res.status(404).send({success: false, message: "User in query params doesnt exists"});
+    }
+  });
+}
+
 module.exports = {
   canAccessUserInfo,
-  productIsOwnerOfUser
+  productIsOwnerOfUser,
+  userExists
 }
