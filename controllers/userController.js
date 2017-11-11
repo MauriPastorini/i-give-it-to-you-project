@@ -54,7 +54,7 @@ function getAllUsers(req, res, next){
 }
 
 function updateUser(req, res, next, role = ""){
-  var objForUpdate = {}
+  var objForUpdate = {};
   if (req.body.country)objForUpdate.country = req.body.country;
   if (req.body.avatar) objForUpdate.avatar = req.body.avatar;
   if (req.body.password) objForUpdate.password = req.body.password;
@@ -62,17 +62,13 @@ function updateUser(req, res, next, role = ""){
 
   var setObj = { $set: objForUpdate};
   var userId = req.params.userId;
-  console.log("userId", userId);
   User.findById(userId, function(err,user){
-    if (err) {
-      return next(err);
-    } else {
-      user.set(objForUpdate);
-      user.save(function(err2,updatedUser){
-        if (err2) return next(err2);
-        res.status(200).jsonp(updatedUser);
-      });
-    }
+    if (err) return next(err);
+    user.set(objForUpdate);
+    user.save(function(err2,updatedUser){
+      if (err2) return next(err2);
+      res.status(200).jsonp(updatedUser);
+    });
   });
 }
 

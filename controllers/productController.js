@@ -22,11 +22,6 @@ function getAllProducts(req,res,next){
   });
 };
 
-// function getAllProductsOfUser(req, res, next){
-//   var userId = req.user.sub;
-//   getAllProducts(req,res,next,userId+"")
-// }
-
 function getProductById(req,res, next){
   var select = [];
   var populate = {path:''};
@@ -131,7 +126,7 @@ function addNewSolicitationOfProduct(req,res,next){
   Product.findById(productId, function (err, product){
     if(err) return next(err);
     if(!product) return res.status(404).send({success: false, message: "Product doesnt exists"});
-    product.solicitatedUsers.push(req.user.sub);
+    product.applicantsUsers.push(req.user.sub);
     product.save(function(err2, updateProduct){
       if(err2) return next(err2);
       res.status(200).jsonp(updateProduct);
@@ -145,9 +140,9 @@ function deleteSolicitationOfProduct(req,res,next){
     if(err) return next(err);
     if(!product) return res.status(404).send({success: false, message: "Product doesnt exists"});
 
-    var indexOf = product.solicitatedUsers.indexOf(req.user.sub);
+    var indexOf = product.applicantsUsers.indexOf(req.user.sub);
     if (indexOf > -1) {
-      product.solicitatedUsers.splice(indexOf,1);
+      product.applicantsUsers.splice(indexOf,1);
       product.save(function(err2, updatedProduct){
         if(err2) return next(err2);
         return res.status(200).jsonp(updatedProduct);
@@ -158,6 +153,49 @@ function deleteSolicitationOfProduct(req,res,next){
   });
 }
 
+function confirmDeliveredFromUserOwnerOrDeliverUser(req,res,next){
+  var productId = req.params.productId;
+  var userId = req.user.sub;
+  Product.findById(productId, function(err,product){
+    if(err)return next(err);
+    if(!product) return res.status(404).send({success: false, message: "Product doesnt exists"});
+    if(product.userToDeliver == userId)
+      req.deliverConfirmationUserToDeliver = Date.now();
+    else if(product.ownerUser == userId)
+      req.deliverConfirmationOwner = Date.now();
+    else
+      return res.status(403).send({success: false, message: "Unthorized, only owner and user to deliver can confirm"});
+    updateProduct(req,res,next,product);
+  });
+}
+
+function postUserToDeliver(req,res){
+  req.userToDeliver = req.body.userToDeliver;
+  console.log(req.body.userToDeliver);
+  if(!req.userToDeliver) return res.status(400).send({success:false, message: "No user in body"});
+  updateProduct(req,res);
+}
+
+function updateProduct(req,res,next, product = null){
+  var objToUpdate = {};
+  if(req.deliverConfirmationUserToDeliver) objToUpdate.deliverConfirmationUserToDeliver = req.deliverConfirmationUserToDeliver;
+  if(req.deliverConfirmationOwner) objToUpdate.deliverConfirmationOwner = req.deliverConfirmationOwner;
+  if(req.userToDeliver) objToUpdate.userToDeliver = req.userToDeliver;
+
+  console.log(objToUpdate);
+  var productId = req.params.productId;
+  Product.findById(productId, function(err, product){
+    if(err) return next(err);
+    product.set(objToUpdate);
+    product.save(function(err2,updatedProduct){
+      if(err2) return next(err2);
+      res.status(200).jsonp(updatedProduct);
+    })
+  });
+}
+
+
+
 module.exports = {
   getAllProducts,
   getProductById,
@@ -167,5 +205,7 @@ module.exports = {
   addNewImagePathOfProduct,
   deleteProductById,
   addNewSolicitationOfProduct,
-  deleteSolicitationOfProduct
+  deleteSolicitationOfProduct,
+  confirmDeliveredFromUserOwnerOrDeliverUser,
+  postUserToDeliver
 }

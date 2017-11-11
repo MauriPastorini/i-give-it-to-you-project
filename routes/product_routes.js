@@ -12,8 +12,11 @@ exports.injectRoutes = function(routes){
     .delete(auth.isAdmin, productController.deleteProductById);
   routes.post('/product/:id/accept', auth.isAdmin, productController.acceptModeratedProduct);
   routes.post('/product/:id/reject', auth.isAdmin, productController.rejectModeratedProduct);
-  routes.post('/product/:productId/image', auth.isAuth, permissions.productIsOwnerOfUser, productController.addNewImagePathOfProduct);
+  routes.post('/product/:productId/image', auth.isAuth, permissions.isOwnerOfProduct, productController.addNewImagePathOfProduct);
   routes.route('/product/:productId/solicitude')
     .post(auth.isAuth, productController.addNewSolicitationOfProduct)
     .delete(auth.isAuth, productController.deleteSolicitationOfProduct);
+  routes.route('/product/:productId/userToDeliver')
+    .post(auth.isAuth, permissions.isOwnerOfProduct, productController.postUserToDeliver);
+  routes.post('/product/:productId/delivered', auth.isAuth, permissions.isOwnerOrApplicantOfProduct, productController.confirmDeliveredFromUserOwnerOrDeliverUser);
 }

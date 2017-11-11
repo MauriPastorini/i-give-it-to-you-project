@@ -24,11 +24,12 @@ function canAccessUserInfo(req,res,next){
   });
 };
 
-function productIsOwnerOfUser(req,res,next){
+function isOwnerOfProduct(req,res,next){
   var userIdFromToken = req.user.sub;
   var productId = req.params.productId;
   Product.findById(productId, function(err,product){
-    if (!product) next(err);
+    if (err) return next(err);
+    if (!product) return res.status(404).send({success:false, message: "Product doesnt exists"});
     if (product.ownerUser == userIdFromToken) {
       next();
     } else{
@@ -36,6 +37,20 @@ function productIsOwnerOfUser(req,res,next){
     }
   });
 };
+
+function isOwnerOrApplicantOfProduct(req,res,next){
+  var userIdFromToken = req.user.sub;
+  var productId = req.params.productId;
+  Product.findById(productId, function(err,product){
+    if (err) return next(err);
+    if (!product) return res.status(404).send({success:false, message: "Product doesnt exists"});
+    if (product.ownerUser == userIdFromToken || product.userToDeliver == userIdFromToken) {
+      next();
+    } else{
+      res.status(403).send({success: false, message: "Unthorized user, this action can be performed only by the owner or user to deliver of the product"});
+    }
+  });
+}
 
 function userExists(req,res,next){
   var userIdToCheck = req.params.userId;
@@ -52,6 +67,7 @@ function userExists(req,res,next){
 
 module.exports = {
   canAccessUserInfo,
-  productIsOwnerOfUser,
-  userExists
+  isOwnerOfProduct,
+  userExists,
+  isOwnerOrApplicantOfProduct
 }

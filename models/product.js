@@ -39,13 +39,19 @@ const ProductSchema = new Schema({
     required: [true, 'User owner is required'],
     ref: 'User'
   },
-  solicitatedUsers:[{
+  applicantsUsers:[{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
-  userDelivered:{
+  userToDeliver:{
     type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  deliverConfirmationOwner: {
+    type: Date
+  },
+  deliverConfirmationUserToDeliver:{
+    type: Date
   }
 });
 ProductSchema.plugin(idValidator);
