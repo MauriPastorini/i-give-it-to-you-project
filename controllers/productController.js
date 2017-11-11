@@ -126,6 +126,7 @@ function addNewSolicitationOfProduct(req,res,next){
   Product.findById(productId, function (err, product){
     if(err) return next(err);
     if(!product) return res.status(404).send({success: false, message: "Product doesnt exists"});
+    if(product.ownerUser == req.user.sub) return res.status(400).send({success:false, message: "Cant applicant for your own product!"});
     product.applicantsUsers.push(req.user.sub);
     product.save(function(err2, updateProduct){
       if(err2) return next(err2);
@@ -186,6 +187,7 @@ function updateProduct(req,res,next, product = null){
   var productId = req.params.productId;
   Product.findById(productId, function(err, product){
     if(err) return next(err);
+    if(product.ownerUser == objToUpdate.userToDeliver) return res.status(400).send({success:false, message:"The user to deliver of a product cant be the same as the owner"})
     product.set(objToUpdate);
     product.save(function(err2,updatedProduct){
       if(err2) return next(err2);

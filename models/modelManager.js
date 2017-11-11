@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 exports.importModels = function(){
   var category = require('./category');
+  var category = require('./user');
   var product = require('./product');
-
+  var review = require('./reviewUserProduct');
   initServer();
 }
 
