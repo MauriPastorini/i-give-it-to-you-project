@@ -7,7 +7,10 @@ const service = require('../services/index');
 function signUp(req, res, next){
   User.create(req.body).then(function(user,err){
     if(err) return next(err);
-    return res.status(200).jsonp(user);
+    res.status(200).send({
+      message: "Usuario registrado correctamente",
+      token: service.createToken(user)
+    });
     //return res.status(200).send({token: service.createToken(user)});
   }).catch(next);
   // const user = new User({

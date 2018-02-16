@@ -13,13 +13,13 @@ function initServer(){
   var fs = require('fs');
   var categoriesObj = JSON.parse(fs.readFileSync('config/categories.json', 'utf8'));
 
-  // Category.remove({}, function(err){
-  //   Category.create(categoriesObj,function(err){
-  //     if (err) {
-  //       console.log("ERROR IMPORTANDO DATOS");
-  //     } else {
-  //       console.log("Categorias importadas con exito");
-  //     }
-  //   });
-  // })
+  Category.remove({}, function(err){
+    Category.create(categoriesObj,function(err){
+      if (err) {
+        console.log("ERROR IMPORTANDO DATOS");
+      } else {
+        console.log("Categorias importadas con exito");
+      }
+    });
+  })
 }

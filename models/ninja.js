@@ -1,3 +1,6 @@
+// *****
+//Model example for geolocation. Delete LATER 
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

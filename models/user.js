@@ -7,26 +7,50 @@ const crypto = require('crypto');
 // const countries = require('country-data').countries
 
 const UserSchema = new Schema({
+  googleId: {
+    type: String,
+    unique: true
+  },
+  facebookId: {
+    type: String,
+    unique: true
+  },
   email:{
     type:String,
     unique: true,
     lowercase:true,
     required: [true, "The email is required"]
   },
-  username: {
+  name:{
     type: String,
-    unique: true,
-    required: [true, "The username is required"]
+    required: [true, "The name is required"]
+  },
+  lastName:{
+    type: String,
+    required: [true, "The last name is required"]
+  },
+  birthday:{
+    type:Date,
+    // required: [true, "The birthday is required"]
+  },
+  // username: {
+  //   type: String
+  //   // unique: true,
+  //   // required: [true, "The username is required"]
+  // },
+  gender: {
+    type: String,
+    // required: [true, "The gender is required"]
   },
   country: {
     type: String,
     enum: ["Uruguay", "Argentina"],
-    required: [true, "The country is required"]
+    // required: [true, "The country is required"]
   },
   avatar: String,
   password: {
     type: String,
-    required: [true, "The password is required"]
+    // required: [true, "The password is required"]
   },
   signupDate: {
     type: Date,
@@ -42,6 +66,7 @@ const UserSchema = new Schema({
 },{strict: "throw"});
 
 UserSchema.pre('save', function(next){
+  console.log("PRE SAVE");
   var isNew = this.isNew;
   let user = this;
   validateSaveOrUpdate(user, isNew, next);
@@ -55,8 +80,7 @@ UserSchema.pre('save', function(next){
 
 function validateSaveOrUpdate(user, isNew, next){
   if (isNew) user.role = 'user';
-
-  if (!user.isModified('password')) return next();
+  if (!user.googleId && !user.isModified('password')) return next();
   bcrypt.genSalt(10, function(err, salt){
     if(err) return next(err);
     bcrypt.hash(user.password, salt,null,function(err,hash){
@@ -65,6 +89,11 @@ function validateSaveOrUpdate(user, isNew, next){
         next();
     });
   });
+  console.log("user",user);
+  if (user.googleId) {
+    console.log("IS FROM GOOGLE")
+    user.birthday = null;
+  }
 }
 
 UserSchema.statics.comparePassword = function(candidatePassword, dbPassword, cb) {

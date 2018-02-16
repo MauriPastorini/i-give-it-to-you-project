@@ -17,6 +17,7 @@
     "config": "^1.26.2",
     "country-data": "0.0.31",
     "crypto": "^1.0.1",
+    "ejs": "^2.5.7",
     "express": "^4.15.4",
     "jwt-simple": "^0.5.1",
     "mocha": "^4.0.1",
@@ -24,7 +25,13 @@
     "mongoose": "^4.11.7",
     "mongoose-id-validator": "^0.4.3",
     "morgan": "^1.8.2",
-    "pg": "^7.4.0"
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-jwt": "^3.0.1",
+    "pg": "^7.4.0",
+    "request": "^2.83.0"
   },
   "devDependencies": {
     "chai": "^4.1.1",
