@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const service = require('../services/index');
+const manageErrorCodes = require('../services/manageErrors');
 
 function signUp(req, res, next){
   console.log("ESTOY EN SIGN UPPP");
@@ -14,7 +15,9 @@ function signUp(req, res, next){
       token: service.createToken(user)
     });
     //return res.status(200).send({token: service.createToken(user)});
-  }).catch(next);
+  }).catch(err => {
+    res.status(422).send(err.errors);
+  });
   // const user = new User({
   //     email:req.body.email,
   //     displayName: req.body.displayName,

@@ -1,0 +1,8 @@
+{
+  "Duplicated_Attribute": 1,
+
+  "User_Email_Required": 2,
+  "User_Name_Required": 3,
+  "User_Lastname_Required": 4,
+  "User_Role_Required": 5
+}

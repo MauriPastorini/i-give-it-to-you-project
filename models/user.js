@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
+const codes = require('../config/errCodes')
 // const countries = require('country-data').countries
 
 const UserSchema = new Schema({
@@ -83,8 +84,11 @@ UserSchema.pre('save', function(next){
 function validateSaveOrUpdate(user, isNew, next){
   if (isNew) user.role = 'user';
   // if (!user.googleId && !user.isModified('password')) return next();
-  if (user.facebookId || user.googleId || !user.isModified('password'))
+  if (user.facebookId || user.googleId || !user.isModified('password')){
+    console.log("No voy a encriptar password");
     return next();
+  }
+  console.log("VOOY A ENCRIPTAR");
 
   bcrypt.genSalt(10, function(err, salt){
     if(err) return next(err);
@@ -126,5 +130,62 @@ UserSchema.statics.isAdmin = function(user){
 UserSchema.statics.isUser = function(user){
   return user.role == 'user';
 }
+
+
+var handleErrorsMessages = function(error, res, next) {
+  if(error){
+    var errors = [];
+    if (error.name == "ValidationError") {
+      console.log("Entre a validation error");
+      for (var field in error.errors) {
+        console.log("Entre a field");
+        console.log(error.errors[field]);
+        if (error.errors[field].kind == "required" && error.errors[field].path == "email")  {
+          errors.push({
+            code: codes.User_Email_Required,
+            message: error.errors[field].message
+          })
+        };
+        if (error.errors[field].kind == "required" && error.errors[field].path == "name")  {
+          errors.push({
+            code: codes.User_Name_Required,
+            message: error.errors[field].message
+          })
+        };
+        if (error.errors[field].kind == "required" && error.errors[field].path == "lastName")  {
+          errors.push({
+            code: codes.User_Name_Required,
+            message: error.errors[field].message
+          })
+        };
+        if (error.errors[field].kind == "required" && error.errors[field].path == "role")  {
+          errors.push({
+            code: codes.User_Name_Required,
+            message: error.errors[field].message
+          })
+        };
+      }
+    }
+    if (error.name === 'MongoError' && error.code === 11000) {
+      console.log("ENTRE A MONGO ERROR ");
+      console.log(error.errmsg.split(":")[2]);
+      errors.push(
+          {
+            code: codes.Duplicated_Attribute,
+            message: "Duplicatated attribute: " + error.errmsg.split(":")[2].substring(0,error.errmsg.split(":")[2].lastIndexOf("_")).trim()
+          }
+        );
+    }
+    error.errors = errors;
+    next(error);
+  } else{
+    next();
+  }
+};
+
+UserSchema.post('save', handleErrorsMessages);
+UserSchema.post('update', handleErrorsMessages);
+UserSchema.post('findOneAndUpdate', handleErrorsMessages);
+UserSchema.post('insertMany', handleErrorsMessages);
 
 module.exports = mongoose.model('User', UserSchema);
