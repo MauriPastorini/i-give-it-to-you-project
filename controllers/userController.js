@@ -5,6 +5,8 @@ const User = require('../models/user');
 const service = require('../services/index');
 
 function signUp(req, res, next){
+  console.log("ESTOY EN SIGN UPPP");
+  console.log(req.body);
   User.create(req.body).then(function(user,err){
     if(err) return next(err);
     res.status(200).send({

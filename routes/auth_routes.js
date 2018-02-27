@@ -1,4 +1,4 @@
-const passportSetup = require('../controllers/auth_controller');
+const authController = require('../controllers/auth_controller');
 const passport = require('passport');
 const request = require('request');
 
@@ -73,6 +73,8 @@ exports.injectRoutes = function(router){
     //   });
     // }
   );
+
+  router.get('/signup',  authController.signUp);
 
 
     router.get('/token-valid',function(req,res,next){console.log(req.get('Authorization'));next()},passport.authenticate('jwt', { session: false }),

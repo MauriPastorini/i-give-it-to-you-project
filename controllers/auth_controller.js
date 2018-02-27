@@ -115,7 +115,7 @@ passport.use(
           var lastName = profile.name.familyName;
           var avatar = profile.photos[0].value;
           var gender = profile.gender;
-          var email = profile.emails[0].value;
+          // var email = profile.emails[0].value;
 
           var user = User.findOne({facebookId: facebookId}).then((userFromFacebook) =>{
             console.log("USER FROM DB FACEBOOK",userFromFacebook);
@@ -152,3 +152,52 @@ passport.use(
       }
     )
   )
+
+  function signUp(req,res){
+    var facebookId = req.body.facebookId;
+    if (facebookId) {
+      var user = User.findOne({facebookId: facebookId}).then((userFromFacebook) =>{
+        console.log("USER FROM DB FACEBOOK: ",userFromFacebook);
+        if (!userFromFacebook) {
+          var name = req.body.name;
+          var lastName = req.body.lastName;
+          var avatar = req.body.photos[0].value;
+          var gender = req.body.gender;
+          var email = req.body.email;
+          var birthday = req.body.birthday;
+          var country = req.body.country;
+          console.log("NEW USER");
+          new User({
+            facebookId: facebookId,
+            email: email,
+            name: name,
+            lastName: lastName,
+            gender: gender,
+            avatar: avatar
+          }).save().then((user,err) => {
+              if(err) return res.status(400).jsonp(err);
+              console.log('NEW USER CREATED', user);
+              var response = {
+                success: true,
+                message: "Usuario registrado correctamente",
+                token: Service.createToken(user)
+              }
+              done(null, response);
+            });
+          } else {
+            console.log("USER ALREADY Exsists");
+            var response = {
+              success: true,
+              message: "Usuario registrado correctamente",
+              token: Service.createToken(userFromFacebook)
+            }
+            done(null, response);
+          }
+        }
+      )
+    }
+  }
+
+  module.exports = {
+    signUp
+  }

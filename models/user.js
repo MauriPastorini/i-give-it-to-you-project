@@ -9,11 +9,13 @@ const crypto = require('crypto');
 const UserSchema = new Schema({
   googleId: {
     type: String,
-    unique: true
+    unique: true,
+    sparse: true
   },
   facebookId: {
     type: String,
-    unique: true
+    unique: true,
+    sparse: true
   },
   email:{
     type:String,
@@ -80,7 +82,10 @@ UserSchema.pre('save', function(next){
 
 function validateSaveOrUpdate(user, isNew, next){
   if (isNew) user.role = 'user';
-  if (!user.googleId && !user.isModified('password')) return next();
+  // if (!user.googleId && !user.isModified('password')) return next();
+  if (user.facebookId || user.googleId || !user.isModified('password'))
+    return next();
+
   bcrypt.genSalt(10, function(err, salt){
     if(err) return next(err);
     bcrypt.hash(user.password, salt,null,function(err,hash){
@@ -89,11 +94,11 @@ function validateSaveOrUpdate(user, isNew, next){
         next();
     });
   });
-  console.log("user",user);
-  if (user.googleId) {
-    console.log("IS FROM GOOGLE")
-    user.birthday = null;
-  }
+  // console.log("user",user);
+  // if (user.googleId) {
+  //   console.log("IS FROM GOOGLE")
+  //   user.birthday = null;
+  // }
 }
 
 UserSchema.statics.comparePassword = function(candidatePassword, dbPassword, cb) {
