@@ -154,7 +154,7 @@ var handleErrorsMessages = function(error, res, next) {
         };
         if (error.errors[field].kind == "required" && error.errors[field].path == "lastName")  {
           errors.push({
-            code: codes.User_Name_Required,
+            code: codes.User_Lastname_Required,
             message: error.errors[field].message
           })
         };
@@ -169,10 +169,12 @@ var handleErrorsMessages = function(error, res, next) {
     if (error.name === 'MongoError' && error.code === 11000) {
       console.log("ENTRE A MONGO ERROR ");
       console.log(error.errmsg.split(":")[2]);
+      var field = error.errmsg.split(":")[2].substring(0,error.errmsg.split(":")[2].lastIndexOf("_")).trim();
       errors.push(
           {
             code: codes.Duplicated_Attribute,
-            message: "Duplicatated attribute: " + error.errmsg.split(":")[2].substring(0,error.errmsg.split(":")[2].lastIndexOf("_")).trim()
+            message: "Duplicatated attribute: " + field,
+            field: field
           }
         );
     }

@@ -16,7 +16,11 @@ function signUp(req, res, next){
     });
     //return res.status(200).send({token: service.createToken(user)});
   }).catch(err => {
-    res.status(422).send(err.errors);
+    res.status(422).send(
+      {
+        errors: err.errors
+      }
+    );
   });
   // const user = new User({
   //     email:req.body.email,
