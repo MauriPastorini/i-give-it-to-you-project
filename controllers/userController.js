@@ -5,22 +5,22 @@ const User = require('../models/user');
 const service = require('../services/index');
 const manageErrorCodes = require('../services/manageErrors');
 
+function updateUserPhoto(req,res,next){
+
+}
+
 function signUp(req, res, next){
   console.log("ESTOY EN SIGN UPPP");
   console.log(req.body);
   User.create(req.body).then(function(user,err){
     if(err) return next(err);
     res.status(200).send({
-      message: "Usuario registrado correctamente",
-      token: service.createToken(user)
+      token: service.createToken(user),
+      user: user
     });
     //return res.status(200).send({token: service.createToken(user)});
   }).catch(err => {
-    res.status(422).send(
-      {
-        errors: err.errors
-      }
-    );
+    next(err);
   });
   // const user = new User({
   //     email:req.body.email,
@@ -68,7 +68,7 @@ function getAllUsers(req, res, next){
 function updateUser(req, res, next, role = ""){
   var objForUpdate = {};
   if (req.body.country)objForUpdate.country = req.body.country;
-  if (req.body.avatar) objForUpdate.avatar = req.body.avatar;
+  if (req.body.photo) objForUpdate.photo = req.body.photo;
   if (req.body.password) objForUpdate.password = req.body.password;
   if (role != "") objForUpdate.role = role;
 
@@ -76,11 +76,17 @@ function updateUser(req, res, next, role = ""){
   var userId = req.params.userId;
   User.findById(userId, function(err,user){
     if (err) return next(err);
-    user.set(objForUpdate);
-    user.save(function(err2,updatedUser){
-      if (err2) return next(err2);
-      res.status(200).jsonp(updatedUser);
-    });
+    console.log("VOYT A LEER USUARIO");
+    console.log(user);
+    if(user){
+      user.set(objForUpdate);
+      user.save(function(err2,updatedUser){
+        if (err2) return next(err2);
+        res.status(200).jsonp(updatedUser);
+      });
+    } else{
+      res.status(404).send();
+    }
   });
 }
 

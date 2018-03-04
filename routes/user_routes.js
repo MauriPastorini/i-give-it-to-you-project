@@ -12,4 +12,6 @@ exports.injectRoutes = function(router){
     .post(auth.isAdmin, userController.setUserToAdmin);
   router.post('/user/signin', userController.signIn);
   router.post('/user/signup', userController.signUp);
+  router.post('/user/:userId/photo', userController.updateUser);
+  router.get('/user/token', auth.isAuth, function(req,res,next){res.send(200);});
 }

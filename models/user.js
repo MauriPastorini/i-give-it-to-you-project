@@ -50,7 +50,7 @@ const UserSchema = new Schema({
     enum: ["Uruguay", "Argentina"],
     // required: [true, "The country is required"]
   },
-  avatar: String,
+  photo: String,
   password: {
     type: String,
     // required: [true, "The password is required"]
@@ -132,7 +132,39 @@ UserSchema.statics.isUser = function(user){
 }
 
 
-var handleErrorsMessages = function(error, res, next) {
+var handlePreErrorsMessages = function(error, res, next) {
+  console.log("ENTRE a handle pre");
+  if(error){
+    console.log("ENTRE a handle pre: ERROOOOR");
+    next();
+    // console.log(error);
+    // var errors = [];
+    // if (error.name == "StrictModeError") {
+    //   console.log("ENTRE A STRICT MODE ERROR");
+    //   errors.push({
+    //     code: codes.Fields_Not_Neccesary,
+    //     message: error.message
+    //   })
+    // }
+    // if (error.name === 'MongoError' && error.code === 11000) {
+    //   console.log("ENTRE A MONGO ERROR ");
+    //   console.log(error.errmsg.split(":")[2]);
+    //   var field = error.errmsg.split(":")[2].substring(0,error.errmsg.split(":")[2].lastIndexOf("_")).trim();
+    //   errors.push(
+    //       {
+    //         code: codes.Duplicated_Attribute,
+    //         message: "Duplicatated attribute: " + field,
+    //         field: field
+    //       }
+    //     );
+    // }
+    // error.errors = errors;
+    // next(error);
+  }
+};
+
+var handlePostErrorsMessages = function(error, res, next) {
+  console.log("ENTRE a handle post");
   if(error){
     var errors = [];
     if (error.name == "ValidationError") {
@@ -184,10 +216,17 @@ var handleErrorsMessages = function(error, res, next) {
     next();
   }
 };
+// //
+// UserSchema.pre('save', handlePreErrorsMessages);
+// UserSchema.pre('update', handlePreErrorsMessages);
+// UserSchema.pre('findOneAndUpdate', handlePreErrorsMessages);
+// UserSchema.pre('insertMany', handlePreErrorsMessages);
 
-UserSchema.post('save', handleErrorsMessages);
-UserSchema.post('update', handleErrorsMessages);
-UserSchema.post('findOneAndUpdate', handleErrorsMessages);
-UserSchema.post('insertMany', handleErrorsMessages);
+UserSchema.post('save', handlePostErrorsMessages);
+UserSchema.post('update', handlePostErrorsMessages);
+UserSchema.post('findOneAndUpdate', handlePostErrorsMessages);
+UserSchema.post('insertMany', handlePostErrorsMessages);
+// //
+
 
 module.exports = mongoose.model('User', UserSchema);

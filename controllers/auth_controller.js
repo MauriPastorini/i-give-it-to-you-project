@@ -17,7 +17,7 @@ passport.use(
     console.log("googleId", googleId);
     var name = profile.name.givenName;
     var lastName = profile.name.familyName;
-    var avatar = profile._json.image.url;
+    var photo = profile._json.image.url;
     var gender = profile.gender;
     var email = profile.emails[0].value;
 
@@ -31,7 +31,7 @@ passport.use(
           name: name,
           lastName: lastName,
           gender: gender,
-          avatar: avatar
+          photo: photo
         }).save().then((user,err) => {
           if(err) return res.status(400).jsonp(err);
           console.log('NEW USER CREATED', user);
@@ -161,7 +161,7 @@ passport.use(
         if (!userFromFacebook) {
           var name = req.body.name;
           var lastName = req.body.lastName;
-          var avatar = req.body.photos[0].value;
+          var photo = req.body.photos[0].value;
           var gender = req.body.gender;
           var email = req.body.email;
           var birthday = req.body.birthday;
@@ -173,7 +173,7 @@ passport.use(
             name: name,
             lastName: lastName,
             gender: gender,
-            avatar: avatar
+            photo: photo
           }).save().then((user,err) => {
               if(err) return res.status(400).jsonp(err);
               console.log('NEW USER CREATED', user);

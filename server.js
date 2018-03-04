@@ -3,9 +3,10 @@ const express = require('express');
 const passport = require('passport');
 const routes = require('./routes/api')
 const bodyParser = require('body-parser');
-
+const codes = require('./config/errCodes')
 const config = require('config');
 const myConfig = require('./config/config');
+
 myConfig.configServer();
 
 const morgan = require('morgan');
@@ -40,11 +41,30 @@ app.use('/api', routes);
 //Error middleware: This function is called when a controller call "next()" method. The "next()" method is called when there is excpetion or error
 //                  When "next()" function is called, express call other middleware declare like "app.use(function....)" in order of declaration
 app.use(function(err,req,res,next){
-  // console.log(err);
-  console.log("Middleware error handling validation")
-  console.log(err);
-  // res.status(422).send({error:err._message});
-  res.status(422).send(err); //WARNING: Currently I am sending all the jason error, then with only the code error and logging it, will be enough for Security.
+
+  if (!err.errors || err.errors.length == 0) {
+    var errors = [];
+    if (err.name == "StrictModeError") {
+      console.log("ENTRE A STRICT MODE ERROR");
+      errors.push({
+        code: codes.Fields_Not_Neccesary,
+        message: err.message
+      });
+    }
+    if (err.name == "ValidationError") {
+      console.log("ENTRE A Validation MODE ERROR");
+      errors.push({
+        code: codes.Fields_Not_Neccesary,
+        message: err.message
+      });
+    }
+    err.errors = errors;
+  }
+  res.status(422).send(
+    {
+      errors: err.errors
+    }
+  );
 });
 
 // Start express app
