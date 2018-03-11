@@ -41,7 +41,7 @@ app.use('/api', routes);
 //Error middleware: This function is called when a controller call "next()" method. The "next()" method is called when there is excpetion or error
 //                  When "next()" function is called, express call other middleware declare like "app.use(function....)" in order of declaration
 app.use(function(err,req,res,next){
-
+  console.log("Err middleware")
   if (!err.errors || err.errors.length == 0) {
     var errors = [];
     if (err.name == "StrictModeError") {
@@ -60,11 +60,16 @@ app.use(function(err,req,res,next){
     }
     err.errors = errors;
   }
-  res.status(422).send(
-    {
-      errors: err.errors
-    }
-  );
+  if (!err.errors || err.errors.length == 0) {
+    console.log(err);
+    res.status(422).send(err);
+  } else{
+    res.status(422).send(
+      {
+        errors: err.errors
+      }
+    );
+  }
 });
 
 // Start express app

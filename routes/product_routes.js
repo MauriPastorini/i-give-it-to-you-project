@@ -5,7 +5,10 @@ const User = require('../models/user');
 
 exports.injectRoutes = function(routes){
   routes.route('/product')
-    .get(auth.isAuth,auth.injectUser, productController.getAllProducts)
+    .get(
+      function(req,res,next){auth.isAuth(req,res,next,false);},
+      function(req,res,next){auth.injectUser(req,res,next,false);},
+      productController.getAllProducts)
     .post(auth.isAuth, productController.postNewProduct);
   routes.route('/product/:id')
     .get(productController.getProductById)
@@ -16,7 +19,7 @@ exports.injectRoutes = function(routes){
   routes.route('/product/:productId/solicitude')
     .post(auth.isAuth, productController.addNewSolicitationOfProduct)
     .delete(auth.isAuth, productController.deleteSolicitationOfProduct);
-  routes.route('/product/:productId/userToDeliver')
+  routes.route('/product/:productId/user-to-deliver')
     .post(auth.isAuth, permissions.isOwnerOfProduct, productController.postUserToDeliver);
   routes.post('/product/:productId/delivered', auth.isAuth, permissions.isOwnerOrApplicantOfProduct, productController.confirmDeliveredFromUserOwnerOrDeliverUser);
 }

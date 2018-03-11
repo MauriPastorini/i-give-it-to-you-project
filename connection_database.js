@@ -8,10 +8,13 @@ mongoose.Promise = global.Promise;
 // mongoose.connect(config.DBHost, { useMongoClient: true });
 var connectionString = process.env.MONGODB_URI || config.DBHost; //If there is a enviroment variable MONGODB_URI it takes that connectionString. If not, it takes the one in config.js under config directory
 mongoose.connect(connectionString, { useMongoClient: true });
-mongoose.connection.once('open',function(){
+var db = mongoose.connection;
+db.once('open',function(){
   console.log('Connection with mongoose and mongoDB has been made!' + process.env.MONGODB_URI + " OR " + config.DBHost);
 }).on('error',function(error){
   console.log('Error opening mongoose connection: ', error);
 });
 const modelManager = require('./models/modelManager');
 modelManager.importModels();
+
+module.exports = db;

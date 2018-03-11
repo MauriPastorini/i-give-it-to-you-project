@@ -2,6 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const idValidator = require('mongoose-id-validator')
 
+// const GeoSchema = new Schema({
+//   type:{
+//     type:"String",
+//     default: "Point"
+//   },
+//   coordinates: {
+//     type:[Number],
+//     index: "2dsphere"
+//   }
+// });
+
 const ProductSchema = new Schema({
   name:{
     type:String,

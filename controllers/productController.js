@@ -1,25 +1,109 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
+const auth = require('../middlewares/auth');
+var geoip = require('geoip-lite');
+const requestIp = require('request-ip');
+const db = require("../connection_database");
+
+// ******
+// // DELETE LATER: Example for geolocation near
+// const Ninja = require('../models/ninja');
+// router.get('/ninjas',function(req,res,next){
+//     Ninja.geoNear({
+//       type:'Point', coordinates:[parseFloat(req.query.lng), parseFloat(req.query.lat)]
+//     },{
+//       maxDistance:100000,spherical:true
+//     }).then(function(ninjas){
+//       res.send(ninjas);
+//     });
+// });
+// ******
+
 
 function getAllProducts(req,res,next){
+
   var query = {};
   var select = [];
-  if (req.user.user.role == "admin") {
-    select = Product.getSelect("admin");
-    console.log("ADMIN");
-    if (req.query.moderated) query["moderated"] = req.query.moderated;
-  } else{
-    select = Product.getSelect("user");
-    query["moderated"] = true;
+  var lat;
+  var lng;
+  if(!req.query.lat || !req.query.lng){
+    console.log("NOT LAT OR LNG")
+    var ip = requestIp.getClientIp(req);
+    if (ip == "::1") {
+      ip = "167.60.15.23"; //IN DEBUG CANT GET THE IP OF REQUEST
+    }
+    console.log(ip);
+    var geo = geoip.lookup(ip);
+    lat = geo.ll[0];
+    lng = geo.ll[1];
+  } else {
+    console.log("YEES LAT AND LNG");
+    lat = req.query.lat;
+    lat = req.query.lng;
+  }
+  query['location'] = {
+    $near: [
+      lat,
+      lng
+    ],
+    $maxDistance: 10000
+  };
+  if(req.user) {
+    // auth.isAuth(req,res,next);
+    // auth.injectUser(req,res,next);
+    console.log("ESTOY");
+    if (req.user.user.role == "admin") {
+      select = Product.getSelect("admin");
+      console.log("ADMIN");
+      if (req.query.moderated) query["moderated"] = req.query.moderated;
+    } else{
+      console.log("ESTOY 2");
+
+      select = Product.getSelect("user");
+      query["moderated"] = true;
+    }
   }
   if (req.query.category) query["category"] = req.query.category;
   if (req.query.my == "true")query["ownerUser"] = req.user.sub;
   if (req.query.solicitatedByMe == "true")query["solicitatedUser"] = req.user.sub;
+
+
   Product.find(query, select)
   .populate('category').exec(function(err,products){
     if (err) return next(err);
     res.status(200).jsonp(products);
   });
+  // Product.geoNear({
+  //      type:'Point', coordinates:[parseFloat(lat), parseFloat(lng)]
+  //    },{
+  //      maxDistance:100000,spherical:true
+  //    }).then(function(ninjas, err){
+  //      if (err) {
+  //        res.status(500).send(err);
+  //      }
+  //      res.status(200).jsonp(ninjas);
+  //    });
+  // Product.aggregate(
+  // [
+  //     {
+  //         '$geoNear': {
+  //             'near': {
+  //                 'type': 'Point',
+  //                 'coordinates': [ -77.395410 , 38.967995 ]
+  //             },
+  //             'spherical': true,
+  //             'distanceField': 'dist',
+  //             'maxDistance': 5000
+  //         }
+  //     }//,
+  //     // {
+  //     //   $match:{_id:{$nin: [ObjectId("5716163704ca42c7b579c7e3")]}}
+  //     // }
+  // ],function(err,products){
+  //   if (err) return next(err);
+  //   res.status(200).jsonp(products);
+  // })
+  ;
 };
 
 function getProductById(req,res, next){

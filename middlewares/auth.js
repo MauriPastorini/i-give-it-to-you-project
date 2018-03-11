@@ -3,7 +3,18 @@
 const services = require('../services');
 const User = require('../models/user');
 
-function isAuth (req, res, next){
+function isToken(req){
+  if (req.headers.authorization) {
+    console.log("VOY A DAR OK");
+    return true;
+  } else{
+    console.log("NO VOY A DAR OK");
+    return false;
+  }
+}
+
+function isAuth (req, res, next, lock = true){
+  console.log("ESTOY EN IS AUTH");
   if (!req.headers.authorization) {
     return res.status(403).send({message: 'Token missing'});
   }
@@ -11,14 +22,20 @@ function isAuth (req, res, next){
   const token = req.headers.authorization.split(" ")[1];
   services.decodeToken(token)
     .then(function(response){
+      console.log("TOKEN DECODED OK");
       req.user = response;
       next();
     })
     .catch(function(reject){
-      return res.status(reject.status).send({
-        success: false,
-        message: reject.message
-      });
+      console.log("TOKEN ERROR");
+      if (lock) {
+        return res.status(reject.status).send({
+          success: false,
+          message: reject.message
+        });
+      } else{
+        next();
+      }
     })
 };
 
@@ -84,12 +101,26 @@ function isUser (req, res, next){
     })
 };
 
-function injectUser(req,res,next){
-  User.findById(req.user.sub, function(err, user){
-      if(err) return next(err);
-      req.user.user = user;
+function injectUser(req,res,next,lock = true){
+  console.log("ESTOY EN INJECT USER");
+  if (req.user) {
+    User.findById(req.user.sub, function(err, user){
+        if(err) return next(err);
+        req.user.user = user;
+        next();
+    });
+  } else{
+    if (lock) {
+      return res.status(reject.status).send({
+        success: false,
+        message: reject.message
+      });
+    } else {
+      console.log("SIGO DE LARGO");
       next();
-  });
+    }
+  }
+
 
 }
 
@@ -97,5 +128,6 @@ module.exports = {
   isAuth,
   isAdmin,
   isUser,
-  injectUser
+  injectUser,
+  isToken
 }
