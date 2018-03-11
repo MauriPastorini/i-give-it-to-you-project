@@ -5,23 +5,7 @@ var geoip = require('geoip-lite');
 const requestIp = require('request-ip');
 const db = require("../connection_database");
 
-// ******
-// // DELETE LATER: Example for geolocation near
-// const Ninja = require('../models/ninja');
-// router.get('/ninjas',function(req,res,next){
-//     Ninja.geoNear({
-//       type:'Point', coordinates:[parseFloat(req.query.lng), parseFloat(req.query.lat)]
-//     },{
-//       maxDistance:100000,spherical:true
-//     }).then(function(ninjas){
-//       res.send(ninjas);
-//     });
-// });
-// ******
-
-
 function getAllProducts(req,res,next){
-
   var query = {};
   var select = [];
   var lat;
@@ -49,8 +33,6 @@ function getAllProducts(req,res,next){
     $maxDistance: 10000
   };
   if(req.user) {
-    // auth.isAuth(req,res,next);
-    // auth.injectUser(req,res,next);
     console.log("ESTOY");
     if (req.user.user.role == "admin") {
       select = Product.getSelect("admin");
@@ -73,37 +55,6 @@ function getAllProducts(req,res,next){
     if (err) return next(err);
     res.status(200).jsonp(products);
   });
-  // Product.geoNear({
-  //      type:'Point', coordinates:[parseFloat(lat), parseFloat(lng)]
-  //    },{
-  //      maxDistance:100000,spherical:true
-  //    }).then(function(ninjas, err){
-  //      if (err) {
-  //        res.status(500).send(err);
-  //      }
-  //      res.status(200).jsonp(ninjas);
-  //    });
-  // Product.aggregate(
-  // [
-  //     {
-  //         '$geoNear': {
-  //             'near': {
-  //                 'type': 'Point',
-  //                 'coordinates': [ -77.395410 , 38.967995 ]
-  //             },
-  //             'spherical': true,
-  //             'distanceField': 'dist',
-  //             'maxDistance': 5000
-  //         }
-  //     }//,
-  //     // {
-  //     //   $match:{_id:{$nin: [ObjectId("5716163704ca42c7b579c7e3")]}}
-  //     // }
-  // ],function(err,products){
-  //   if (err) return next(err);
-  //   res.status(200).jsonp(products);
-  // })
-  ;
 };
 
 function getProductById(req,res, next){
