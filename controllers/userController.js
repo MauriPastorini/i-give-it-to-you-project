@@ -3,7 +3,8 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const service = require('../services/index');
-const manageErrorCodes = require('../services/manageErrors');
+const errCodes = require('../config/errcodes');
+const https = require('https');
 
 function updateUserPhoto(req,res,next){
 
@@ -36,18 +37,173 @@ function signIn(req , res, next){
   User.findOne({email: req.body.email}, function(err,user){
     if(err) return res.status(500).send({message: err});
     if (!user) return res.status(404).send({message: "No existe el usuario"});
-    User.comparePassword(req.body.password, user.password, function(err, isMatch){
-       if (err) return next(err);
-       if (isMatch) {
-         req.user = user
-         res.status(200).send({
-           message: "Te has logueado correctamente",
-           token: service.createToken(user)
-         });
-       } else {
-         res.status(403).send({message: "User and/or password incorrect"})
-       }
+    if (user.facebookId) {
+      console.log("Comparando con user facebook");
+      signInWithFacebook(req,res,next,user);
+    } else if (user.googleId) {
+      console.log("Comparando con user google");
+      signInWithGoogle(req,res,next,user);
+    }else {
+      console.log("Comparando con user local");
+      signInLocally(req,res,next,user);
+    }
+  });
+}
+
+function signInWithFacebook(req,res,next,user){
+  var token = req.body.facebookToken;
+  if (token) {
+    var urlForValidateToken = 'https://graph.facebook.com/me?access_token=' + token;
+    https.get(urlForValidateToken, (resp) => {
+      let data = '';
+      // A chunk of data has been recieved.
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+      resp.on('end', () => {
+        console.log("TERMINE DE LEER FACEBOOK");
+        console.log(data);
+        var response = JSON.parse(data);
+        if (response.error && response.error.code == 190) {
+          return res.status(403).jsonp({
+            errors: [
+              {
+                code: errCodes.Invalid_Token,
+                message: "Invalid facebook token"
+              }
+            ]
+          });
+        } else if (response.id == user.facebookId) {
+            req.user = user
+            res.status(200).send({
+              message: "Ok facebook login",
+              token: service.createToken(user)
+            });
+          } else {
+            return res.status(403).jsonp({
+              errors: [
+                {
+                  code: errCodes.User_Does_Not_Exists,
+                  message: "Valid token but facebook user doesnt exists"
+                }
+              ]
+            });
+          }
+        });
+      }).on("error", (err) => {
+      next(err);
     });
+  } else{
+    return res.status(422).jsonp({
+      errors: [
+        {
+          code: errCodes.Missing_Information,
+          message: "Some information for authentication is missing"
+        }
+      ]
+    });
+  }
+}
+
+function signInWithGoogle(req,res,next,user){
+  var token = req.body.googleToken;
+  if (token) {
+    var urlForValidateToken = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + googleToken;
+    https.get(urlForValidateToken, (resp) => {
+      let data = '';
+      // A chunk of data has been recieved.
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+      resp.on('end', () => {
+        console.log("TERMINE DE LEER FACEBOOK");
+        console.log(data);
+        var response = JSON.parse(data);
+        if (response.error && response.error.code == 190) {
+          return res.status(403).jsonp({
+            errors: [
+              {
+                code: errCodes.Invalid_Token,
+                message: "Invalid facebook token"
+              }
+            ]
+          });
+        } else if (response.id == user.facebookId) {
+            req.user = user
+            res.status(200).send({
+              message: "Ok facebook login",
+              token: service.createToken(user)
+            });
+          } else {
+            return res.status(403).jsonp({
+              errors: [
+                {
+                  code: errCodes.User_Does_Not_Exists,
+                  message: "Valid token but facebook user doesnt exists"
+                }
+              ]
+            });
+          }
+        });
+      }).on("error", (err) => {
+      next(err);
+    });
+  } else{
+    return res.status(422).jsonp({
+      errors: [
+        {
+          code: errCodes.Missing_Information,
+          message: "Some information for authentication is missing"
+        }
+      ]
+    });
+  }
+}
+
+function signInWithGoogle(req,res,next, googleToken){
+  var token = req.body.googleToken;
+  if (token) {
+    var urlForValidateToken = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + googleToken;
+    https.get(urlForValidateToken, (resp) => {
+      let data = '';
+      // A chunk of data has been recieved.
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+      resp.on('end', () => {
+        console.log("TERMINE DE LEER GOOGLE");
+        console.log(data);
+        console.log(JSON.parse(data).explanation);
+      });
+    }).on("error", (err) => {
+      next(err);
+    });
+  } else{
+    return res.status(422).jsonp({
+      errors: [
+        {
+          code: errCodes.Missing_Information,
+          message: "Some information for authentication is missing"
+        }
+      ]
+    });
+  }
+}
+
+function signInLocally(req,res,next){
+  User.comparePassword(req.body.password, user.password, function(err, isMatch){
+    console.log(err);
+    console.log(isMatch);
+    if (err) return next(err);
+    if (isMatch) {
+      req.user = user
+      res.status(200).send({
+        message: "Te has logueado correctamente",
+        token: service.createToken(user)
+      });
+    } else {
+      res.status(403).send({message: "User and/or password incorrect"})
+    }
   });
 }
 

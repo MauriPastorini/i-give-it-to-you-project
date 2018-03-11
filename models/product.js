@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const idValidator = require('mongoose-id-validator')
+const idValidator = require('mongoose-id-validator');
+const codes = require('../config/errCodes');
 
 // const GeoSchema = new Schema({
 //   type:{
@@ -79,4 +80,68 @@ ProductSchema.statics.getSelect = function(role){
     return ['-moderated'];
   }
 }
+
+
+
+var handlePostErrorsMessages = function(error, res, next) {
+  console.log("ENTRE a handle post product");
+  if(error){
+    var errors = [];
+    if (error.name == "ValidationError") {
+      console.log("Entre a validation error");
+      for (var field in error.errors) {
+        console.log("Entre a field");
+        console.log(error.errors[field]);
+        if (error.errors[field].kind == "user defined" && error.errors[field].path == "ownerUser" && error.errors[field].reason == undefined)  {
+          errors.push({
+            code: codes.User_Owner_Not_exists,
+            message: error.errors[field].message
+          })
+        };
+        if (error.errors[field].kind == "user defined" && error.errors[field].path == "category" && error.errors[field].reason == undefined)  {
+          errors.push({
+            code: codes.Category_Not_exists,
+            message: error.errors[field].message
+          })
+        };
+        if (error.errors[field].kind == "required" && error.errors[field].path == "lastName")  {
+          errors.push({
+            code: codes.User_Lastname_Required,
+            message: error.errors[field].message
+          })
+        };
+        if (error.errors[field].kind == "required" && error.errors[field].path == "role")  {
+          errors.push({
+            code: codes.User_Name_Required,
+            message: error.errors[field].message
+          })
+        };
+      }
+    }
+    if (error.name === 'MongoError' && error.code === 11000) {
+      console.log("ENTRE A MONGO ERROR ");
+      console.log(error.errmsg.split(":")[2]);
+      var field = error.errmsg.split(":")[2].substring(0,error.errmsg.split(":")[2].lastIndexOf("_")).trim();
+      errors.push(
+          {
+            code: codes.Duplicated_Attribute,
+            message: "Duplicatated attribute: " + field,
+            field: field
+          }
+        );
+    }
+    error.errors = errors;
+    next(error);
+  } else{
+    next();
+  }
+};
+
+
+
+ProductSchema.post('save', handlePostErrorsMessages);
+ProductSchema.post('update', handlePostErrorsMessages);
+ProductSchema.post('findOneAndUpdate', handlePostErrorsMessages);
+ProductSchema.post('insertMany', handlePostErrorsMessages);
+
 module.exports = mongoose.model('Product', ProductSchema);

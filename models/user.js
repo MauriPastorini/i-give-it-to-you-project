@@ -131,38 +131,6 @@ UserSchema.statics.isUser = function(user){
   return user.role == 'user';
 }
 
-
-var handlePreErrorsMessages = function(error, res, next) {
-  console.log("ENTRE a handle pre");
-  if(error){
-    console.log("ENTRE a handle pre: ERROOOOR");
-    next();
-    // console.log(error);
-    // var errors = [];
-    // if (error.name == "StrictModeError") {
-    //   console.log("ENTRE A STRICT MODE ERROR");
-    //   errors.push({
-    //     code: codes.Fields_Not_Neccesary,
-    //     message: error.message
-    //   })
-    // }
-    // if (error.name === 'MongoError' && error.code === 11000) {
-    //   console.log("ENTRE A MONGO ERROR ");
-    //   console.log(error.errmsg.split(":")[2]);
-    //   var field = error.errmsg.split(":")[2].substring(0,error.errmsg.split(":")[2].lastIndexOf("_")).trim();
-    //   errors.push(
-    //       {
-    //         code: codes.Duplicated_Attribute,
-    //         message: "Duplicatated attribute: " + field,
-    //         field: field
-    //       }
-    //     );
-    // }
-    // error.errors = errors;
-    // next(error);
-  }
-};
-
 var handlePostErrorsMessages = function(error, res, next) {
   console.log("ENTRE a handle post");
   if(error){

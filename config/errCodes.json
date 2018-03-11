@@ -5,5 +5,12 @@
   "User_Name_Required": 3,
   "User_Lastname_Required": 4,
   "User_Role_Required": 5,
-  "Fields_Not_Neccesary": 6
+  "Fields_Not_Neccesary": 6,
+
+  "Missing_Information": 7,
+  "Invalid_Token": 8,
+  "User_Does_Not_Exists": 9,
+
+  "User_Owner_Not_exists": 10,
+  "Category_Not_exists": 11
 }
