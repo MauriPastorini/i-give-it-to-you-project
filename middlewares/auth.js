@@ -14,7 +14,6 @@ function isToken(req){
 }
 
 function isAuth (req, res, next, lock = true){
-  console.log("ESTOY EN IS AUTH");
   if (!req.headers.authorization) {
     return res.status(403).send({message: 'Token missing'});
   }

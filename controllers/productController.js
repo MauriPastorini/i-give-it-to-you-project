@@ -23,35 +23,37 @@ function getAllProducts(req,res,next){
   } else {
     console.log("YEES LAT AND LNG");
     lat = req.query.lat;
-    lat = req.query.lng;
+    lng = req.query.lng;
   }
   query['location'] = {
     $near: [
       lat,
       lng
     ],
-    $maxDistance: 10000
+    $maxDistance: 1000
   };
   if(req.user) {
-    console.log("ESTOY");
+    console.log("Usuario realizando request");
     if (req.user.user.role == "admin") {
       select = Product.getSelect("admin");
-      console.log("ADMIN");
+      console.log("Es Admin");
       if (req.query.moderated) query["moderated"] = req.query.moderated;
     } else{
-      console.log("ESTOY 2");
-
+      console.log("No es admin");
       select = Product.getSelect("user");
       query["moderated"] = true;
     }
+    if (req.query.my == "true")query["ownerUser"] = req.user.sub;
+    if (req.query.solicitatedByMe == "true")query["solicitatedUser"] = req.user.sub;
   }
   if (req.query.category) query["category"] = req.query.category;
-  if (req.query.my == "true")query["ownerUser"] = req.user.sub;
-  if (req.query.solicitatedByMe == "true")query["solicitatedUser"] = req.user.sub;
-
-
+  console.log("Query: ", query);
+  console.log("Select: ", select);
   Product.find(query, select)
   .populate('category').exec(function(err,products){
+    console.log("RESULTADOS GET ALLL PRODUCTS: ");
+    console.log("ERR: ", err);
+    console.log("Products: ", products);
     if (err) return next(err);
     res.status(200).jsonp(products);
   });
