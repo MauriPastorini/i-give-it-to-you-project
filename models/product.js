@@ -55,6 +55,11 @@ const ProductSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+  applicantsUsers_count:{
+    type: Number,
+    required: true,
+    default: 0
+  },
   userToDeliver:{
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -64,12 +69,21 @@ const ProductSchema = new Schema({
   },
   deliverConfirmationUserToDeliver:{
     type: Date
+  },
+  countTendency:{
+    type: Number
+  },
+  created_at: {
+    type: Date,
+    required: true,
+    default: Date.now
   }
 });
 ProductSchema.plugin(idValidator);
 ProductSchema.pre('save', function(next){
   if (this.isNew) {
     this.moderated = false;
+    this.countTendency = 0;
   }
   next();
 });
@@ -80,8 +94,6 @@ ProductSchema.statics.getSelect = function(role){
     return ['-moderated'];
   }
 }
-
-
 
 var handlePostErrorsMessages = function(error, res, next) {
   console.log("ENTRE a handle post product");

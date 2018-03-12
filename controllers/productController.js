@@ -8,6 +8,7 @@ const db = require("../connection_database");
 function getAllProducts(req,res,next){
   var query = {};
   var select = [];
+  var sort = [];
   var lat;
   var lng;
   if(!req.query.lat || !req.query.lng){
@@ -46,16 +47,27 @@ function getAllProducts(req,res,next){
     if (req.query.my == "true")query["ownerUser"] = req.user.sub;
     if (req.query.solicitatedByMe == "true")query["solicitatedUser"] = req.user.sub;
   }
+  var populate = [];
   if (req.query.category) query["category"] = req.query.category;
+  if (req.query.recently) sort.push(['created_at',1]);
+  if (req.query.maxTendency) sort.push(['countTendency', -1]);
+  if (req.query.maxApplicants) sort.push(['applicantsUsers_count', -1]);
+  if (req.query.minApplicants) sort.push(['applicantsUsers_count', 1]);
+  if (req.query.bestOwnerUser) populate.push('ownerUser');sort.push(['ownerUser.totalStars', 1]);
+  if (req.query.injectUsers) populate.push("applicantsUsers");
   console.log("Query: ", query);
   console.log("Select: ", select);
+  console.log("Sort: ", sort);
   Product.find(query, select)
-  .populate('category').exec(function(err,products){
-    console.log("RESULTADOS GET ALLL PRODUCTS: ");
-    console.log("ERR: ", err);
-    console.log("Products: ", products);
-    if (err) return next(err);
-    res.status(200).jsonp(products);
+    .populate('category')
+    // .populate(populate)
+    // .populate({path: 'ownerUser', options: { sort: {'totalStars': -1}}})
+    .exec(function(err,products){
+      console.log("RESULTADOS GET ALLL PRODUCTS: ");
+      console.log("ERR: ", err);
+      console.log("Products: ", products);
+      if (err) return next(err);
+      res.status(200).jsonp(products);
   });
 };
 

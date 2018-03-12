@@ -65,6 +65,10 @@ const UserSchema = new Schema({
     default: 'user',
     required: true,
     enum: ["user","admin"]
+  },
+  totalStars: {
+    type: Number,
+    default: 0
   }
 },{strict: "throw"});
 
@@ -82,7 +86,10 @@ UserSchema.pre('save', function(next){
 // });
 
 function validateSaveOrUpdate(user, isNew, next){
-  if (isNew) user.role = 'user';
+  if (isNew){
+    user.role = 'user';
+    user.totalStars = 0;
+  }
   // if (!user.googleId && !user.isModified('password')) return next();
   if (user.facebookId || user.googleId || !user.isModified('password')){
     console.log("No voy a encriptar password");
