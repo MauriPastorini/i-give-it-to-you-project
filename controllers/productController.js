@@ -3,7 +3,7 @@ const Product = mongoose.model('Product');
 const auth = require('../middlewares/auth');
 var geoip = require('geoip-lite');
 const requestIp = require('request-ip');
-const errCodes = require('../config/errcodes');
+const errCodes = require('../config/errCodes');
 
 function getAllProducts(req,res,next){
   var query = {};
