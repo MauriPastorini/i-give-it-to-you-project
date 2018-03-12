@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const service = require('../services/index');
-const errCodes = require('../config/errcodes');
+const errCodes = require('../config/errCodes');
 const https = require('https');
 
 function updateUserPhoto(req,res,next){
