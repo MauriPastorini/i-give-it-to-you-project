@@ -12,5 +12,8 @@
   "User_Does_Not_Exists": 9,
 
   "User_Owner_Not_exists": 10,
-  "Category_Not_exists": 11
+  "Category_Not_exists": 11,
+
+  "Incorrect_fields_values": 12,
+  "The_user_did_not_solicitated_the_product": 13
 }

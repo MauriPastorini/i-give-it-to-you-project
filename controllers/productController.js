@@ -3,7 +3,7 @@ const Product = mongoose.model('Product');
 const auth = require('../middlewares/auth');
 var geoip = require('geoip-lite');
 const requestIp = require('request-ip');
-const db = require("../connection_database");
+const errCodes = require('../config/errcodes');
 
 function getAllProducts(req,res,next){
   var query = {};
@@ -112,6 +112,14 @@ function getProductById(req,res, next){
   });
 };
 
+function deleteProductById(req, res, next){
+  var productId = req.params.id;
+  Product.findByIdAndRemove(productId, function(err, product){
+    if(err) return next(err);
+    res.status(200).send({message: "Success deleting product"});
+  });
+}
+
 function postNewProduct(req,res,next){
   Product.create(req.body).then(function(product){
     Product.findOne({_id: product._id}).populate('category').exec(function(err, productPop) {
@@ -143,7 +151,6 @@ function rejectModeratedProduct(req,res,next){
 }
 
 function addNewImagePathOfProduct(req, res, next){
-  var userId = req.params.userId;
   var productId = req.params.productId;
   var productsInBody = req.body;
   Product.findById(productId, function(err,product){
@@ -159,14 +166,6 @@ function addNewImagePathOfProduct(req, res, next){
       if (err2) return next(err2);
       res.status(200).jsonp(updatedProduct);
     });
-  });
-}
-
-function deleteProductById(req, res, next){
-  var productId = req.params.id;
-  Product.findByIdAndRemove(productId, function(err, product){
-    if(err) return next(err);
-    res.status(200).send({message: "Success deleting product"});
   });
 }
 
@@ -198,7 +197,12 @@ function deleteSolicitationOfProduct(req,res,next){
         return res.status(200).jsonp(updatedProduct);
       });
     } else{
-      return res.status(422).send({success: false, message: "User was not in products solicitation"});
+      return res.status(422).send(
+        {
+          code: errCodes.The_user_did_not_solicitated_the_product,
+          message: "User was not in products solicitation"
+        }
+      );
     }
   });
 }
@@ -244,8 +248,6 @@ function updateProduct(req,res,next, product = null){
     })
   });
 }
-
-
 
 module.exports = {
   getAllProducts,

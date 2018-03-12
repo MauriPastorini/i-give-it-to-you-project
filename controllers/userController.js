@@ -224,6 +224,7 @@ function getAllUsers(req, res, next){
 function updateUser(req, res, next, role = ""){
   var objForUpdate = {};
   if (req.body.country)objForUpdate.country = req.body.country;
+  if (req.body.gender)objForUpdate.gender = req.body.gender;
   if (req.body.photo) objForUpdate.photo = req.body.photo;
   if (req.body.password) objForUpdate.password = req.body.password;
   if (role != "") objForUpdate.role = role;

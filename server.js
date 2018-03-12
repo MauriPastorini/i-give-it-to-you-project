@@ -53,8 +53,9 @@ app.use(function(err,req,res,next){
     }
     if (err.name == "ValidationError") {
       console.log("ENTRE A Validation MODE ERROR");
+      console.log(err);
       errors.push({
-        code: codes.Fields_Not_Neccesary,
+        code: codes.Incorrect_fields_values,
         message: err.message
       });
     }
