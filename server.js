@@ -15,7 +15,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.get('/', (req,res)=>{
-  res.render('home');
+  res.render('apiInfo');
 });
 
 //Morgan: don't show the log when it is test

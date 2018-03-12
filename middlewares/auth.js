@@ -14,11 +14,11 @@ function isToken(req){
 }
 
 function isAuth (req, res, next, lock = true){
-  if (!req.headers.authorization) {
+  if (lock && !req.headers.authorization) {
     return res.status(403).send({message: 'Token missing'});
   }
-
-  const token = req.headers.authorization.split(" ")[1];
+  if (req.headers.authorization) {
+    const token = req.headers.authorization.split(" ")[1];
   services.decodeToken(token)
     .then(function(response){
       console.log("TOKEN DECODED OK");
@@ -35,7 +35,10 @@ function isAuth (req, res, next, lock = true){
       } else{
         next();
       }
-    })
+    });
+  } else {
+    next();
+  }
 };
 
 function isAdmin (req, res, next){
