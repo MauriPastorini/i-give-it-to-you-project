@@ -190,7 +190,7 @@ function signInWithGoogle(req,res,next, googleToken){
   }
 }
 
-function signInLocally(req,res,next){
+function signInLocally(req,res,next,user){
   User.comparePassword(req.body.password, user.password, function(err, isMatch){
     console.log(err);
     console.log(isMatch);

@@ -43,6 +43,7 @@ const UserSchema = new Schema({
   // },
   gender: {
     type: String,
+    enum: ["male", "female", "other"]
     // required: [true, "The gender is required"]
   },
   country: {

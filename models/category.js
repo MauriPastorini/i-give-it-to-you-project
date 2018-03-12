@@ -7,11 +7,7 @@ const CategorySchema = new Schema({
     type:String,
     required:[true,'Name field for category is required'],
     unique:true
-  },
-  products:[{
-    type: Schema.Types.ObjectId,
-    ref: 'Product'
-  }]
+  }
 });
 
 const Category = mongoose.model('Category', CategorySchema);
