@@ -71,7 +71,7 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   }
-},{strict: "throw"});
+});
 
 UserSchema.pre('save', function(next){
   console.log("PRE SAVE");

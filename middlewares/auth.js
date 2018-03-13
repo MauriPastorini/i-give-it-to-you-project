@@ -122,8 +122,6 @@ function injectUser(req,res,next,lock = true){
       next();
     }
   }
-
-
 }
 
 module.exports = {
